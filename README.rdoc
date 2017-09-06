@@ -1,17 +1,25 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
 * Ruby version
+  jruby-9.1.12.0
+
+* Rails version
+
+ This app was created with:
+
+   rails _4.2.9_ new search_server_graphql --database=jdbcpostgresql
 
 * System dependencies
+
+  The target deployment is strictly <tt>JRuby</tt>.
+
+  Currently there is no Rails database adapter for JRuby and Postgresql, so have to stay with Rails 4.
 
 * Configuration
 
 * Database creation
+
+  Uses NSL shard databases.
 
 * Database initialization
 
@@ -19,10 +27,10 @@ Things you may want to cover:
 
 * Services (job queues, cache servers, search engines, etc.)
 
+  None.
+
 * Deployment instructions
 
-* ...
 
 
-Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
