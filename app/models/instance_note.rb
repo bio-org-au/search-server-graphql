@@ -38,5 +38,9 @@ class InstanceNote < ActiveRecord::Base
   def marked_up_value
     value.gsub(/<IT>/, "<em>").gsub(/<RO>/, "</em> ")
   end
+
+  def key
+    instance_note_key.name
+  end
 end
 
