@@ -6,10 +6,10 @@ class OldNameSearch
   attr_reader :results, :args
   def initialize(args)
     throw 'x'
-    Rails.logger.debug("NameSearch start ==================================================")
+    Rails.logger.debug('NameSearch start ==================================================')
     @args = args
     @results = []
-    Name.find(args["id"])
-    Rails.logger.debug("NameSearch endish ==================================================")
+    Name.find(args['id'])
+    Rails.logger.debug('NameSearch endish ==================================================')
   end
 end

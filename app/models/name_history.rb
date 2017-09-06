@@ -17,7 +17,7 @@ class NameHistory
     Rails.logger.debug(' NameHistory =====================================================================')
     @synonym_bunch = SynonymBunchQuery.new(instance_ids)
     Rails.logger.debug(" NameHistory @synonym_bunch.class: #{@synonym_bunch.class}")
-    unless @synonym_bunch.results.size == 0 
+    unless @synonym_bunch.results.empty?
       Rails.logger.debug(" NameHistory  @cited_by_id:  #{@synonym_bunch.results.first[:cited_by_id]} =====================================================================")
     end
     @name_usages = raw_results.collect do |usage|

@@ -2,8 +2,8 @@
 
 # Rails model
 class InstanceNote < ActiveRecord::Base
-  self.table_name = "instance_note"
-  self.primary_key = "id"
+  self.table_name = 'instance_note'
+  self.primary_key = 'id'
 
   belongs_to :instance
   belongs_to :instance_note_key
@@ -36,11 +36,10 @@ class InstanceNote < ActiveRecord::Base
   end
 
   def marked_up_value
-    value.gsub(/<IT>/, "<em>").gsub(/<RO>/, "</em> ")
+    value.gsub(/<IT>/, '<em>').gsub(/<RO>/, '</em> ')
   end
 
   def key
     instance_note_key.name
   end
 end
-

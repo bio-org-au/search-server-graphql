@@ -1,5 +1,5 @@
 Types::NameUsageType = GraphQL::ObjectType.define do
-  name "name_usage"
+  name 'name_usage'
   field :instance_id, types.ID
   field :name_id, types.ID
   field :reference_id, types.ID

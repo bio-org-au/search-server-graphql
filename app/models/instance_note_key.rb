@@ -2,8 +2,8 @@
 
 # Rails model
 class InstanceNoteKey < ActiveRecord::Base
-  self.table_name = "instance_note_key"
-  self.primary_key = "id"
+  self.table_name = 'instance_note_key'
+  self.primary_key = 'id'
 
   has_many :instance_notes
   has_many :instance_note_for_distributionss

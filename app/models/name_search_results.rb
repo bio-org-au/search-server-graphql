@@ -4,5 +4,4 @@ class NameSearchResults < Array
   def names
     self
   end
-
 end

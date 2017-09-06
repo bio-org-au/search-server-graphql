@@ -5,21 +5,21 @@
 class SynonymQuery
   attr_reader :results, :id
   def initialize(instance_id)
-    Rails.logger.debug("SynonymQuery start ==================================================")
+    Rails.logger.debug('SynonymQuery start ==================================================')
     @instance_id = instance_id
     @results = []
-    Rails.logger.debug("SynonymQuery endish ==================================================")
+    Rails.logger.debug('SynonymQuery endish ==================================================')
     query
   end
 
   def query
     Instance.where(cited_by_id: @instance_id)
             .joins(:instance_type)
-            .where(instance_type: { misapplied: false})
+            .where(instance_type: { misapplied: false })
             .joins(:name)
             .select(select_list)
             .each do |synonym|
-        @results.push(Synonym.new(synonym))
+      @results.push(Synonym.new(synonym))
     end
   end
 

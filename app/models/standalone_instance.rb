@@ -1,6 +1,6 @@
 class StandaloneInstance < ApplicationRecord
-  self.table_name = "instance"
-  self.primary_key = "id"
+  self.table_name = 'instance'
+  self.primary_key = 'id'
   belongs_to :name
   belongs_to :reference
   belongs_to :instance_type
@@ -13,7 +13,7 @@ class StandaloneInstance < ApplicationRecord
   def instance_type_name
     instance_type.name
   end
-  
+
   def primary_instance?
     instance_type.primary?
   end
@@ -22,4 +22,3 @@ class StandaloneInstance < ApplicationRecord
     instance_type.primary?
   end
 end
-

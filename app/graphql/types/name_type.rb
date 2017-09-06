@@ -1,5 +1,5 @@
 Types::NameType = GraphQL::ObjectType.define do
-  name "name"
+  name 'name'
   field :id, types.ID
   field :simple_name, types.String
   field :full_name, types.String

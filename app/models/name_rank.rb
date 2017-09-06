@@ -2,14 +2,14 @@
 
 # Rails model
 class NameRank < ActiveRecord::Base
-  self.table_name = "name_rank"
-  self.primary_key = "id"
+  self.table_name = 'name_rank'
+  self.primary_key = 'id'
   has_many :names
   has_many :name_or_synonyms
   belongs_to :name_group
 
   def self.species
-    find_by(name: "Species")
+    find_by(name: 'Species')
   end
 
   def show?
@@ -32,4 +32,3 @@ class NameRank < ActiveRecord::Base
     !rank_visible_in_name && NameRank.above_species?(rank_sort_order)
   end
 end
-

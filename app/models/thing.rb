@@ -9,11 +9,11 @@ class Thing
     end
   end
 
-  def self.find(id)
-    #@references = []
-    #Name.find(id).references.each do |ref|
-      #@references.push ref.citation
-    #end
+  def self.find(_id)
+    # @references = []
+    # Name.find(id).references.each do |ref|
+    # @references.push ref.citation
+    # end
   end
 
   def things

@@ -11,23 +11,23 @@ class Search::Parser
               :limit
 
   # Type of name
-  SCIENTIFIC = "Scientific"
-  SCIENTIFIC_OR_CULTIVAR = "Scientific-or-Cultivar"
-  CULTIVAR = "Cultivar"
-  COMMON = 'Common'
+  SCIENTIFIC = 'Scientific'.freeze
+  SCIENTIFIC_OR_CULTIVAR = 'Scientific-or-Cultivar'.freeze
+  CULTIVAR = 'Cultivar'.freeze
+  COMMON = 'Common'.freeze
 
   # Fuzzy or exact
-  ADD_TRAILING_WILDCARD = 'Add_trailing_wildcard'
+  ADD_TRAILING_WILDCARD = 'Add_trailing_wildcard'.freeze
 
   # List or list with details output
-  DETAILS = "details"
-  LIST = "list"
+  DETAILS = 'details'.freeze
+  LIST = 'list'.freeze
 
   # Limits
   DEFAULT_LIST_LIMIT = 1000
   DEFAULT_DETAILS_LIMIT = 3
 
-  SIMPLE_SEARCH = "Search"
+  SIMPLE_SEARCH = 'Search'.freeze
 
   def initialize(args)
     Rails.logger.debug('Search::Parser.initialize')
@@ -36,10 +36,10 @@ class Search::Parser
     Rails.logger.debug("Search::Parser.initialize  args['type_of_name']: #{args['type_of_name']}")
     resolve_sci_cult_or_common
     resolve_fuzzy_or_exact
-    #@search_type = search_type
-    #@search_term = search_term
-    #@show_as = show_as
-    #@limit = limit
+    # @search_type = search_type
+    # @search_term = search_term
+    # @show_as = show_as
+    # @limit = limit
   end
 
   def run_search?
@@ -65,14 +65,14 @@ class Search::Parser
   end
 
   def add_trailing_wildcard
-    return "true" unless @args.key?(:add_trailing_wildcard)
+    return 'true' unless @args.key?(:add_trailing_wildcard)
     @args[:add_trailing_wildcard]
   end
 
   def search_term
-    term = @args[:q].strip.tr("*", "%")
-    return term unless add_trailing_wildcard.start_with?("t")
-    term.sub(/$/, "%")
+    term = @args[:q].strip.tr('*', '%')
+    return term unless add_trailing_wildcard.start_with?('t')
+    term.sub(/$/, '%')
   end
 
   def show_as
@@ -104,19 +104,19 @@ class Search::Parser
   end
 
   def scientific?
-    @sci_cult_or_common.strip.downcase == SCIENTIFIC.downcase
+    @sci_cult_or_common.strip.casecmp(SCIENTIFIC.downcase).zero?
   end
 
   def scientific_or_cultivar?
-    @sci_cult_or_common.strip.downcase == SCIENTIFIC_OR_CULTIVAR.downcase
+    @sci_cult_or_common.strip.casecmp(SCIENTIFIC_OR_CULTIVAR.downcase).zero?
   end
 
   def cultivar?
-    @sci_cult_or_common.strip.downcase == CULTIVAR.downcase
+    @sci_cult_or_common.strip.casecmp(CULTIVAR.downcase).zero?
   end
 
   def common?
-    @sci_cult_or_common.strip.downcase == COMMON.downcase
+    @sci_cult_or_common.strip.casecmp(COMMON.downcase).zero?
   end
 
   def scientific?
@@ -124,7 +124,6 @@ class Search::Parser
   end
 
   def add_trailing_wildcard?
-    @fuzzy_or_exact.downcase == ADD_TRAILING_WILDCARD.downcase
+    @fuzzy_or_exact.casecmp(ADD_TRAILING_WILDCARD.downcase).zero?
   end
 end
-

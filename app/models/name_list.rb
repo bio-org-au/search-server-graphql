@@ -4,5 +4,4 @@ class NameList < Array
   def names
     self
   end
-
 end
