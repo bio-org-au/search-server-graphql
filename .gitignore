@@ -14,3 +14,8 @@
 
 # Ignore all generated documentation
 /doc/*
+
+# Ignore compiled assets
+/public/assets/*
+# Ignore war files
+*.war
