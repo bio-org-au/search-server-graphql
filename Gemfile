@@ -34,7 +34,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'graphql'
-gem 'graphiql-rails'
 gem 'awesome_print'
 
 gem 'graphiql-rails', group: :development
+gem "jruby-jars", "9.1.12.0"
+gem "warbler"
+
