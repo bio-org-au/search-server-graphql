@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in
   # config/application.rb.
@@ -82,3 +84,8 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
+
+Rails.application.config.database_yml_file_path =
+  "#{ENV['HOME']}/.nsl/search-database.yml"
+puts "Rails.application.config.database_yml_file_path:
+   #{Rails.application.config.database_yml_file_path}"

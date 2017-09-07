@@ -17,6 +17,25 @@
 
 * Configuration
 
+  Configuration files are in ~/.nsl.  This includes a config file and a
+  database connection file.
+
+  Development config files are in ~/.nsl/development/.
+
+  The database connection for development contains:
+
+    default: &default
+      adapter: postgresql
+      encoding: unicode
+
+    development:
+      <<: *default
+      database: plants_dev
+      username: nsl
+      password: xxxxxxxxxxxxxxxxxxxx
+      pool: 10
+      timezone: Canberra
+
 * Database creation
 
   Uses NSL shard databases.
@@ -31,6 +50,4 @@
 
 * Deployment instructions
 
-
-
-<tt>rake doc:app</tt>.
+  See Jenkins.
