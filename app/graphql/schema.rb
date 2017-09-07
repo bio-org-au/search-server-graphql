@@ -3,7 +3,8 @@ Schema = GraphQL::Schema.define do
   #    mutation(Types::MutationType)
   # causes an error in the GraphiQL console:
   #
-  # "Error: Mutation fields must be an object with field names as keys or a function which returns such an object."
+  # "Error: Mutation fields must be an object with field names as keys or a
+  # function which returns such an object."
   #
   # See https://github.com/howtographql/howtographql/issues/150
   # "This is due to rails generate graphql:install generating a schema

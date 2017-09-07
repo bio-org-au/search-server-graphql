@@ -1,3 +1,4 @@
+# Rails model
 class Author < ApplicationRecord
   self.table_name = 'author'
   self.primary_key = 'id'

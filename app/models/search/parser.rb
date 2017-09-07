@@ -32,8 +32,6 @@ class Search::Parser
   def initialize(args)
     Rails.logger.debug('Search::Parser.initialize')
     @args = args
-    Rails.logger.debug("Search::Parser.initialize  args['search_term']: #{args['search_term']}")
-    Rails.logger.debug("Search::Parser.initialize  args['type_of_name']: #{args['type_of_name']}")
     resolve_sci_cult_or_common
     resolve_fuzzy_or_exact
     # @search_type = search_type
@@ -48,12 +46,14 @@ class Search::Parser
 
   def resolve_sci_cult_or_common
     @sci_cult_or_common = SCIENTIFIC
-    @sci_cult_or_common = @args['type_of_name'] if @args.keys.include?('type_of_name')
+    return unless @args.keys.include?('type_of_name')
+    @sci_cult_or_common = @args['type_of_name']
   end
 
   def resolve_fuzzy_or_exact
     @fuzzy_or_exact = ADD_TRAILING_WILDCARD
-    @fuzzy_or_exact = @args['fuzzy_or_exact'] if @args.keys.include?('fuzzy_or_exact')
+    return unless @args.keys.include?('fuzzy_or_exact')
+    @fuzzy_or_exact = @args['fuzzy_or_exact']
   end
 
   def search_type

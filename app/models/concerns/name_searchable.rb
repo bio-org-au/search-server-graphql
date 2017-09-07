@@ -21,8 +21,10 @@ module NameSearchable
   # Class methods
   module ClassMethods
     using SearchableNameStrings
-    SIMPLE_NAME_REGEX = 'lower(f_unaccent(simple_name)) ~ lower(f_unaccent(?)) '.freeze
-    FULL_NAME_REGEX = 'lower(f_unaccent(full_name)) ~ lower(f_unaccent(?))'.freeze
+    SIMPLE_NAME_REGEX =
+      'lower(f_unaccent(simple_name)) ~ lower(f_unaccent(?)) '.freeze
+    FULL_NAME_REGEX =
+      'lower(f_unaccent(full_name)) ~ lower(f_unaccent(?))'.freeze
 
     def search_for(string)
       where("#{SIMPLE_NAME_REGEX} or #{FULL_NAME_REGEX}",

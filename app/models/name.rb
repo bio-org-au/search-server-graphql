@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Name model
 class Name < ApplicationRecord
   include NameSearchable
   self.table_name = 'name'

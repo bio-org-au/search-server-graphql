@@ -1,9 +1,9 @@
+# Attributes for synonym type.
 class Synonym
   attr_reader :id, :full_name, :instance_type, :page, :label,
               :page, :page_qualifier
 
   def initialize(instance, has_or_of_label = 'has')
-    Rails.logger.debug('Synonym#initialize start +++++++++++++++++++++++++++++++++++++++++++++')
     @id = instance[:instance_id]
     @instance_type = instance[:instance_type_name]
     if has_or_of_label == 'has'
@@ -15,6 +15,5 @@ class Synonym
     end
     @page = instance[:page]
     @page_qualifier = instance[:page_qualifier]
-    Rails.logger.debug('Synonym#initialize end   +++++++++++++++++++++++++++++++++++++++++++++')
   end
 end

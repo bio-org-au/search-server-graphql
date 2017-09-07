@@ -10,13 +10,13 @@ class NameUsageQuery
   end
 
   def build_query
-    Rails.logger.debug('NameUsageQuery start ==================================================')
+    Rails.logger.debug('NameUsageQuery start ================================')
     @results = Name.where(id: @id)
                    .joins(instances: [:instance_type, reference: :author])
                    .select(columns)
                    .group(grouping)
                    .order(ordering)
-    Rails.logger.debug('NameUsageQuery end   ==================================================')
+    Rails.logger.debug('NameUsageQuery end   ================================')
   end
 
   def columns
@@ -25,14 +25,16 @@ class NameUsageQuery
     instance_type.name instance_type_name, instance_type.misapplied, author.id,\
     reference.citation_html,coalesce(reference.year,9999), author.name,  \
     primary_instance, instance.id instance_id, instance.page instance_page, \
-    instance.page_qualifier instance_page_qualifier, reference.citation reference_citation"
+    instance.page_qualifier instance_page_qualifier, \
+    reference.citation reference_citation"
   end
 
   def grouping
     "name.id, name.full_name, reference.id, reference.year, instance_type.id, \
     instance_type.name, instance_type.misapplied,
     author.id,reference.citation_html,coalesce(reference.year,9999),  \
-    author.name, primary_instance, instance.id, instance.page, instance.page_qualifier, reference.citation"
+    author.name, primary_instance, instance.id, instance.page, \
+    instance.page_qualifier, reference.citation"
   end
 
   def ordering

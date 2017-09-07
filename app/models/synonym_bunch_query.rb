@@ -6,18 +6,12 @@
 class SynonymBunchQuery
   attr_reader :query, :array_of_ids, :results
   def initialize(array_of_instance_ids)
-    Rails.logger.debug('SynonymBunchQuery start ==================================================')
-    puts('SynonymBunchQuery start ==================================================')
     @array_of_ids = array_of_instance_ids
     @results = []
     @query = define_query unless @array_of_ids.blank?
-    Rails.logger.debug('SynonymBunchQuery endish ==================================================')
-    puts('SynonymBunchQuery endish ==================================================')
   end
 
   def define_query
-    puts("SynonymBunchQuery define_query for records: #{@array_of_ids.join(',')} ==================================================")
-    # Instance.where("cited_by_id in (#{@array_of_ids.join(',')})")
     Instance.where("cited_by_id in (#{@array_of_ids.join(',')}) or cites_id in (#{@array_of_ids.join(',')})")
             .joins(:instance_type)
             .where(instance_type: { misapplied: false })

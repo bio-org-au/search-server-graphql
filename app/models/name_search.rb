@@ -1,3 +1,4 @@
+# Class that conducts name searches
 class NameSearch
   attr_reader :name_search_results
   # The returned object must respond to the "names" method call.
@@ -10,33 +11,33 @@ class NameSearch
   # The returned object must respond to the "names" method call
   # because this method's result is returned by the new method.
   def self.search
-    Rails.logger.debug("@parser.sci_cult_or_common: #{@parser.sci_cult_or_common} =========================================")
+    Rails.logger.debug("@parser.sci_cult_or_common: #{@parser.sci_cult_or_common} =======")
     @name_search_results = NameSearchResults.new
     if @parser.run_search?
       if @parser.scientific?
-        Rails.logger.debug('Search#search scientific =======================================')
+        Rails.logger.debug('Search#search scientific =====')
         scientific_search
       elsif @parser.cultivar?
-        Rails.logger.debug('Search#search cultivar =======================================')
+        Rails.logger.debug('Search#search cultivar =====')
         cultivar_search
       elsif @parser.scientific_or_cultivar?
-        Rails.logger.debug('Search#search scientific_or_cultivar =======================================')
+        Rails.logger.debug('Search#search scientific_or_cultivar =====')
         scientific_or_cultivar_search
       elsif @parser.common?
-        Rails.logger.debug('Search#search common =======================================')
+        Rails.logger.debug('Search#search common =====')
         common_search
       else
-        Rails.logger.debug('Search#search else scientific =======================================')
+        Rails.logger.debug('Search#search else scientific =====')
         scientific_search
       end
-      Rails.logger.debug('Search#search start =======================================')
+      Rails.logger.debug('Search#search start =====')
     end
-    Rails.logger.debug('Search#search end   ==========================================')
+    Rails.logger.debug('Search#search end   ========')
     @name_search_results
   end
 
   def self.scientific_search
-    Rails.logger.debug('Search#search scientific_search =================================')
+    Rails.logger.debug('Search#search scientific_search =====================')
     Name.where(['lower(simple_name) like lower(?) or lower(full_name) like lower(?)', preprocessed_search_term, preprocessed_search_term])
         .joins(:name_type)
         .where('name_type.scientific and not name_type.deprecated')
@@ -54,7 +55,7 @@ class NameSearch
   end
 
   def self.cultivar_search
-    Rails.logger.debug('Search#search cultivar_search =================================')
+    Rails.logger.debug('Search#search cultivar_search =======================')
     Name.where(['lower(simple_name) like lower(?) or lower(full_name) like lower(?)', preprocessed_search_term, preprocessed_search_term])
         .joins(:name_type)
         .where('name_type.cultivar and not name_type.deprecated')
@@ -72,7 +73,7 @@ class NameSearch
   end
 
   def self.scientific_or_cultivar_search
-    Rails.logger.debug('Search#search scientific_or_cultivar_search =================================')
+    Rails.logger.debug('Search#search scientific_or_cultivar_search ==========')
     Name.where(['lower(simple_name) like lower(?) or lower(full_name) like lower(?)', preprocessed_search_term, preprocessed_search_term])
         .joins(:name_type)
         .where('(name_type.scientific or name_type.cultivar) and not name_type.deprecated')
@@ -90,7 +91,7 @@ class NameSearch
   end
 
   def self.common_search
-    Rails.logger.debug('Search#search common_search =================================')
+    Rails.logger.debug('Search#search common_search =========================')
     Name.where(['lower(simple_name) like lower(?) or lower(full_name) like lower(?)', preprocessed_search_term, preprocessed_search_term])
         .joins(:name_type)
         .where("name_type_id in (select id from name_type where name_type.name in ('common','informal'))")

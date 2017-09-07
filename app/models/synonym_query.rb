@@ -5,10 +5,8 @@
 class SynonymQuery
   attr_reader :results, :id
   def initialize(instance_id)
-    Rails.logger.debug('SynonymQuery start ==================================================')
     @instance_id = instance_id
     @results = []
-    Rails.logger.debug('SynonymQuery endish ==================================================')
     query
   end
 
