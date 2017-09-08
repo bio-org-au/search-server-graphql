@@ -87,6 +87,18 @@ Rails.application.configure do
   config.action_controller.relative_url_root = "/nsl/ssg"
 end
 
+begin
+  config_file_path = "#{ENV['HOME']}/.nsl/ssg-config.rb"
+  puts "Loading config from: #{config_file_path}"
+  load config_file_path
+rescue LoadError
+  puts "=" * 100
+  puts "Unable to find the config file: #{config_file_path}"
+  puts "Application start up will now fail."
+  puts "=" * 100
+  raise
+end
+
 Rails.application.config.database_yml_file_path =
   "#{ENV['HOME']}/.nsl/ssg-database.yml"
 puts "Rails.application.config.database_yml_file_path:
