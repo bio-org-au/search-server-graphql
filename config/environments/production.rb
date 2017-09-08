@@ -88,6 +88,6 @@ Rails.application.configure do
 end
 
 Rails.application.config.database_yml_file_path =
-  "#{ENV['HOME']}/.nsl/search-database.yml"
+  "#{ENV['HOME']}/.nsl/ssg-database.yml"
 puts "Rails.application.config.database_yml_file_path:
    #{Rails.application.config.database_yml_file_path}"
