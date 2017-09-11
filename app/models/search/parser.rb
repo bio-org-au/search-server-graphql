@@ -11,23 +11,23 @@ class Search::Parser
               :limit
 
   # Type of name
-  SCIENTIFIC = 'Scientific'.freeze
-  SCIENTIFIC_OR_CULTIVAR = 'Scientific-or-Cultivar'.freeze
-  CULTIVAR = 'Cultivar'.freeze
-  COMMON = 'Common'.freeze
+  SCIENTIFIC = 'Scientific'
+  SCIENTIFIC_OR_CULTIVAR = 'Scientific-or-Cultivar'
+  CULTIVAR = 'Cultivar'
+  COMMON = 'Common'
 
   # Fuzzy or exact
-  ADD_TRAILING_WILDCARD = 'Add_trailing_wildcard'.freeze
+  ADD_TRAILING_WILDCARD = 'Add_trailing_wildcard'
 
   # List or list with details output
-  DETAILS = 'details'.freeze
-  LIST = 'list'.freeze
+  DETAILS = 'details'
+  LIST = 'list'
 
   # Limits
   DEFAULT_LIST_LIMIT = 1000
   DEFAULT_DETAILS_LIMIT = 3
 
-  SIMPLE_SEARCH = 'Search'.freeze
+  SIMPLE_SEARCH = 'Search'
 
   def initialize(args)
     Rails.logger.debug('Search::Parser.initialize')
@@ -117,10 +117,6 @@ class Search::Parser
 
   def common?
     @sci_cult_or_common.strip.casecmp(COMMON.downcase).zero?
-  end
-
-  def scientific?
-    @sci_cult_or_common == SCIENTIFIC
   end
 
   def add_trailing_wildcard?

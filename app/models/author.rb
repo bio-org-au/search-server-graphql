@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Rails model
 class Author < ApplicationRecord
   self.table_name = 'author'

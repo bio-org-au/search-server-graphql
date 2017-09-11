@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Rails controller super class
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.

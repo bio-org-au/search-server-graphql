@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Class for name_history_type
 class NameHistory
   attr_reader :name_usages, :synonym_bunch

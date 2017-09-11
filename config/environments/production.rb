@@ -84,7 +84,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_controller.relative_url_root = "/nsl/ssg"
+  config.action_controller.relative_url_root = '/nsl/ssg'
 end
 
 begin
@@ -92,10 +92,10 @@ begin
   puts "Loading config from: #{config_file_path}"
   load config_file_path
 rescue LoadError
-  puts "=" * 100
+  puts '=' * 100
   puts "Unable to find the config file: #{config_file_path}"
-  puts "Application start up will now fail."
-  puts "=" * 100
+  puts 'Application start up will now fail.'
+  puts '=' * 100
   raise
 end
 

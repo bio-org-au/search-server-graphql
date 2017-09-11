@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Attributes for synonym type.
 class Synonym
   attr_reader :id, :full_name, :instance_type, :page, :label,

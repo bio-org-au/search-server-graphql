@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Types::SynonymType = GraphQL::ObjectType.define do
   name 'synonym'
   field :id, types.ID

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Types::InstanceType = GraphQL::ObjectType.define do
   name 'instance'
   field :id, types.ID

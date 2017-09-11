@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Class that conducts name searches
 class NameSearch
   attr_reader :name_search_results

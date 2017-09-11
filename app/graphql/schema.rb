@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Schema = GraphQL::Schema.define do
   # The line:
   #    mutation(Types::MutationType)

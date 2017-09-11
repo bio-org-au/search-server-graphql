@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Types::NameType = GraphQL::ObjectType.define do
   name 'name'
   field :id, types.ID

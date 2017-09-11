@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -37,6 +39,5 @@ gem 'graphql'
 gem 'awesome_print'
 
 gem 'graphiql-rails', group: :development
-gem "jruby-jars", "9.1.12.0"
-gem "warbler"
-
+gem 'jruby-jars', '9.1.12.0'
+gem 'warbler'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Types::NameUsageType = GraphQL::ObjectType.define do
   name 'name_usage'
   field :instance_id, types.ID

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Controller for Graphql calls.
 class GraphqlController < ApplicationController
   def execute
@@ -8,10 +10,10 @@ class GraphqlController < ApplicationController
       # Query context goes here, for example:
       # current_user: current_user,
     }
-    result = Schema.execute(query,
-                            variables: variables,
-                            context: context,
-                            operation_name: operation_name)
+    result = Schema.execute(query, variables: variables,
+                                   context: context,
+                                   operation_name: operation_name)
+    result = 'No params.' if variables.blank?
     render json: result
   end
 

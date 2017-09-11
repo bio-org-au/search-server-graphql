@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Some instances are standalone.
 class StandaloneInstance < ApplicationRecord
   self.table_name = 'instance'
