@@ -7,5 +7,6 @@
 <% end %>
 
 test:
-  <<: *default
-  database: search_server_graphql_test
+  adapter: postgresql
+  encoding: unicode
+  database: ned_test
