@@ -13,7 +13,6 @@ class GraphqlController < ApplicationController
     result = Schema.execute(query, variables: variables,
                                    context: context,
                                    operation_name: operation_name)
-    result = 'No params.' if variables.blank?
     render json: result
   end
 
