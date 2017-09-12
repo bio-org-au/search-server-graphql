@@ -14,11 +14,9 @@ class SynonymPick
   def build_results
     @synonym_bunch.results.each do |result|
       if result[:cited_by_id] == @instance_id
-        Rails.logger.debug('picking a has')
         @results.push(Synonym.new(result, 'has'))
       end
       if result[:instance_id] == @instance_id
-        Rails.logger.debug('picking an of')
         @results.push(Synonym.new(result, 'of'))
       end
     end
