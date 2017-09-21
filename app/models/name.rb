@@ -63,4 +63,8 @@ class Name < ApplicationRecord
   def name_history
     NameHistory.new(id)
   end
+
+  def family_name
+    Name.find(NameTreePath.where(name_id: id).where(tree_id: TreeArrangement.default_name_tree_id).first.family_id).full_name
+  end
 end
