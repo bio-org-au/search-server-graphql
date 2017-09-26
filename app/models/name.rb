@@ -9,6 +9,7 @@ class Name < ApplicationRecord
   belongs_to :name_rank, class_name: 'NameRank', foreign_key: 'name_rank_id'
   belongs_to :status, class_name: 'NameStatus', foreign_key: 'name_status_id'
   belongs_to :name_status
+  belongs_to :author
   has_many :name_tree_paths
   has_one  :name_tree_path_default
   has_many :instances

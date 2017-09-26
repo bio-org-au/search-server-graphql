@@ -8,12 +8,13 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :name_search do
     type Types::NameSearchType
     argument :search_term, types.String
+    argument :author_abbrev, types.String
     argument :type_of_name, types.String
     argument :fuzzy_or_exact, types.String
     argument :limit, types.Int
     argument :id, types.ID
     resolve ->(_obj, args, _ctx) {
-      NameSearch.new(args)
+      NameSearchFactory.build(args)
     }
   end
   field :name do

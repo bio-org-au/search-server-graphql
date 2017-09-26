@@ -8,7 +8,8 @@ class Search::Parser
               :sci_cult_or_common,
               :simple_or_advanced,
               :list_or_details,
-              :limit
+              :limit,
+              :args
 
   # Type of name
   SCIENTIFIC = 'Scientific'
@@ -41,7 +42,8 @@ class Search::Parser
   end
 
   def run_search?
-    @args.keys.include?('search_term')
+    @args.keys.include?('search_term') || 
+    @args.keys.include?('author_abbrev')
   end
 
   def resolve_sci_cult_or_common
