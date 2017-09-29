@@ -13,4 +13,10 @@ class NameTreePath < ActiveRecord::Base
               end),
              class_name: 'TreeArrangement',
              foreign_key: 'tree_id'
+  belongs_to :accepted_tree_arrangement,
+             (lambda do
+                where(label: ShardConfig.taxonomy_tree_key)
+              end),
+             class_name: 'TreeArrangement',
+             foreign_key: 'tree_id'
 end

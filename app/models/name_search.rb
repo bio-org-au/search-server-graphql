@@ -11,7 +11,7 @@ class NameSearch
     search
   end
 
-   # The returned object must respond to the "names" method call.
+  # The returned object must respond to the "names" method call.
   def names
     @name_search_results
   end

@@ -46,7 +46,7 @@ class SqlGenerator
 
   def add_name
     return if @parser.args['search_term'].blank?
-    @sql = @sql.where(['lower(simple_name) like lower(?) or lower(name.full_name) like lower(?)', preprocessed_search_term, preprocessed_search_term])
+    @sql = @sql.where(['lower(f_unaccent(simple_name)) like lower(f_unaccent(?)) or lower(f_unaccent(name.full_name)) like lower(f_unaccent(?))', preprocessed_search_term, preprocessed_search_term])
   end
 
   def add_name_type

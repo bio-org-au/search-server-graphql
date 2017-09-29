@@ -9,4 +9,4 @@
 test:
   adapter: postgresql
   encoding: unicode
-  database: ned_test
+  database: ssg_test

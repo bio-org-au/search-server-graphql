@@ -12,11 +12,13 @@ class Name < ApplicationRecord
   belongs_to :author
   has_many :name_tree_paths
   has_one  :name_tree_path_default
+  has_one  :taxonomy_name_tree_path, class_name: 'NameTreePath'
   has_many :instances
   has_many :instance_types, through: :instances
   has_many :instance_notes
   has_many :references, through: :instances
   has_many :reference_authors, through: :references, class_name: 'Author'
+  has_many :tree_nodes
   scope :not_a_duplicate, -> { where(duplicate_of_id: nil) }
   scope :ordered_scientifically, (lambda do
                                     order("coalesce(trim( trailing '>'
