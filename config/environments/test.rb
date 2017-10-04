@@ -43,3 +43,20 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end
+
+Rails.application.config.database_yml_file_path =
+  "#{ENV['HOME']}/.nsl/test/ssg-database.yml"
+puts "Rails.application.config.database_yml_file_path:
+#{Rails.application.config.database_yml_file_path}"
+
+begin
+  file_path = "#{ENV['HOME']}/.nsl/test/ssg-config.rb"
+  puts "Loading config from: #{file_path}"
+  load file_path
+rescue LoadError
+  puts '=' * 100
+  puts "Unable to find the config file: #{file_path}"
+  puts 'Application start up will now fail.'
+  puts '=' * 100
+  raise
+end

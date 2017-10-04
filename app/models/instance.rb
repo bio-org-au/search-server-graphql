@@ -6,6 +6,7 @@ class Instance < ActiveRecord::Base
   self.primary_key = 'id'
 
   belongs_to :name
+  belongs_to :namespace
   belongs_to :instance_type
   belongs_to :reference
   belongs_to :this_is_cited_by,

@@ -8,4 +8,5 @@ Types::TaxonType = GraphQL::ObjectType.define do
   field :full_name_html, types.String
   field :name_status_name, types.String
   field :reference_citation, types.String
+  field :synonyms, Types::SynonymType
 end

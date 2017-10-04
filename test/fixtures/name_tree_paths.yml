@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+#one: {}
+# column: value
+#
+#two: {}
+#  column: value
+
+angophora_ntp: 
+  version: 1
+  inserted: 0
+  name: angophora
+  name_id_path: xyz
+  name_path: Plantae.Charophyta.Equisetopsida.Magnoliidae.Rosanae.Myrtales.Myrtaceae.Angophora
+  next_id:
+  parent: myrtaceae
+  rank_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora
+  tree: apni
+  family: myrtaceae

@@ -20,7 +20,16 @@ class TaxonomySearch
     Rails.logger.debug('Search#search scientific_search ==================xxx')
     @taxonomy_search_results = TaxonomySearchResults.new
     TaxonomySqlGenerator.new(@parser).sql.each do |taxon|
-      @taxonomy_search_results.push taxon
+      Rails.logger.debug("taxon: #{taxon.inspect}")
+      h = Hash.new
+      h[:id] = 1
+      synonyms = Array.new
+      synonyms.push(h)
+      #extended_taxon = Hash.new
+      #extended_taxon[
+      #taxon[:Name].first[:synonyms] = synonyms
+      
+      @taxonomy_search_results.push TaxonomySearchResult.new(taxon)
     end
     @taxonomy_search_results
   end
