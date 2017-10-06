@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Attributes for synonym type.
-class TaxonSynonym
+class Taxonomy::Search::Synonym
   attr_reader :id, :full_name, :instance_type, :page, :label,
               :page, :page_qualifier
 

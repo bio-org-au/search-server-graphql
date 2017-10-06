@@ -2,7 +2,7 @@
 
 # For a given instance ID, retrieve a set of ordered
 # synonymy instance results suitable for displaying within a name usage.
-class SynonymQuery
+class Name::Search::Synonym::Query
   attr_reader :results, :id
   def initialize(instance_id)
     @instance_id = instance_id

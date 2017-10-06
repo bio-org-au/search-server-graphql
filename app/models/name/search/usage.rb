@@ -3,7 +3,7 @@
 # Provide data for a name usage type from a name usage query record.
 # Allow for raw data to be passed on from the name usage query record,
 # but also allow for wrapped or otherwise processed data.
-class NameUsage
+class Name::Search::Usage
   attr_reader :misapplied_by_id, :misapplied_by_citation, :misapplied_on_page,
               :misapplied_to_name, :misapplied_to_id
 
@@ -90,7 +90,7 @@ class NameUsage
   end
 
   def synonyms
-    res = SynonymPick.new(@name_usage.instance_id, @synonym_bunch).results
+    res = Name::Search::Synonym::Pick.new(@name_usage.instance_id, @synonym_bunch).results
     res
   end
 

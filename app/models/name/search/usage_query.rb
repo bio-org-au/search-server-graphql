@@ -2,7 +2,7 @@
 
 # For a given name ID, retrieve a set of grouped and ordered
 # instance results suitable for displaying the name usages.
-class NameUsageQuery
+class Name::Search::UsageQuery
   attr_reader :results, :id
   def initialize(name_id)
     @id = name_id
@@ -10,13 +10,13 @@ class NameUsageQuery
   end
 
   def build_query
-    Rails.logger.debug('NameUsageQuery start ================================')
+    Rails.logger.debug('Name::Search::UsageQuery start ================================')
     @results = Name.where(id: @id)
                    .joins(instances: [:instance_type, reference: :author])
                    .select(columns)
                    .group(grouping)
                    .order(ordering)
-    Rails.logger.debug('NameUsageQuery end   ================================')
+    Rails.logger.debug('Name::Search::UsageQuery end   ================================')
   end
 
   def columns

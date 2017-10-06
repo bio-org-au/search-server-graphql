@@ -3,7 +3,7 @@
 # For a given set of instance IDs, retrieve a set of ordered
 # synonymy instance results suitable for displaying within a bunch of
 # name usages.
-class SynonymBunchQuery
+class Name::Search::Synonym::BunchQuery
   attr_reader :query, :array_of_ids, :results
   def initialize(array_of_instance_ids)
     @array_of_ids = array_of_instance_ids

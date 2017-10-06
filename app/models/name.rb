@@ -87,7 +87,7 @@ class Name < ApplicationRecord
   end
 
   def name_history
-    NameHistory.new(id)
+    Name::Search::History.new(id)
   end
 
   def family_name

@@ -14,6 +14,6 @@ class Taxonomy::Search::Result
   end
 
   def taxon_details
-    TaxonDetails.new(@instance_id)
+    Taxonomy::Search::Details.new(@instance_id)
   end
 end
