@@ -20,6 +20,7 @@ class NameSearch
     Rails.logger.debug('Search#search scientific_search ==================xxx')
     @name_search_results = NameSearchResults.new
     SqlGenerator.new(@parser).sql.each do |name|
+      Rails.logger.debug("name: #{name.inspect}")
       @name_search_results.push name
     end
     @name_search_results

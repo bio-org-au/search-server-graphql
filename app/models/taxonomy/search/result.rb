@@ -1,17 +1,19 @@
-class TaxonomySearchResult
+# frozen_string_literal: true
+
+# Class for the result of a taxonomy search
+class Taxonomy::Search::Result
   attr_reader :id, :full_name, :simple_name, :name_status_name,
-              :reference_citation, :synonyms
+              :reference_citation
   def initialize(h)
     @id = h[:id]
     @full_name = h[:full_name]
     @simple_name = h[:simple_name]
     @name_status_name = h[:name_status_name]
     @reference_citation = h[:reference_citation]
+    @instance_id = h[:instance_id]
   end
 
-  def synonyms
-    open_struct = OpenStruct.new
-    open_struct.id    = 77
-    open_struct
+  def taxon_details
+    TaxonDetails.new(@instance_id)
   end
 end

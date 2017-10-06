@@ -39,7 +39,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
   field :taxonomy_search do
-    type Types::TaxonomySearchType
+    type Types::Taxonomy::SearchType
     argument :search_term, types.String
     argument :author_abbrev, types.String
     argument :type_of_name, types.String
@@ -47,7 +47,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :limit, types.Int
     argument :id, types.ID
     resolve ->(_obj, args, _ctx) {
-      TaxonomySearchFactory.build(args)
+      Taxonomy::Search::Factory.build(args)
     }
   end
 end

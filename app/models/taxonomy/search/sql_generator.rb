@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 # Produce sql for taxonomy queries.
-class TaxonomySqlGenerator
+class Taxonomy::Search::SqlGenerator
   attr_reader :sql
   def initialize(parser)
-    Rails.logger.debug('====================== SqlGenerator')
+    Rails.logger.debug('====================== Taxonomy::Search::SqlGenerator')
     Rails.logger.debug(%(author abbrev: #{parser.args['author_abbrev']}))
     @parser = parser
     generate_sql
@@ -18,22 +18,11 @@ class TaxonomySqlGenerator
     # add_author
   end
 
-  def old_base_query
-    Name.joins(:name_type).joins(:name_rank).joins(:name_status)
-        .joins(:name_tree_paths)
-        .where("name_tree_path.tree_id = (select id from tree_arrangement \
-    where label = (select value from shard_config where name = \
-    'classification tree label'))")
-        .limit(@parser.args['limit'] || 100)
-        .joins(:name_tree_paths)
-        .where("name_tree_path.tree_id = (select id from tree_arrangement \
-    where label = (select value from shard_config where \
-    name = 'classification tree label'))")
-  end
-
   def base_query
     Name.select("name.id, name.full_name, name.simple_name, name_status.name \
-                name_status_name, reference.citation reference_citation ")
+                name_status_name, reference.citation reference_citation, \
+                instance.id instance_id")
+        .order("name.sort_name")
     # .ordered_scientifically
   end
 

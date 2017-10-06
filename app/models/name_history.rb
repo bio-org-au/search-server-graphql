@@ -5,6 +5,7 @@ class NameHistory
   attr_reader :name_usages, :synonym_bunch
 
   def initialize(name_id)
+    Rails.logger.debug('NameHistory initialize')
     @name = Name.find(name_id)
     raw_results = NameUsageQuery.new(name_id).results
     Rails.logger.debug(raw_results.class)

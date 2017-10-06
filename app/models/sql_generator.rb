@@ -63,30 +63,4 @@ class SqlGenerator
              throw 'Unknown name type'
            end
   end
-
-  #def xsearch
-    #Rails.logger.debug("@parser.sci_cult_or_common: #{@parser.sci_cult_or_common} =======")
-    #@name_search_results = NameSearchResults.new
-    #if @parser.run_search?
-      #if @parser.scientific?
-        #Rails.logger.debug('Search#search scientific =====')
-        #scientific_search
-      #elsif @parser.cultivar?
-        #Rails.logger.debug('Search#search cultivar =====')
-        #cultivar_search
-      #elsif @parser.scientific_or_cultivar?
-        #Rails.logger.debug('Search#search scientific_or_cultivar =====')
-        #scientific_or_cultivar_search
-      #elsif @parser.common?
-        #Rails.logger.debug('Search#search common =====')
-        #common_search
-      #else
-        #Rails.logger.debug('Search#search else scientific =====')
-        #scientific_search
-      #end
-      #Rails.logger.debug('Search#search start =====')
-    #end
-    #Rails.logger.debug('Search#search end   ========')
-    #@name_search_results
-  #end
 end

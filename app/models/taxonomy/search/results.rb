@@ -2,7 +2,7 @@
 
 # GQL will call the "names" methods on TaxonomySearchResults objects.
 # Return the object itself, which is an array.
-class TaxonomySearchResults < Array
+class Taxonomy::Search::Results < Array
   def taxa
     self
   end
