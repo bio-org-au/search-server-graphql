@@ -1,4 +1,4 @@
-class SqlGenerator
+class Name::Search::SqlGenerator
   attr_reader :sql
   def initialize(parser)
     Rails.logger.debug('====================== SqlGenerator')

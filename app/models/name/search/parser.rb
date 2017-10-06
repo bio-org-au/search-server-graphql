@@ -3,7 +3,7 @@
 # Rails model
 # Interpret GraphQL args and provided
 # directions for the required search.
-class Search::Parser
+class Name::Search::Parser
   attr_reader :search_term,
               :sci_cult_or_common,
               :simple_or_advanced,
