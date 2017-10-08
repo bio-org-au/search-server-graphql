@@ -5,10 +5,14 @@
 class Taxonomy::Search::Details
   attr_reader :instance_id
   def initialize(instance_id)
-    @instance_id = instance_id
+    @instance = Instance.find(instance_id)
   end
 
   def taxon_synonyms
-    Taxonomy::Search::Synonyms.new(@instance_id)
+    Taxonomy::Search::Synonyms.new(@instance.id)
+  end
+
+  def taxon_distribution
+    @instance.name_id
   end
 end

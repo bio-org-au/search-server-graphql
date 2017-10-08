@@ -17,11 +17,9 @@ class Taxonomy::Search::Base
   end
 
   def search
-    Rails.logger.debug('Taxonomy::Search::Base#search scientific_search ==================xxx')
+    Rails.logger.debug('Taxonomy::Search::Base#search scientific_search =====')
     @taxonomy_search_results = Taxonomy::Search::Results.new
     Taxonomy::Search::SqlGenerator.new(@parser).sql.each do |result|
-      Rails.logger.debug("result: #{result.inspect}")
-      Rails.logger.debug("instance_id: #{result.instance_id}")
       @taxonomy_search_results.push Taxonomy::Search::Result.new(result)
     end
     @taxonomy_search_results
