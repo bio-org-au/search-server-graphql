@@ -13,6 +13,10 @@ class Taxonomy::Search::Details
   end
 
   def taxon_distribution
-    @instance.name_id
+    @instance.apc_distribution
+  end
+
+  def taxon_comment
+    @instance.apc_comment
   end
 end
