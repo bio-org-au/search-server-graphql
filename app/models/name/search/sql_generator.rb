@@ -13,6 +13,7 @@ class Name::Search::SqlGenerator
     add_name
     add_author
     add_name_tree_path unless @parser.common?
+    add_family unless @parser.common?
     order_scientifically unless @parser.common?
     order_by_name if @parser.common?
   end
@@ -42,6 +43,11 @@ class Name::Search::SqlGenerator
   def add_author
     return if @parser.args['author_abbrev'].blank?
     @sql = @sql.joins(:author).where(["lower(author.abbrev) like lower(?)", @parser.args["author_abbrev"]])
+  end
+
+  def add_family
+    return if @parser.args['family'].blank?
+    @sql = @sql.where(["name_tree_path.family_id = (select id from name fn where lower(fn.simple_name) like lower(?))",@parser.args["family"]])
   end
 
   def add_name
