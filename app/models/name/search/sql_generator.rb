@@ -4,25 +4,25 @@ class Name::Search::SqlGenerator
     Rails.logger.debug('====================== SqlGenerator')
     Rails.logger.debug(%Q(author abbrev: #{parser.args["author_abbrev"]}))
     @parser = parser
-    scientific_search_sql
+    search_sql
   end
 
-  def scientific_search_sql
+  def search_sql
     @sql = base_query
     add_name_type
     add_name
     add_author
+    add_name_tree_path unless @parser.common?
+    order_scientifically unless @parser.common?
+    order_by_name if @parser.common?
   end
 
   def base_query
     Name.joins(:name_type)
         .joins(:name_rank)
         .joins(:name_status)
-        .joins(:name_tree_paths)
-        .where("name_tree_path.tree_id = (select id from tree_arrangement where label = (select value from shard_config where name = 'name tree label'))")
         .where('exists (select null from instance where instance.name_id = name.id)')
         .select('name.*, name_status.name name_status_name')
-        .ordered_scientifically
         .limit(@parser.args['limit'] || 100)
   end
   
@@ -58,9 +58,22 @@ class Name::Search::SqlGenerator
            when @parser.scientific_or_cultivar?
              @sql.where('(name_type.cultivar or name_type.scientific)')
            when @parser.common?
-             @sql.where('name_type.common')
+             @sql.where("name_type.name in ('common','informal','vernacular')")
            else
              throw 'Unknown name type'
            end
+  end
+
+  def add_name_tree_path
+    @sql = @sql.joins(:name_tree_paths)
+               .where("name_tree_path.tree_id = (select id from tree_arrangement where label = (select value from shard_config where name = 'name tree label'))")
+  end
+
+  def order_scientifically
+    @sql = @sql.ordered_scientifically
+  end
+
+  def order_by_name
+    @sql = @sql.order("lower(name.full_name)")
   end
 end

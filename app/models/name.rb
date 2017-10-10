@@ -91,6 +91,14 @@ class Name < ApplicationRecord
   end
 
   def family_name
-    Name.find(NameTreePath.where(name_id: id).where(tree_id: TreeArrangement.default_name_tree_id).first.family_id).full_name
+    if name_type.scientific? || name_type.cultivar?
+      family_id = (NameTreePath.where(name_id: id).where(tree_id: TreeArrangement.default_name_tree_id).first.family_id)
+      return "na" if family_id.blank?
+      Name.find(family_id).full_name
+    else
+      "na"
+    end
+  rescue
+    "Problem finding family for name: #{id}"
   end
 end
