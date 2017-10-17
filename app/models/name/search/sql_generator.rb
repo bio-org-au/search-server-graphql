@@ -47,7 +47,7 @@ class Name::Search::SqlGenerator
 
   def add_family
     return if @parser.args['family'].blank?
-    @sql = @sql.where(["name_tree_path.family_id = (select id from name fn where lower(fn.simple_name) like lower(?))",@parser.args["family"]])
+    @sql = @sql.where(["name_tree_path.family_id in (select id from name fn where lower(fn.simple_name) like lower(?))",@parser.args["family"]])
   end
 
   def add_name
