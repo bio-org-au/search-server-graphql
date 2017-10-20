@@ -15,3 +15,6 @@ classification-tree-key:
 name-tree-label:
   name: name tree label
   value: APNI
+name-label:
+  name: name label
+  value: APNI
