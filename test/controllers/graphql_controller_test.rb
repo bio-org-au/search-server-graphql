@@ -22,19 +22,14 @@ class GraphqlControllerTest < ActionController::TestCase
   end
 
   test "should be a minimal test" do
-    puts "should be a minimal test"
     post 'execute'
     assert_response :success
-    puts response.body
   end
 
   test "simple taxonomy query test" do
-    puts "simple taxonomy query test"
     post 'execute',
       {query: '{taxonomy_search(search_term:"angophora"){taxa{id,full_name,name_status_name}}}' }
     assert_response :success
-    puts response.body
     # {"data":{"taxonomy_search":{"taxa":[]}}}
   end
-    #params: {"query"=>"{ taxonomy_search(search_term: \"angophora costata\",          type_of_name: \"scientific\") {taxa {id, simple_name, full_name, name_status_name, reference_citation}}}", "variables"=>nil, "operationName"=>nil, "graphql"=>{"query"=>"{taxonomy_search(search_term: \"angophora costata\",type_of_name: \"scientific\") {taxa {id,simple_name,full_name,name_status_name,reference_citation}}}", "variables"=>nil, "operationName"=>nil}}
 end

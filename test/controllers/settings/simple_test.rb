@@ -17,17 +17,17 @@
 require 'test_helper'
 
 # Single controller test.
-class NameSearchSimpleTest < ActionController::TestCase
+class SettingsSimpleTest < ActionController::TestCase
   tests GraphqlController
   setup do
   end
 
-  test "simple about query test" do
-    post 'execute', {query: '{about(search_term:"name label")}' }
+  test "settings query test" do
+    post 'execute', {query: '{setting(search_term:"name label")}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert_match 'APNI',
-                  obj.data.about,
+                  obj.data.setting,
                  "Name should match 'APNI'"
   end
 end

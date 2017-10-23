@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Class that runs about searches
-class About::Search
+class Settings::Search
   attr_reader :value
   def initialize(args)
     @search_term = args[:search_term]
@@ -10,6 +10,6 @@ class About::Search
   def value
     ShardConfig.where(['name = ? ',@search_term]).first.value
   rescue
-    "Unknown"
+    'Unknown'
   end
 end
