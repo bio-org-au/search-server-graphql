@@ -92,6 +92,7 @@ class Name < ApplicationRecord
 
   def family_name
     if name_type.scientific? || name_type.cultivar?
+      return "na" if name_rank.family_or_above?
       family_id = (NameTreePath.where(name_id: id).where(tree_id: TreeArrangement.default_name_tree_id).first.family_id)
       return "na" if family_id.blank?
       Name.find(family_id).full_name

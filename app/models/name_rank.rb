@@ -12,6 +12,10 @@ class NameRank < ActiveRecord::Base
     find_by(name: 'Species')
   end
 
+  def self.family
+    find_by(name: 'Familia')
+  end
+
   def show?
     !visible_in_name && above_species?
   end
@@ -22,6 +26,10 @@ class NameRank < ActiveRecord::Base
 
   def species_or_below?
     !above_species?
+  end
+
+  def family_or_above?
+    sort_order <= NameRank.family.sort_order
   end
 
   def self.above_species?(rank_sort_order)
