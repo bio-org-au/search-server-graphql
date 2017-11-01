@@ -10,14 +10,933 @@
 #two: {}
 #  column: value
 
-angophora_ntp: 
+DEFAULTS: &DEFAULTS
   version: 1
   inserted: 0
-  name: angophora
   name_id_path: xyz
-  name_path: Plantae.Charophyta.Equisetopsida.Magnoliidae.Rosanae.Myrtales.Myrtaceae.Angophora
-  next_id:
-  parent: myrtaceae
-  rank_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora
+  rank_path: a.b.c.d
   tree: apni
+
+angophora_ntp:
+  name: angophora
+  rank_path: Regnum>Division>Classis>Subclassis>Superordo>Ordo>Familia>Genus
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora
+  name_id_path: xyzz
+  parent: myrtaceae
   family: myrtaceae
+  tree: apni
+  version: 1
+  inserted: 0
+
+the_regnum_ntp:
+  <<: *DEFAULTS
+  name: the_regnum
+  name_path: Regnum>Plantae
+  rank_path: Regnum
+
+a_division_ntp:
+  <<: *DEFAULTS
+  name: a_division
+  name_path: "Regnum:Plantae>Division:Charophyta"
+  rank_path: Regnum>Division
+  parent: the_regnum
+
+a_classis_ntp:
+  <<: *DEFAULTS
+  name: a_classis
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida
+  parent: a_division
+
+a_subclassis_ntp:
+  <<: *DEFAULTS
+  name: a_subclassis
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae
+  parent: a_classis
+
+a_superordo_ntp: 
+  <<: *DEFAULTS
+  name: a_superordo
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae
+  parent: a_subclassis
+
+an_ordo_ntp: 
+  <<: *DEFAULTS
+  name: an_ordo
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales
+  parent: a_super_ordo
+
+a_subordo_ntp: 
+  <<: *DEFAULTS
+  name: a_subordo
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Subordo:subordoA
+  parent: an_ordo
+
+a_family_ntp: 
+  <<: *DEFAULTS
+  name: a_family
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae
+  parent: a_super_ordo
+
+a_subfamilia_ntp: 
+  <<: *DEFAULTS
+  name: a_subfamilia
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Subfamilia:subf
+  parent: a_family
+
+a_tribus_ntp: 
+  <<: *DEFAULTS
+  name: a_tribus
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Tribus:atribe
+  parent: a_subfamily
+
+a_subtribus_ntp: 
+  <<: *DEFAULTS
+  name: a_subtribus
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Subtribus:asubtribe
+  parent: a_tribus
+
+unknown_species_ntp: 
+  <<: *DEFAULTS
+  name: unknown-species
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora>Species:unknownspecies
+  parent: acacia
+
+another_species_ntp: 
+  <<: *DEFAULTS
+  name: another-species
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora>Species:anotherspecies
+  parent: acacia
+
+a_genus_ntp: 
+  <<: *DEFAULTS
+  name: a_genus
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:agenus
+  parent: a_family
+
+a_subgenus_ntp: 
+  <<: *DEFAULTS
+  name: a_subgenus
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora>Asubgenus:subgenusa
+  parent: a_genus
+
+a_sectio_ntp: 
+  <<: *DEFAULTS
+  name: a_sectio
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora>Sectio:sectioa
+  parent: a_family
+
+a_subsectio_ntp: 
+  <<: *DEFAULTS
+  name: a_subsectio
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora>Sectio:sectioa>Subsectio:subsectioaa
+  parent: a_family
+
+a_series_ntp: 
+  <<: *DEFAULTS
+  name: a_series
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora>Series:seriesa
+  parent: a_family
+
+a_subseries_ntp: 
+  <<: *DEFAULTS
+  name: a_subseries
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora subseries
+  parent: a_family
+
+a_superspecies_ntp:
+  <<: *DEFAULTS
+  name: a_superspecies
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora superspecies
+  parent: a_family
+
+a_species_ntp:
+  <<: *DEFAULTS
+  name: a_species
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_genus
+
+a_duplicate_species_ntp:
+  <<: *DEFAULTS
+  name: a_duplicate_species
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+a_subspecies_ntp:
+  <<: *DEFAULTS
+  name: a_subspecies
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora subspecies
+  parent: a_species
+
+a_nothovarietas_ntp:
+  <<: *DEFAULTS
+  name: a_nothovarietas
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora nothovarietas
+  parent: a_family
+
+a_varietas_ntp:
+  <<: *DEFAULTS
+  name: a_varietas
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora varietas
+  parent: a_family
+
+a_subvarietas_ntp:
+  <<: *DEFAULTS
+  name: a_subvarietas
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora subvarietas
+  parent: a_family
+
+a_forma_ntp:
+  <<: *DEFAULTS
+  name: a_forma
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora forma
+  parent: a_family
+
+a_subforma_ntp:
+  <<: *DEFAULTS
+  name: a_subforma
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora subforma
+  parent: a_family
+
+triodia_basedowii_ntp:
+  <<: *DEFAULTS
+  name: basedowii
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: acacia
+
+crotalaria_distans_ntp:
+  <<: *DEFAULTS
+  name: Crotalaria_distens
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: acacia
+  version: 1
+
+acacia_ntp:
+  <<: *DEFAULTS
+  name: Acacia
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+  parent: a_family
+  version: 1
+
+angophora_ntp:
+  <<: *DEFAULTS
+  name: Angophora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+  version: 1
+
+metrosideros_ntp:
+  <<: *DEFAULTS
+  name: Metrosideros
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+  version: 1
+
+argyle_apple_ntp:
+  <<: *DEFAULTS
+  name: argyle_apple
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_genus
+  version: 1
+
+scientific_name_ntp:
+  <<: *DEFAULTS
+  name: scientific_name
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: acacia
+  version: 1
+
+scientific_name_without_author_ntp:
+  <<: *DEFAULTS
+  name: scientific_name_without_author
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: acacia
+
+var_tuberosus_ntp:
+  <<: *DEFAULTS
+  name: var_tuberosus
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora varietas
+  parent: acacia
+
+nom_inval_prainiana_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_prainiana
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: acacia
+
+rusty_gum_ntp:
+  <<: *DEFAULTS
+  name: rusty_gum
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora na
+
+metrosideros_costata_ntp:
+  <<: *DEFAULTS
+  name: costata
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: metrosideros
+
+angophora_costata_ntp:
+  <<: *DEFAULTS
+  name: costata
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+
+by_authority_with_just_one_name_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: By_authority_with_just_one_name
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+    
+is_authored_by_the_name_authority_of_every_type_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: is_authored_by_the_name_authority_of_every_type
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+    
+is_base_authored_by_the_name_authority_of_every_type_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: is_base_authored_by_the_name_authority_of_every_type
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+    
+is_ex_base_authored_by_the_name_authority_of_every_type_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: Is_is_ex_base_authored_by_the_name_authority_of_every_type
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+    
+is_ex_authored_by_the_name_authority_of_every_type_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: is_ex_authored_by_the_name_authority_of_every_type
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+    
+is_sanction_authored_by_the_name_authority_of_every_type_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: is_sanction_authored_by_the_name_authority_of_every_type
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+
+has_an_author_that_is_all_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: has_an_author_that_is_all
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+
+has_a_base_author_that_is_all_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: has_a_base_author_that_is_all
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+
+has_an_ex_base_author_that_is_all_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: has_an_ex_base_author_that_is_all
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+
+has_an_ex_author_that_is_all_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: has_an_ex_author_that_is_all
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+
+has_a_sanctioning_author_that_is_all_ntp:
+  <<: *DEFAULTS
+  name: Has_a_sanctioning_author_that_is_all
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+
+hybrid_name_with_unknown_2nd_paren_ntp:
+  <<: *DEFAULTS
+  name: hybrid_name_with_unknown_2nd_paren
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora na
+  parent: a_species
+
+hybrid_formula_ntp:
+  <<: *DEFAULTS
+  name: hybrid_formula
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_species
+
+other_informal_ntp:
+  <<: *DEFAULTS
+  name: Other_informal
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora na
+
+without_names_from_service_ntp:
+  <<: *DEFAULTS
+  name: without_names_from_service
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: acacia
+    
+cultivar_hybrid_with_one_parent_ntp:
+  <<: *DEFAULTS
+  name: cultivar_hybrid_with_one_parent
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+
+has_no_instances_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: has_no_instances
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: angophora
+
+unranked_name_1_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: unranked_name_1
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora unranked
+
+unranked_scientific_name_with_unranked_parent_ntp:
+  <<: *DEFAULTS
+  version: 1
+  name: unranked_scientific_name_with_unranked_parent
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora unranked
+  parent: unranked_name_1
+
+a_duplicate_genus_ntp:
+  <<: *DEFAULTS
+  name: a_duplicate_genus
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+  parent: a_family
+
+not_a_duplicate_genus_ntp:
+  <<: *DEFAULTS
+  name: a_duplicate_genus_not
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+  parent: a_family
+
+a_genus_without_an_instance_ntp:
+  <<: *DEFAULTS
+  name: a_genus_without_an_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+  parent: a_family
+
+a_species_without_an_instance_ntp:
+  <<: *DEFAULTS
+  name: a_species_without_an_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+a_morphological_var_with_an_instance_ntp:
+  <<: *DEFAULTS
+  name: a_morphological_var_with_an_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora morphological_var
+  parent: a_family
+
+a_nothomorph_with_an_instance_ntp:
+  <<: *DEFAULTS
+  name: a_nothomorph_with_an_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora nothomorph
+  parent: a_family
+
+an_unranked_with_an_instance_ntp:
+  <<: *DEFAULTS
+  name: a_an_unranked_with_an_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora unranked
+  parent: a_family
+
+an_na_with_an_instance_ntp:
+  <<: *DEFAULTS
+  name: a_an_na_with_an_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora na
+  parent: a_family
+
+an_unknown_with_an_instance_ntp:
+  <<: *DEFAULTS
+  name: a_an_unknown_with_an_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora unknown
+  parent: a_family
+
+an_infraspecies_with_an_instance_ntp:
+  <<: *DEFAULTS
+  name: a_an_infraspecies_with_an_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora infraspecies
+  parent: a_family
+
+an_infragenus_with_an_instance_ntp:
+  <<: *DEFAULTS
+  name: a_an_infragenus_with_an_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora infragenus
+  parent: a_family
+
+an_infrafamily_with_an_instance_ntp:
+  <<: *DEFAULTS
+  name: a_an_infrafamily_with_an_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora infrafamily
+  parent: a_family
+
+belonia_korb_with_diacrit_ntp:
+  <<: *DEFAULTS
+  name: Belonia
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+  parent: a_family
+
+casuarina_inophloia_ntp:
+  <<: *DEFAULTS
+  name: casuarina_inophloia
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+a_genus_with_one_instance_ntp:
+  <<: *DEFAULTS
+  name: a_genus_with_one_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+  parent: a_family
+
+a_genus_with_two_instances_ntp:
+  <<: *DEFAULTS
+  name: a_genus_with_two_instances
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+  parent: a_family
+
+has_two_instances_the_same_ntp:
+  <<: *DEFAULTS
+  name: has_two_instances_the_same
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+metrosideros_costata_gaertn_ntp:
+  <<: *DEFAULTS
+  name: metrosideros_costata_gaertn
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+angophora_lanceolata_cav_ntp:
+  <<: *DEFAULTS
+  name: angophora_lanceolata_cav
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_genus
+  
+nothing_name_for_invalid_instance_ntp:
+  <<: *DEFAULTS
+  name: nothing_name_for_invalid_instance
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+legitimate_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: legitimate_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+default_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: default_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+deleted_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: deleted_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+na_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: na_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+unknown_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: unknown_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+isonym_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: isonym_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_cult_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_cult_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_cult_nom_alt_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: num_cult_nom_alt_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_et_orth_cons_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_et_orth_cons_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_illeg_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_illeg_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_illeg_nom_rej_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_illeg_nom_rej_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_illeg_nom_superfl_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_illeg_nom_superfl_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_nom_alt_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_nom_alt_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_nom_ambig_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_nom_ambig_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_nom_confus_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_nom_confus_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_nom_dub_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_nom_dub_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_nom_nud_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_nom_nud_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_nom_prov_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_nom_prov_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_nom_subnud_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_nom_subnud_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_opera_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_opera_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_pro_syn_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_pro_syn_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_inval_tautonym_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_inval_tautonym_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_rej_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_rej_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nom_superfl_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nom_superfl_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+nomino_utique_rejicienda_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: nomino_utique_rejicienda_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+orth_var_name_one_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: orth_var_name_one_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+name_two_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: name_two_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+name_two_for_eflora_with_extra_ntp:
+  <<: *DEFAULTS
+  name: name_two_for_eflora_with_extra
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+name_three_for_eflora_ntp:
+  <<: *DEFAULTS
+  name: name_three_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+  parent: a_family
+
+name_three_for_eflora_duplicate_ntp:
+  <<: *DEFAULTS
+  name: name_three_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+
+name_four_for_eflora_multi_1_ntp:
+  <<: *DEFAULTS
+  name: name_four_for_eflora_multi_1
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+name_four_for_eflora_multi_2_ntp:
+  <<: *DEFAULTS
+  name: name_four_for_eflora
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+has_no_authors_ntp:
+  <<: *DEFAULTS
+  name: has_no_authors
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+has_no_parent_ntp:
+  <<: *DEFAULTS
+  name: has_no_parent
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+has_no_duplicate_of_ntp:
+  <<: *DEFAULTS
+  name: has_no_duplicate_of
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+name_matches_another_1_ntp:
+  <<: *DEFAULTS
+  name: name_matches_another
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+name_matches_another_2_ntp:
+  <<: *DEFAULTS
+  name: name_matches_another
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+name_to_delete_ntp:
+  <<: *DEFAULTS
+  name: name_to_delete
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+    
+a_cultivar_ntp:
+  <<: *DEFAULTS
+  name: a_cultivar
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+    
+a_cultivar_hybrid_ntp:
+  <<: *DEFAULTS
+  name: a_cultivar_hybrid
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+    
+a_cultivar_hybrid_formula_ntp:
+  <<: *DEFAULTS
+  name: a_cultivar_hybrid_formula
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+boronia_lipstick_ntp:
+  <<: *DEFAULTS
+  name: Lipstick
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora unranked
+
+dummy_name_1_ntp:
+  <<: *DEFAULTS
+  name: dummy_name_1
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora unranked
+
+in_apc_ntp:
+  <<: *DEFAULTS
+  name: in_apc
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+proteaceae_ntp:
+  <<: *DEFAULTS
+  name: Proteaceae
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora familia
+
+grevillea_genus_ntp:
+  <<: *DEFAULTS
+  name: Grevillea
+  version: 1
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+
+grevillea_cultivar_hybrid_ntp:
+  <<: *DEFAULTS
+  name: SOOPA_DOOPA
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora unranked
+
+dummy_name_2_ntp:
+  <<: *DEFAULTS
+  name: dummy_name_2
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora unranked
+
+dummy_name_3_ntp:
+  <<: *DEFAULTS
+  name: dummy_name_3
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora unranked
+
+orth_var_for_tax_nov_ntp:
+  <<: *DEFAULTS
+  name: orth_var_for_tax_nov
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+common_with_second_parent_ntp:
+  <<: *DEFAULTS
+  name: common_with_second_parent
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora unranked
+  version: 1
+
+orth_var_with_earliest_inst_sec_ref_ntp:
+  <<: *DEFAULTS
+  name: orth_var_with_earliest_inst_sec_ref
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+orth_var_with_not_earliest_inst_sec_ref_ntp:
+  <<: *DEFAULTS
+  name: orth_var_with_not_earliest_inst_sec_ref
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+genus_or_above_to_be_synonymised_ntp:
+  <<: *DEFAULTS
+  name: genus_or_above_to_be_synonymised
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+
+species_or_below_to_be_synonym_ntp:
+  <<: *DEFAULTS
+  name: species_or_below_to_be_synonym
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+for_simple_name_test_ntp:
+  <<: *DEFAULTS
+  name: xyz
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+for_name_element_test_ntp:
+  <<: *DEFAULTS
+  name: this_is_name_element
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+autonym_with_mismatched_name_ntp:
+  <<: *DEFAULTS
+  name: autonym_with_mismatched_name
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+parent_of_autonym_with_mismatched_name_ntp:
+  <<: *DEFAULTS
+  name: parent_of_autonym_with_mismatched_name
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+
+hybrid_autonym_with_mismatched_name_ntp:
+  <<: *DEFAULTS
+  name: hybrid_autonym_with_mismatched_name
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+parent_of_hybrid_autonym_with_mismatched_name_ntp:
+  <<: *DEFAULTS
+  name: parent_of_hybrid_autonym_with_mismatched_name
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+
+named_hybrid_autonym_with_mismatched_name_ntp:
+  <<: *DEFAULTS
+  name: named_hybrid_autonym_with_mismatched_name
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+parent_of_named_hybrid_autonym_with_mismatched_name_ntp:
+  <<: *DEFAULTS
+  name: parent_of_named_hybrid_autonym_with_mismatched_name
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora genus
+
+a_name_without_instances_ntp:
+  <<: *DEFAULTS
+  name: a_name_without_instances
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+earliest_instance_not_primary_ntp:
+  <<: *DEFAULTS
+  name: earliest_instance_not_primary
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+name_in_secondary_ref_ntp:
+  <<: *DEFAULTS
+  name: name_in_secondary_ref
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+to_have_a_double_synonym_ntp:
+  <<: *DEFAULTS
+  name: to_have_a_double_synonym
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+to_be_a_double_synonym_ntp:
+  <<: *DEFAULTS
+  name: to_be_a_double_synonym
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+to_be_placed_ntp:
+  <<: *DEFAULTS
+  name: to_be_placed
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+deletable_apart_from_duplicate_ntp:
+  <<: *DEFAULTS
+  name: deletable_apart_from_duplicate
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+duplicate_of_deletable_apart_from_duplicate_ntp:
+  <<: *DEFAULTS
+  name: duplicate_of_deletable_apart_from_duplicate
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+to_have_double_primary_ntp:
+  <<: *DEFAULTS
+  name: to_have_double_primary
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+to_have_multiple_basionyms_ntp:
+  <<: *DEFAULTS
+  name: to_have_multiple_basionyms
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+
+no_instances_ntp:
+  <<: *DEFAULTS
+  name: no_instances
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+x_vappaculum_ntp:
+  <<: *DEFAULTS
+  name: lavarackianum
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
+
+myrtaceae_ntp:
+  <<: *DEFAULTS
+  name: Myrtaceae
+  name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora family
+

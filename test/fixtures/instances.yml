@@ -975,3 +975,12 @@ angophora_instance:
   namespace: apni
   created_by: tester
   updated_by: tester
+
+argyle_apple_instance:
+  reference: book_by_fred_on_argyle_apple
+  name: argyle_apple
+  instance_type: basionym
+  page: exclude-from-ordering-test
+  namespace: apni
+  created_by: tester
+  updated_by: tester

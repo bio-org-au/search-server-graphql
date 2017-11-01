@@ -16,9 +16,10 @@ class Name::Search::Parser
   SCIENTIFIC_OR_CULTIVAR = 'Scientific-or-Cultivar'
   CULTIVAR = 'Cultivar'
   COMMON = 'Common'
+  ALL = 'all'
 
   # Fuzzy or exact
-  ADD_TRAILING_WILDCARD = 'Add_trailing_wildcard'
+  ADD_TRAILING_WILDCARD = 'add_trailing_wildcard'
 
   # List or list with details output
   DETAILS = 'details'
@@ -106,22 +107,26 @@ class Name::Search::Parser
   end
 
   def scientific?
-    @sci_cult_or_common.strip.casecmp(SCIENTIFIC.downcase).zero?
+    @sci_cult_or_common.strip.casecmp(SCIENTIFIC).zero?
   end
 
   def scientific_or_cultivar?
-    @sci_cult_or_common.strip.casecmp(SCIENTIFIC_OR_CULTIVAR.downcase).zero?
+    @sci_cult_or_common.strip.casecmp(SCIENTIFIC_OR_CULTIVAR).zero?
   end
 
   def cultivar?
-    @sci_cult_or_common.strip.casecmp(CULTIVAR.downcase).zero?
+    @sci_cult_or_common.strip.casecmp(CULTIVAR).zero?
   end
 
   def common?
-    @sci_cult_or_common.strip.casecmp(COMMON.downcase).zero?
+    @sci_cult_or_common.strip.casecmp(COMMON).zero?
+  end
+
+  def name_type_all?
+    @sci_cult_or_common.strip.casecmp(ALL).zero?
   end
 
   def add_trailing_wildcard?
-    @fuzzy_or_exact.casecmp(ADD_TRAILING_WILDCARD.downcase).zero?
+    @fuzzy_or_exact.casecmp(ADD_TRAILING_WILDCARD).zero?
   end
 end

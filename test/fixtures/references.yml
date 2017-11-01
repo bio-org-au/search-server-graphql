@@ -2248,3 +2248,19 @@ paper_has_part_about_metrosideros_costata:
   created_by: tester
   updated_by: tester
 
+book_by_fred:
+  title: book by fred
+  citation: book by fred
+  citation_html: book by fred
+  display_title: book by fred
+  author: fred
+  language: undetermined
+  namespace: apni
+  ref_author_role: author
+  ref_type: book
+  year: 1984
+  publication_date: (1984) 
+  edition: 1
+  volume: 2
+  created_by: tester
+  updated_by: tester

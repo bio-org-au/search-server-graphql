@@ -2,7 +2,6 @@ class Name::Search::SqlGenerator
   attr_reader :sql
   def initialize(parser)
     Rails.logger.debug('====================== SqlGenerator')
-    Rails.logger.debug(%Q(author abbrev: #{parser.args["author_abbrev"]}))
     @parser = parser
     search_sql
   end
@@ -65,6 +64,8 @@ class Name::Search::SqlGenerator
              @sql.where('(name_type.cultivar or name_type.scientific)')
            when @parser.common?
              @sql.where("name_type.name in ('common','informal','vernacular')")
+           when @parser.name_type_all?
+             @sql
            else
              throw 'Unknown name type'
            end
