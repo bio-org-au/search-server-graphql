@@ -8,4 +8,5 @@ Types::SynonymType = GraphQL::ObjectType.define do
   field :label, types.String
   field :page, types.String
   field :page_qualifier, types.String
+  field :name_status_name, types.String
 end

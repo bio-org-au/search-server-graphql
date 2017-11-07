@@ -15,7 +15,7 @@ class Name::Search::Synonym::BunchQuery
     Instance.where("cited_by_id in (#{@array_of_ids.join(',')}) or cites_id in (#{@array_of_ids.join(',')})")
             .joins(:instance_type)
             .where(instance_type: { misapplied: false })
-            .joins(:name)
+            .joins(name: :name_status)
             .select(select_list)
             .each do |record|
               hwia = ActiveSupport::HashWithIndifferentAccess.new
@@ -27,6 +27,7 @@ class Name::Search::Synonym::BunchQuery
               hwia[:instance_type_has_label] = record.instance_type_has_label
               hwia[:instance_type_of_label] = record.instance_type_of_label
               hwia[:name_full_name] = record.name_full_name
+              hwia[:name_status_name] = record.name_status_name
               @results.push(hwia)
             end
   end
@@ -35,6 +36,7 @@ class Name::Search::Synonym::BunchQuery
     "instance.id, instance_type.name instance_type_name, instance.page, \
      instance.page_qualifier, instance_type.has_label instance_type_has_label, \
      instance_type.of_label instance_type_of_label, \
-     name.full_name name_full_name, instance.cited_by_id"
+     name.full_name name_full_name, instance.cited_by_id, \
+     name_status.name name_status_name"
   end
 end
