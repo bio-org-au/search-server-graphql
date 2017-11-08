@@ -102,4 +102,8 @@ class Name < ApplicationRecord
   rescue
     "Problem finding family for name: #{id}"
   end
+
+  def name_status_name
+    name_status.name
+  end
 end
