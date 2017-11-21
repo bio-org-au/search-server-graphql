@@ -54,7 +54,7 @@ class Name::Search::Usage
   end
 
   def primary_instance
-    @name_usage.primary_instance
+    @name_usage.primary_instance == 't'
   end
 
   def name_id

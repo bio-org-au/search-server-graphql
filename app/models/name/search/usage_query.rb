@@ -10,13 +10,13 @@ class Name::Search::UsageQuery
   end
 
   def build_query
-    Rails.logger.debug('Name::Search::UsageQuery start ================================')
+    Rails.logger.debug('Name::Search::UsageQuery start ====================')
     @results = Name.where(id: @id)
                    .joins(instances: [:instance_type, reference: :author])
                    .select(columns)
                    .group(grouping)
                    .order(ordering)
-    Rails.logger.debug('Name::Search::UsageQuery end   ================================')
+    Rails.logger.debug('Name::Search::UsageQuery end   ====================')
   end
 
   def columns

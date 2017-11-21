@@ -8,11 +8,7 @@ class Name::Search::History
     Rails.logger.debug('Name::Search::History initialize')
     @name = Name.find(name_id)
     raw_results = Name::Search::UsageQuery.new(name_id).results
-    Rails.logger.debug(raw_results.class)
-    Rails.logger.debug(raw_results.class)
-    Rails.logger.debug(raw_results.class)
     instance_ids = raw_results.map(&:instance_id)
-    Rails.logger.debug(instance_ids.join(','))
     @synonym_bunch = Name::Search::Synonym::BunchQuery.new(instance_ids)
     unless @synonym_bunch.results.empty?
     end
