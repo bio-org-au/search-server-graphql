@@ -1,23 +1,29 @@
 # frozen_string_literal: true
 
 # Class that conducts name searches
+# The instance object must respond to these methods:
+# - names 
+# - count
 class Name::Search::Base
   attr_reader :name_search_results
-  # The returned object must respond to the "names" method call.
   def initialize(args)
     @args = args
     @parser = Name::Search::Parser.new(args)
-    search
+    @generator =  Name::Search::SqlGenerator.new(@parser)
+    assemble_names
   end
 
-  # The returned object must respond to the "names" method call.
   def names
     @name_search_results
   end
 
-  def search
+  def count
+    @generator.count
+  end
+
+  def assemble_names
     @name_search_results = Name::Search::Results.new
-    Name::Search::SqlGenerator.new(@parser).sql.each do |name|
+    @generator.sql.each do |name|
       @name_search_results.push name
     end
     @name_search_results

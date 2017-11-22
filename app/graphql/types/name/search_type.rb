@@ -3,4 +3,5 @@
 Types::Name::SearchType = GraphQL::ObjectType.define do
   name 'name_search'
   field :names, types[Types::NameType]
+  field :count, types.Int
 end

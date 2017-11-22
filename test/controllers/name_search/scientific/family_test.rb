@@ -17,19 +17,19 @@
 require 'test_helper'
 
 # Single controller test.
-class NameSearchScientificSimpleTest < ActionController::TestCase
+class NameSearchScientificFamilyTest < ActionController::TestCase
   tests GraphqlController
   setup do
   end
 
-  test "simple scientific name search test" do
+  test "scientific name search on family" do
     post 'execute',
-      {query: '{name_search(search_term:"angophora", type_of_name:"scientific"){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}' }
+      {query: '{name_search(family:"myrtaceae", type_of_name:"scientific"){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    assert_match 'Angophora',
-                  obj.data.name_search.names.first.full_name,
-                 "Name should match 'Angophora'"
+    #assert_match 'Angophora',
+                  #obj.data.name_search.names.first.full_name,
+                 #"Name should match 'Angophora'"
   end
 end
 

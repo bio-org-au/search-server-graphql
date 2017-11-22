@@ -21,7 +21,7 @@ class NameSearchAllSimpleTest < ActionController::TestCase
   tests GraphqlController
   setup do
     @query = '{name_search(search_term:"a*", type_of_name:"all")'
-    @query += '{names{id,full_name,name_history'
+    @query += '{count,names{id,full_name,name_history'
     @query += '{name_usages{citation,page,page_qualifier,year,standalone}}}}}'
   end
 
