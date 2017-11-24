@@ -9,4 +9,6 @@ Types::SynonymType = GraphQL::ObjectType.define do
   field :page, types.String
   field :page_qualifier, types.String
   field :name_status_name, types.String
+  field :has_type_synonym, types.Boolean
+  field :of_type_synonym, types.Boolean
 end

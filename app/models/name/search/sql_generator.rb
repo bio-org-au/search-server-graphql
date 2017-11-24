@@ -40,11 +40,8 @@ class Name::Search::SqlGenerator
                                    preprocessed_search_term])
     end
     @count_sql = @count_sql.joins(:name_tree_paths).where(NAME_TREE)
-    Rails.logger.debug(@count_sql.to_sql)
     count_author
-    Rails.logger.debug(@count_sql.to_sql)
     count_family
-    Rails.logger.debug(@count_sql.to_sql)
     @count_sql.count
   end
 
