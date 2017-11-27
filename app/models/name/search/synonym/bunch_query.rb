@@ -3,40 +3,41 @@
 # For a given set of instance IDs, retrieve a set of ordered
 # synonymy instance results suitable for displaying within a bunch of
 # name usages.
+#
+# This is a query optimisation - 1 query per set of instances instead of 1
+# query per instance
 class Name::Search::Synonym::BunchQuery
   attr_reader :query, :array_of_ids, :results
   def initialize(array_of_instance_ids)
     @array_of_ids = array_of_instance_ids
     @results = []
-    @query = define_query unless @array_of_ids.blank?
+    @query = run_query unless @array_of_ids.blank?
   end
 
-  def define_query
-    Instance.where("cited_by_id in (#{@array_of_ids.join(',')}) or cites_id in (#{@array_of_ids.join(',')})")
+  def ids
+    array_of_ids.join(',').to_s
+  end
+
+  def bunch_query
+    Instance.where("cited_by_id in (#{ids}) or cites_id in (#{ids})")
             .joins(:instance_type)
             .where(instance_type: { misapplied: false })
             .joins(name: :name_status)
             .select(select_list)
-            .each do |record|
-              hwia = ActiveSupport::HashWithIndifferentAccess.new
-              hwia[:instance_id] = record.id
-              hwia[:cited_by_id] = record.cited_by_id
-              hwia[:instance_type_name] = record.instance_type_name
-              hwia[:page] = record.page
-              hwia[:page_qualifier] = record.page_qualifier
-              hwia[:instance_type_has_label] = record.instance_type_has_label
-              hwia[:instance_type_of_label] = record.instance_type_of_label
-              hwia[:name_full_name] = record.name_full_name
-              hwia[:name_status_name] = record.name_status_name
-              @results.push(hwia)
-            end
+            .order('instance_type.sort_order')
+  end
+
+  def run_query
+    bunch_query.each do |record|
+      @results.push(record)
+    end
   end
 
   def select_list
-    "instance.id, instance_type.name instance_type_name, instance.page, \
-     instance.page_qualifier, instance_type.has_label instance_type_has_label, \
-     instance_type.of_label instance_type_of_label, \
-     name.full_name name_full_name, instance.cited_by_id, \
-     name_status.name name_status_name"
+    "instance.id instance_id, instance_type.name instance_type_name, \
+    instance.page, instance.page_qualifier, instance_type.has_label \
+    instance_type_has_label, instance_type.of_label instance_type_of_label, \
+    name.full_name name_full_name, instance.cited_by_id, \
+    name_status.name name_status_name"
   end
 end
