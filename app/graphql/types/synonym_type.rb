@@ -3,6 +3,7 @@
 Types::SynonymType = GraphQL::ObjectType.define do
   name 'synonym'
   field :id, types.ID
+  field :name_id, types.ID
   field :full_name, types.String
   field :instance_type, types.String
   field :label, types.String
