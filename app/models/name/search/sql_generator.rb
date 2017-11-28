@@ -26,6 +26,7 @@ class Name::Search::SqlGenerator
     add_author
     add_name_tree_path unless @parser.common?
     add_family unless @parser.common?
+    add_genus
     add_select
     add_limit
     order_scientifically unless @parser.common?
@@ -34,7 +35,7 @@ class Name::Search::SqlGenerator
   end
 
   def count
-    @count_sql = Name.joins(:name_type).where(@name_type_clause)
+    @count_sql = Name.joins(:name_type).joins(:name_rank).where(@name_type_clause)
                     .where(INSTANCE_EXISTS)
     unless @parser.args['search_term'].blank?
       @count_sql = @count_sql.where([name_clause, preprocessed_search_term,
@@ -43,20 +44,24 @@ class Name::Search::SqlGenerator
     @count_sql = @count_sql.joins(:name_tree_paths).where(NAME_TREE)
     count_author
     count_family
+    count_genus
     @count_sql.count
   end
 
   def count_author
     return if @parser.args['author_abbrev'].blank?
-    Rails.logger.debug('counting author')
     @count_sql = @count_sql.joins(:author).where(['lower(author.abbrev) like lower(?)',
                                       @parser.args['author_abbrev']])
   end
 
   def count_family
     return if @parser.args['family'].blank?
-    Rails.logger.debug('counting family')
     @count_sql = @count_sql.where([NAME_TREE_PATH_FAMILY, @parser.args['family']])
+  end
+
+  def count_genus
+    return if @parser.args['genus'].blank?
+    @count_sql = @count_sql.where(["name_rank.sort_order > (select sort_order from name_rank where name = 'Genus') and lower(name.simple_name) like lower(?)", @parser.args['genus']+' %'])
   end
 
   def base_query
@@ -94,6 +99,11 @@ class Name::Search::SqlGenerator
   def add_family
     return if @parser.args['family'].blank?
     @sql = @sql.where([NAME_TREE_PATH_FAMILY, @parser.args['family']])
+  end
+
+  def add_genus
+    return if @parser.args['genus'].blank?
+    @sql = @sql.where(["name_rank.sort_order > (select sort_order from name_rank where name = 'Genus') and lower(name.simple_name) like lower(?)", @parser.args['genus']+' %'])
   end
 
   def add_name
