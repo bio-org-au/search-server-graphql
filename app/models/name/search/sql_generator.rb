@@ -27,6 +27,8 @@ class Name::Search::SqlGenerator
     add_name_tree_path unless @parser.common?
     add_family unless @parser.common?
     add_genus
+    add_species
+    add_publication
     add_rank
     add_select
     add_limit
@@ -46,6 +48,8 @@ class Name::Search::SqlGenerator
     count_author
     count_family
     count_genus
+    count_species
+    count_publication
     count_rank
     @count_sql.count
   end
@@ -64,6 +68,16 @@ class Name::Search::SqlGenerator
   def count_genus
     return if @parser.args['genus'].blank?
     @count_sql = @count_sql.where(["name_rank.sort_order > (select sort_order from name_rank where name = 'Genus') and lower(name.simple_name) like lower(?)", @parser.args['genus']+' %'])
+  end
+
+  def count_publication
+    return if @parser.args['publication'].blank?
+    @count_sql = @count_sql.joins(:instances).where(["instance.reference_id in (select id from reference where lower(citation) like lower(?))", @parser.args['publication']+'%'])
+  end
+
+  def count_species
+    return if @parser.args['species'].blank?
+    @count_sql = @count_sql.where(["name_rank.sort_order = (select sort_order from name_rank where name = 'Species') and lower(name.simple_name) like lower(?)", @parser.args['species']])
   end
 
   def count_rank
@@ -111,6 +125,16 @@ class Name::Search::SqlGenerator
   def add_genus
     return if @parser.args['genus'].blank?
     @sql = @sql.where(["name_rank.sort_order > (select sort_order from name_rank where name = 'Genus') and lower(name.simple_name) like lower(?)", @parser.args['genus']+' %'])
+  end
+
+  def add_species
+    return if @parser.args['species'].blank?
+    @sql = @sql.where(["name_rank.sort_order = (select sort_order from name_rank where name = 'Species') and lower(name.simple_name) like lower(?)", @parser.args['species']])
+  end
+
+  def add_publication
+    return if @parser.args['publication'].blank?
+    @sql = @sql.joins(:instances).where(["instance.reference_id in (select id from reference where lower(citation) like lower(?))", @parser.args['publication']+'%'])
   end
 
   def add_rank
