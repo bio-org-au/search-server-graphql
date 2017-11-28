@@ -106,4 +106,8 @@ class Name < ApplicationRecord
   def name_status_name
     name_status.name
   end
+
+  def name_rank_name
+    name_rank.name
+  end
 end

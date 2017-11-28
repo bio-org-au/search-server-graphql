@@ -27,6 +27,7 @@ class Name::Search::SqlGenerator
     add_name_tree_path unless @parser.common?
     add_family unless @parser.common?
     add_genus
+    add_rank
     add_select
     add_limit
     order_scientifically unless @parser.common?
@@ -45,6 +46,7 @@ class Name::Search::SqlGenerator
     count_author
     count_family
     count_genus
+    count_rank
     @count_sql.count
   end
 
@@ -62,6 +64,11 @@ class Name::Search::SqlGenerator
   def count_genus
     return if @parser.args['genus'].blank?
     @count_sql = @count_sql.where(["name_rank.sort_order > (select sort_order from name_rank where name = 'Genus') and lower(name.simple_name) like lower(?)", @parser.args['genus']+' %'])
+  end
+
+  def count_rank
+    return if @parser.args['rank'].blank?
+    @count_sql = @count_sql.where(["name_rank.id = (select id from name_rank where lower(abbrev) = lower(?))", @parser.args['rank']])
   end
 
   def base_query
@@ -104,6 +111,11 @@ class Name::Search::SqlGenerator
   def add_genus
     return if @parser.args['genus'].blank?
     @sql = @sql.where(["name_rank.sort_order > (select sort_order from name_rank where name = 'Genus') and lower(name.simple_name) like lower(?)", @parser.args['genus']+' %'])
+  end
+
+  def add_rank
+    return if @parser.args['rank'].blank?
+    @sql = @sql.where(["name_rank.id = (select id from name_rank where lower(abbrev) = lower(?))", @parser.args['rank']])
   end
 
   def add_name
