@@ -30,6 +30,7 @@ class Name::Search::SqlGenerator
     add_limit
     order_scientifically unless @parser.common?
     order_by_name if @parser.common?
+    Rails.logger.debug("@sql: #{@sql.to_sql}")
   end
 
   def count
@@ -86,13 +87,13 @@ class Name::Search::SqlGenerator
 
   def add_author
     return if @parser.args['author_abbrev'].blank?
-    @sql.joins(:author).where(['lower(author.abbrev) like lower(?)',
+    @sql = @sql.joins(:author).where(['lower(author.abbrev) like lower(?)',
                                       @parser.args['author_abbrev']])
   end
 
   def add_family
     return if @parser.args['family'].blank?
-    @sql.where([NAME_TREE_PATH_FAMILY, @parser.args['family']])
+    @sql = @sql.where([NAME_TREE_PATH_FAMILY, @parser.args['family']])
   end
 
   def add_name
