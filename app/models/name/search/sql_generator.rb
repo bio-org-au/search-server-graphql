@@ -30,6 +30,7 @@ class Name::Search::SqlGenerator
     add_species
     add_publication
     add_rank
+    add_epithet
     add_select
     add_limit
     order_scientifically unless @parser.common?
@@ -51,6 +52,7 @@ class Name::Search::SqlGenerator
     count_species
     count_publication
     count_rank
+    count_epithet
     @count_sql.count
   end
 
@@ -83,6 +85,11 @@ class Name::Search::SqlGenerator
   def count_rank
     return if @parser.args['rank'].blank?
     @count_sql = @count_sql.where(["name_rank.id = (select id from name_rank where lower(abbrev) = lower(?))", @parser.args['rank']])
+  end
+
+  def count_epithet
+    return if @parser.args['epithet'].blank?
+    @count_sql = @count_sql.where(["lower(name_element) like lower(?)", @parser.args['epithet']+'%'])
   end
 
   def base_query
@@ -140,6 +147,11 @@ class Name::Search::SqlGenerator
   def add_rank
     return if @parser.args['rank'].blank?
     @sql = @sql.where(["name_rank.id = (select id from name_rank where lower(abbrev) = lower(?))", @parser.args['rank']])
+  end
+
+  def add_epithet
+    return if @parser.args['epithet'].blank?
+    @sql = @sql.where(["lower(name_element) like lower(?)", @parser.args['epithet']+'%'])
   end
 
   def add_name
