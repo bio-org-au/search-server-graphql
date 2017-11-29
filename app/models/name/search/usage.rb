@@ -96,7 +96,9 @@ class Name::Search::Usage
 
   def notes
     notes = []
-    InstanceNote.where(instance_id: @name_usage.instance_id).each do |note|
+    InstanceNote.where(instance_id: @name_usage.instance_id)
+                .without_epbc_notes
+                .each do |note|
       notes.push(note)
     end
     notes
