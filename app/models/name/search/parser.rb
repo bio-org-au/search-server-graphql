@@ -36,10 +36,6 @@ class Name::Search::Parser
     @args = args
     resolve_sci_cult_or_common
     resolve_fuzzy_or_exact
-    # @search_type = search_type
-    # @search_term = search_term
-    # @show_as = show_as
-    # @limit = limit
   end
 
   def run_search?
