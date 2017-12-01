@@ -56,6 +56,14 @@ Types::QueryType = GraphQL::ObjectType.define do
       Taxonomy::Search::Factory.build(args)
     }
   end
+  field :publication_search do
+    type Types::Publication::SearchType
+    argument :publication, types.String
+    argument :limit, types.Int
+    resolve ->(_obj, args, _ctx) {
+      Reference::Search::Factory.build(args)
+    }
+  end
   # using settings instead of config to avoid name
   # collisions with rails (I presume)
   field :setting do

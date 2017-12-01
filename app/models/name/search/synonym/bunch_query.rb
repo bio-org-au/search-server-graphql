@@ -37,7 +37,7 @@ class Name::Search::Synonym::BunchQuery
     "instance.id instance_id, instance_type.name instance_type_name, \
     instance.page, instance.page_qualifier, instance_type.has_label \
     instance_type_has_label, instance_type.of_label instance_type_of_label, \
-    name.full_name name_full_name, instance.cited_by_id, \
-    name_status.name name_status_name, name_id"
+    name.full_name name_full_name, name.full_name_html name_full_name_html,
+    instance.cited_by_id, name_status.name name_status_name, name_id"
   end
 end

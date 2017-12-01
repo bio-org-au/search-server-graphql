@@ -5,6 +5,7 @@ Types::SynonymType = GraphQL::ObjectType.define do
   field :id, types.ID
   field :name_id, types.ID
   field :full_name, types.String
+  field :full_name_html, types.String
   field :instance_type, types.String
   field :label, types.String
   field :page, types.String
