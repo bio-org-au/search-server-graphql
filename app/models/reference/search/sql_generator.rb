@@ -14,6 +14,7 @@ class Reference::Search::SqlGenerator
     add_publication
     add_limit
     add_select
+    add_order
     Rails.logger.debug("@sql: #{@sql.to_sql}")
   end
 
@@ -22,7 +23,6 @@ class Reference::Search::SqlGenerator
     count_publication
     @cql.count
   end
-
 
   def base_query
     Reference.where("1=1")
@@ -38,6 +38,10 @@ class Reference::Search::SqlGenerator
 
   def add_publication
     @sql = @sql.where(['lower(citation) like lower(?)',publication])
+  end
+
+  def add_order
+    @sql = @sql.order('year, citation')
   end
 
   def count_publication
