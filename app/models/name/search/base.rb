@@ -5,16 +5,14 @@
 # - names 
 # - count
 class Name::Search::Base
-  attr_reader :name_search_results
   def initialize(args)
     @args = args
     @parser = Name::Search::Parser.new(args)
     @generator =  Name::Search::SqlGenerator.new(@parser)
-    assemble_names
   end
 
   def names
-    @name_search_results
+    assemble_names
   end
 
   def count
@@ -22,10 +20,10 @@ class Name::Search::Base
   end
 
   def assemble_names
-    @name_search_results = Name::Search::Results.new
+    name_search_results = Name::Search::Results.new
     @generator.sql.each do |name|
-      @name_search_results.push name
+      name_search_results.push name
     end
-    @name_search_results
+    name_search_results
   end
 end
