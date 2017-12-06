@@ -46,7 +46,7 @@ class Name::Search::SqlGenerator
     add_species
     add_publication
     add_rank
-    add_epithet
+    add_name_element
     add_select
     add_limit
     order_scientifically unless @parser.common?
@@ -67,7 +67,7 @@ class Name::Search::SqlGenerator
     count_species
     count_publication
     count_rank
-    count_epithet
+    count_name_element
     @cql.count
   end
 
@@ -175,30 +175,22 @@ class Name::Search::SqlGenerator
     cleaned(@parser.args['rank'], false)
   end
 
-  def add_epithet
-    add_element
+  def add_name_element
+    return if name_element_string.blank?
+    @sql = @sql.where(['lower(name_element) like lower(?)', name_element_string])
   end
 
-  def add_element
-    return if element_string.blank?
-    @sql = @sql.where(['lower(name_element) like lower(?)', element_string])
-  end
-
-  def count_epithet
-    count_element
-  end
-
-  def count_element
-    return if @parser.args['epithet'].blank?
-    @cql = @cql.where(['lower(name_element) like lower(?)', element_string])
+  def count_name_element
+    return if @parser.args['name_element'].blank?
+    @cql = @cql.where(['lower(name_element) like lower(?)', name_element_string])
   end
 
   # Users don't like the name 'epithet' and it actually looks at
   # the name element column.
-  def element_string
-    return nil if @parser.args['epithet'].blank?
-    return nil if @parser.args['epithet'].strip.blank?
-    cleaned(@parser.args['epithet'])
+  def name_element_string
+    return nil if @parser.args['name_element'].blank?
+    return nil if @parser.args['name_element'].strip.blank?
+    cleaned(@parser.args['name_element'])
   end
 
   def base_query
