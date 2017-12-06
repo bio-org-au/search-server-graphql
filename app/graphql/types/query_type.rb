@@ -73,4 +73,10 @@ Types::QueryType = GraphQL::ObjectType.define do
       Settings::Search.new(args).value
     }
   end
+  field :ranks do
+    type Types::NameRank::OptionType
+    resolve ->(_obj, args, _ctx) {
+      NameRank::Search::Factory.build(args)
+    }
+  end
 end

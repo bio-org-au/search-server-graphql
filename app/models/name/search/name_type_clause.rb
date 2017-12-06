@@ -18,7 +18,7 @@ class Name::Search::NameTypeClause
     elsif @parser.name_type_all?
       '1=1'
     else
-      throw 'Unknown name type'
+      'name_type.scientific'
     end
   end
 end

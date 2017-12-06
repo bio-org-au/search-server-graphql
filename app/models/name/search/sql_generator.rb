@@ -15,7 +15,7 @@ class Name::Search::SqlGenerator
   AUTHOR_ABBREV_CLAUSE = 'lower(author.abbrev) like lower(?)'
   # Genus
   GENUS_SO_SQL = "select sort_order from name_rank where name = 'Genus'"
-  RANK_GENUS_CLAUSE = "name_rank.sort_order > (#{GENUS_SO_SQL})"
+  RANK_GENUS_CLAUSE = "name_rank.sort_order >= (#{GENUS_SO_SQL})"
   SIMPLE_NAME_CLAUSE = ' and lower(name.simple_name) like lower(?)'
   GENUS_CLAUSE = "#{RANK_GENUS_CLAUSE} #{SIMPLE_NAME_CLAUSE}"
   # Publication
@@ -51,7 +51,6 @@ class Name::Search::SqlGenerator
     add_limit
     order_scientifically unless @parser.common?
     order_by_name if @parser.common?
-    Rails.logger.debug("@sql: #{@sql.to_sql}")
   end
 
   def count
@@ -121,7 +120,7 @@ class Name::Search::SqlGenerator
   def genus_string
     return nil if @parser.args['genus'].blank?
     return nil if @parser.args['genus'].strip.blank?
-    "#{cleaned(@parser.args['genus'])} %"
+    "#{cleaned(@parser.args['genus'])}%"
   end
 
   def add_publication

@@ -39,4 +39,8 @@ class NameRank < ActiveRecord::Base
   def self.show?(_rank_name, rank_visible_in_name, rank_sort_order)
     !rank_visible_in_name && NameRank.above_species?(rank_sort_order)
   end
+
+  def options
+    NameRank.all.order(:sort_order).where('not deprecated').map(&:abbrev)
+  end
 end
