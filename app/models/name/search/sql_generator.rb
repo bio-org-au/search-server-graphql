@@ -16,15 +16,18 @@ class Name::Search::SqlGenerator
   # Genus
   GENUS_SO_SQL = "select sort_order from name_rank where name = 'Genus'"
   RANK_GENUS_CLAUSE = "name_rank.sort_order >= (#{GENUS_SO_SQL})"
-  SIMPLE_NAME_CLAUSE = ' and lower(name.simple_name) like lower(?)'
-  GENUS_CLAUSE = "#{RANK_GENUS_CLAUSE} #{SIMPLE_NAME_CLAUSE}"
+  SIMPLE_NAME_CLAUSE = ' lower(name.simple_name) like lower(?)'
+  GENUS_CLAUSE = "#{RANK_GENUS_CLAUSE} and #{SIMPLE_NAME_CLAUSE}"
   # Publication
   CIT_SQL = 'select id from reference where lower(citation) like lower(?)'
   PUBLICATION_CLAUSE = "instance.reference_id in (#{CIT_SQL})"
+  # Name element
+
+  NAME_ELEMENT_CLAUSE = 'lower(name_element) like lower(?)'
   # Species
-  SPECIES_SO_SQL = "select sort_order from name_rank where name = 'Species'"
-  RANK_SPECIES_CLAUSE = "name_rank.sort_order = (#{SPECIES_SO_SQL})"
-  SPECIES_CLAUSE = "#{RANK_SPECIES_CLAUSE} #{SIMPLE_NAME_CLAUSE}"
+  SPECIES_SORT_ORDER = "select sort_order from name_rank where name = 'Species'"
+  RANK_IS_SPECIES = "name_rank.sort_order = (#{SPECIES_SORT_ORDER})"
+  SPECIES_CLAUSE = "#{RANK_IS_SPECIES} and #{NAME_ELEMENT_CLAUSE}"
   # Rank
   RANK_CLAUSE =
     'name_rank.id = (select id from name_rank where lower(abbrev) = lower(?))'
@@ -177,12 +180,12 @@ class Name::Search::SqlGenerator
 
   def add_name_element
     return if name_element_string.blank?
-    @sql = @sql.where(['lower(name_element) like lower(?)', name_element_string])
+    @sql = @sql.where([NAME_ELEMENT_CLAUSE, name_element_string])
   end
 
   def count_name_element
     return if @parser.args['name_element'].blank?
-    @cql = @cql.where(['lower(name_element) like lower(?)', name_element_string])
+    @cql = @cql.where([NAME_ELEMENT_CLAUSE, name_element_string])
   end
 
   # Users don't like the name 'epithet' and it actually looks at
