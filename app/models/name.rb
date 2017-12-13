@@ -90,17 +90,12 @@ class Name < ApplicationRecord
     Name::Search::History.new(id)
   end
 
+  # This generates one select per record and I cannot
+  # find a way to eliminate that select using an includes
+  # clause.  But name_tree_path will be eliminated in the
+  # forthcoming tree changes.
   def family_name
-    if name_type.scientific? || name_type.cultivar?
-      return "na" if name_rank.family_or_above?
-      family_id = (NameTreePath.where(name_id: id).where(tree_id: TreeArrangement.default_name_tree_id).first.family_id)
-      return "na" if family_id.blank?
-      Name.find(family_id).full_name
-    else
-      "na"
-    end
-  rescue
-    "Problem finding family for name: #{id}"
+    name_tree_paths.first.try('family').try('full_name')
   end
 
   def name_status_name
