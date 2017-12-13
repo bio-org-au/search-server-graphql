@@ -3,6 +3,7 @@
 # Generate the sql to answer a request.
 class Reference::Search::SqlGenerator
   attr_reader :sql
+  DEFAULT_LIMIT = 20
 
   def initialize(parser)
     @parser = parser
@@ -15,7 +16,6 @@ class Reference::Search::SqlGenerator
     add_limit
     add_select
     add_order
-    Rails.logger.debug("@sql: #{@sql.to_sql}")
   end
 
   def count
@@ -33,7 +33,7 @@ class Reference::Search::SqlGenerator
   end
 
   def add_limit
-    @sql = @sql.limit(@parser.args['limit'] || 10)
+    @sql = @sql.limit(@parser.args['limit'] || DEFAULT_LIMIT)
   end
 
   def add_publication
