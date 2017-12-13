@@ -8,18 +8,14 @@ class Name::Search::Base
   def initialize(args)
     @args = args
     @parser = Name::Search::Parser.new(args)
-    @generator =  Name::Search::SqlGenerator.new(@parser)
-  end
-
-  def names
-    assemble_names
+    @generator =  Name::Search::SqlGeneratorFactory.new(@parser).build
   end
 
   def count
     @generator.count
   end
 
-  def assemble_names
+  def names
     name_search_results = Name::Search::Results.new
     @generator.sql.each do |name|
       name_search_results.push name

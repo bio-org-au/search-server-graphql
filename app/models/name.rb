@@ -110,4 +110,19 @@ class Name < ApplicationRecord
   def name_rank_name
     name_rank.name
   end
+
+  # Use a protected method to apply bind variables to a sql string
+  # safely.
+  #
+  # See answer by GeorgeBrock here:
+  # https://stackoverflow.com/questions/13062623/
+  #   activerecord-select-with-parameter-binding
+  #
+  # Example use:
+  # ActiveRecord::Base.connection.select_all(Name.select_with_args('select 
+  # simple_name,nt.name from name join name_type nt on name.name_type_id = nt.id
+  # where name.id = ?',91755))
+  def self.select_with_args(sql, args)
+    sanitize_sql_array([sql, args].flatten)
+  end
 end

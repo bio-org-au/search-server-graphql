@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Generate the sql to answer a request.
-class Name::Search::SqlGenerator
+class Name::Search::SqlGeneratorFactory::BasicSql
   attr_reader :sql
   SIMPLE_NAME = 'lower(f_unaccent(simple_name)) like lower(f_unaccent(?))'
   FULL_NAME = 'lower(f_unaccent(name.full_name)) like lower(f_unaccent(?))'
