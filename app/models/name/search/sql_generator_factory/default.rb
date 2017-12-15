@@ -19,10 +19,10 @@ class Name::Search::SqlGeneratorFactory::Default
   SIMPLE_NAME_CLAUSE = ' lower(name.simple_name) like lower(?)'
   GENUS_CLAUSE = "#{RANK_GENUS_CLAUSE} and #{SIMPLE_NAME_CLAUSE}"
   # Publication
-  CIT_SQL = 'select id from reference where lower(citation) like lower(?)'
-  PUBLICATION_CLAUSE = "instance.reference_id in (#{CIT_SQL})"
+  CIT_WHERE = "where to_tsvector('english'::regconfig, citation::text) @@ to_tsquery(quote_literal(?))"
+  REF_SELECT = "select id from reference #{CIT_WHERE}"
+  PUBLICATION_CLAUSE = "instance.reference_id in (#{REF_SELECT})"
   # Name element
-
   NAME_ELEMENT_CLAUSE = 'lower(unaccent(name_element)) like lower(unaccent(?))'
   # Species
   SPECIES_SORT_ORDER = "select sort_order from name_rank where name = 'Species'"
@@ -137,19 +137,19 @@ class Name::Search::SqlGeneratorFactory::Default
   def add_publication
     return if publication_string.blank?
     @sql = @sql.joins(:instances).where([PUBLICATION_CLAUSE,
-                                         "#{publication_string}%"])
+                       publication_string.gsub(/  */,' & ')])
   end
 
   def count_publication
     return if publication_string.blank?
     @cql = @cql.joins(:instances).where([PUBLICATION_CLAUSE,
-                                         "#{publication_string}%"])
+                       publication_string.gsub(/  */,' & ')])
   end
 
   def publication_string
     return nil if @parser.args['publication'].blank?
     return nil if @parser.args['publication'].strip.blank?
-    cleaned(@parser.args['publication'])
+    cleaned(@parser.args['publication'], false)
   end
 
   def add_species

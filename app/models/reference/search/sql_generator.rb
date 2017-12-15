@@ -4,6 +4,7 @@
 class Reference::Search::SqlGenerator
   attr_reader :sql
   DEFAULT_LIMIT = 20
+  CIT_WHERE = "to_tsvector('english'::regconfig,citation::text) @@ to_tsquery(quote_literal(?))"
 
   def initialize(parser)
     @parser = parser
@@ -25,7 +26,7 @@ class Reference::Search::SqlGenerator
   end
 
   def base_query
-    Reference.where("1=1")
+    Reference.where('1=1')
   end
 
   def add_select
@@ -37,7 +38,7 @@ class Reference::Search::SqlGenerator
   end
 
   def add_publication
-    @sql = @sql.where(['lower(citation) like lower(?)',publication])
+    @sql = @sql.where([CIT_WHERE, publication.gsub(/  */, ' & ')])
   end
 
   def add_order
@@ -45,11 +46,12 @@ class Reference::Search::SqlGenerator
   end
 
   def count_publication
-    @cql = @cql.where(['lower(citation) like lower(?)',publication])
+    @cql = @cql.where(['lower(citation) like lower(?)', publication])
   end
 
   def publication
-    cleaned(@parser.args['publication'])
+    not_fuzzy = false
+    cleaned(@parser.args['publication'].delete('*'), not_fuzzy)
   end
 
   def cleaned(term, fuzzy = true)
