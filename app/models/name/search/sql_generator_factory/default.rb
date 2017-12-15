@@ -16,18 +16,23 @@ class Name::Search::SqlGeneratorFactory::Default
   # Genus
   GENUS_SO_SQL = "select sort_order from name_rank where name = 'Genus'"
   RANK_GENUS_CLAUSE = "name_rank.sort_order >= (#{GENUS_SO_SQL})"
-  SIMPLE_NAME_CLAUSE = ' lower(name.simple_name) like lower(?)'
+  SIMPLE_NAME_CLAUSE = 'lower(name.simple_name) like lower(?)'
   GENUS_CLAUSE = "#{RANK_GENUS_CLAUSE} and #{SIMPLE_NAME_CLAUSE}"
   # Publication
   CIT_WHERE = "where to_tsvector('english'::regconfig, citation::text) @@ to_tsquery(quote_literal(?))"
   REF_SELECT = "select id from reference #{CIT_WHERE}"
   PUBLICATION_CLAUSE = "instance.reference_id in (#{REF_SELECT})"
   # Name element
-  NAME_ELEMENT_CLAUSE = 'lower(unaccent(name_element)) like lower(unaccent(?))'
+  NAME_ELEMENT_CLAUSE = '(lower(unaccent(name_element)) like lower(unaccent(?)))'
   # Species
-  SPECIES_SORT_ORDER = "select sort_order from name_rank where name = 'Species'"
-  RANK_IS_SPECIES = "name_rank.sort_order = (#{SPECIES_SORT_ORDER})"
-  SPECIES_CLAUSE = "#{RANK_IS_SPECIES} and #{NAME_ELEMENT_CLAUSE}"
+  # For species we want to match the species-search-term with
+  # - "Genus species-search-term subsp. xyz" 
+  # - "Genus species-search-term"
+  # For species we want to exclude:
+  # - "Genus species-search-termWith-some-extra-text subsp. xyz" 
+  #
+  # (They can always add their own wildcards.)
+  SPECIES_CLAUSE = "#{SIMPLE_NAME_CLAUSE} or #{SIMPLE_NAME_CLAUSE}"
   # Rank
   RANK_CLAUSE =
     'name_rank.id = (select id from name_rank where lower(abbrev) = lower(?))'
@@ -155,13 +160,15 @@ class Name::Search::SqlGeneratorFactory::Default
   def add_species
     return if species_string.blank?
     @sql = @sql.where([SPECIES_CLAUSE,
-                       "#{species_string}%"])
+                       "% #{species_string} %",
+                       "% #{species_string}"])
   end
 
   def count_species
     return if species_string.blank?
     @cql = @cql.where([SPECIES_CLAUSE,
-                       "#{species_string}%"])
+                       "% #{species_string} %",
+                       "% #{species_string}"])
   end
 
   def species_string
@@ -221,10 +228,9 @@ class Name::Search::SqlGeneratorFactory::Default
     return @pp_search_term if @pp_search_term.present?
     @pp_search_term = cleaned(@parser.args['search_term'],
                               @parser.add_trailing_wildcard)
-    throw 'no search term' if @parser.args['search_term'].blank?
   end
 
-  def cleaned(term, fuzzy = true)
+  def cleaned(term, fuzzy = false)
     return nil if term.nil?
     return nil if term.strip.blank?
     if fuzzy

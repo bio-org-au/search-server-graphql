@@ -64,7 +64,7 @@ class Name::Search::Parser
   end
 
   def add_trailing_wildcard
-    return 'true' unless @args.key?(:add_trailing_wildcard)
+    return false unless @args.key?(:add_trailing_wildcard)
     @args[:add_trailing_wildcard]
   end
 
