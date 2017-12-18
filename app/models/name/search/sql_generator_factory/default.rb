@@ -12,7 +12,8 @@ class Name::Search::SqlGeneratorFactory::Default
   TREE_LABEL = "(select value from shard_config where name = 'name tree label')"
   TREE_ID = "(select id from tree_arrangement where label = #{TREE_LABEL})"
   NAME_TREE = "name_tree_path.tree_id = #{TREE_ID}"
-  AUTHOR_ABBREV_CLAUSE = 'lower(author.abbrev) like lower(?)'
+  TAXON_NAME_AUTHOR_ABBREV_CLAUSE = '( author_id in (select id from author where lower(abbrev) like lower(?)) or ex_author_id in (select id from author where abbrev like lower(?)) )'
+  BASIONYM_AUTHOR_ABBREV_CLAUSE = '( base_author_id in (select id from author where lower(abbrev) like lower(?)) or ex_base_author_id in (select id from author where abbrev like lower(?)) )'
   # Genus
   GENUS_SO_SQL = "select sort_order from name_rank where name = 'Genus'"
   RANK_GENUS_CLAUSE = "name_rank.sort_order >= (#{GENUS_SO_SQL})"
@@ -48,7 +49,8 @@ class Name::Search::SqlGeneratorFactory::Default
     @sql = base_query
     add_name_type
     add_name
-    add_author_abbrev
+    add_taxon_name_author_abbrev
+    add_basionym_author_abbrev
     add_name_tree_path unless @parser.common?
     add_family unless @parser.common?
     add_genus
@@ -71,7 +73,8 @@ class Name::Search::SqlGeneratorFactory::Default
                          preprocessed_search_term])
     end
     @cql = @cql.joins(:name_tree_paths).where(NAME_TREE)
-    count_author_abbrev
+    count_taxon_name_author_abbrev
+    count_basionym_author_abbrev
     count_family
     count_genus
     count_species
@@ -88,22 +91,44 @@ class Name::Search::SqlGeneratorFactory::Default
                .includes(:name_tree_paths)
   end
 
-  def add_author_abbrev
-    return if author_abbrev_string.blank?
-    @sql = @sql.joins(:author).where([AUTHOR_ABBREV_CLAUSE,
-                                      author_abbrev_string])
+  def add_taxon_name_author_abbrev
+    return if taxon_name_author_abbrev_string.blank?
+    @sql = @sql.where([TAXON_NAME_AUTHOR_ABBREV_CLAUSE,
+                       taxon_name_author_abbrev_string,
+                       taxon_name_author_abbrev_string])
   end
 
-  def count_author_abbrev
-    return if author_abbrev_string.blank?
-    @cql = @cql.joins(:author).where([AUTHOR_ABBREV_CLAUSE,
-                                      author_abbrev_string])
+  def add_basionym_author_abbrev
+    return if basionym_author_abbrev_string.blank?
+    @sql = @sql.where([BASIONYM_AUTHOR_ABBREV_CLAUSE,
+                       basionym_author_abbrev_string,
+                       basionym_author_abbrev_string])
   end
 
-  def author_abbrev_string
-    return nil if @parser.args['author_abbrev'].blank?
-    return nil if @parser.args['author_abbrev'].strip.blank?
-    cleaned(@parser.args['author_abbrev'])
+  def count_taxon_name_author_abbrev
+    return if taxon_name_author_abbrev_string.blank?
+    @cql = @cql.where([TAXON_NAME_AUTHOR_ABBREV_CLAUSE,
+                      taxon_name_author_abbrev_string,
+                      taxon_name_author_abbrev_string])
+  end
+
+  def count_basionym_author_abbrev
+    return if basionym_author_abbrev_string.blank?
+    @cql = @cql.where([BASIONYM_AUTHOR_ABBREV_CLAUSE,
+                       basionym_author_abbrev_string,
+                       basionym_author_abbrev_string])
+  end
+
+  def taxon_name_author_abbrev_string
+    return nil if @parser.args['taxon_name_author_abbrev'].blank?
+    return nil if @parser.args['taxon_name_author_abbrev'].strip.blank?
+    cleaned(@parser.args['taxon_name_author_abbrev'])
+  end
+
+  def basionym_author_abbrev_string
+    return nil if @parser.args['basionym_author_abbrev'].blank?
+    return nil if @parser.args['basionym_author_abbrev'].strip.blank?
+    cleaned(@parser.args['basionym_author_abbrev'])
   end
 
   def add_family
@@ -210,7 +235,7 @@ class Name::Search::SqlGeneratorFactory::Default
     @cql = @cql.where([NAME_ELEMENT_CLAUSE, name_element_string])
   end
 
-  # Users don't like the name 'epithet' and it actually looks at
+  # Users dont like the name 'epithet' and it actually looks at
   # the name element column.
   def name_element_string
     return nil if @parser.args['name_element'].blank?

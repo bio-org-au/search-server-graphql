@@ -8,7 +8,8 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :name_search do
     type Types::Name::SearchType
     argument :search_term, types.String
-    argument :author_abbrev, types.String
+    argument :taxon_name_author_abbrev, types.String
+    argument :basionym_author_abbrev, types.String
     argument :family, types.String
     argument :genus, types.String
     argument :species, types.String
