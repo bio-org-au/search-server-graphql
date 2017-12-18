@@ -22,6 +22,7 @@ class Name::Search::SqlGeneratorFactory::Default
   CIT_WHERE = "where to_tsvector('english'::regconfig, citation::text) @@ to_tsquery(quote_literal(?))"
   REF_SELECT = "select id from reference #{CIT_WHERE}"
   PUBLICATION_CLAUSE = "instance.reference_id in (#{REF_SELECT})"
+  PROTOLOGUE_CLAUSE = "instance.instance_type_id in (select id from instance_type where protologue)"
   # Name element
   NAME_ELEMENT_CLAUSE = '(lower(unaccent(name_element)) like lower(unaccent(?)))'
   # Species
@@ -143,12 +144,18 @@ class Name::Search::SqlGeneratorFactory::Default
     return if publication_string.blank?
     @sql = @sql.joins(:instances).where([PUBLICATION_CLAUSE,
                        publication_string.gsub(/  */,' & ')])
+    if @parser.args['protologue'] == '1'
+      @sql = @sql.where(PROTOLOGUE_CLAUSE)
+    end
   end
 
   def count_publication
     return if publication_string.blank?
     @cql = @cql.joins(:instances).where([PUBLICATION_CLAUSE,
                        publication_string.gsub(/  */,' & ')])
+    if @parser.args['protologue'] == '1'
+      @cql = @cql.where(PROTOLOGUE_CLAUSE)
+    end
   end
 
   def publication_string
