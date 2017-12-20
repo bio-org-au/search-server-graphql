@@ -20,6 +20,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :type_of_name, types.String
     argument :fuzzy_or_exact, types.String
     argument :limit, types.Int
+    argument :offset, types.Int
     argument :id, types.ID
     resolve ->(_obj, args, _ctx) {
       Name::Search::Factory.build(args)

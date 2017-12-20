@@ -26,8 +26,10 @@ class Name::Search::Parser
   LIST = 'list'
 
   # Limits
-  DEFAULT_LIST_LIMIT = 1000
-  DEFAULT_DETAILS_LIMIT = 3
+  DEFAULT_LIST_LIMIT = 100
+  DEFAULT_DETAILS_LIMIT = 10
+  MAX_LIST_LIMIT = 500
+  MAX_DETAILS_LIMIT = 50
 
   SIMPLE_SEARCH = 'Search'
 
@@ -84,6 +86,10 @@ class Name::Search::Parser
     else
       DEFAULT_DETAILS_LIMIT
     end
+  end
+
+  def offset
+    [@args[:offset].to_i,0].max
   end
 
   def list?

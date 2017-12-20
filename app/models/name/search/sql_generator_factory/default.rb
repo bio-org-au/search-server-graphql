@@ -60,6 +60,7 @@ class Name::Search::SqlGeneratorFactory::Default
     add_name_element
     add_select
     add_limit
+    add_offset
     add_includes
     order_scientifically unless @parser.common?
     order_by_name if @parser.common?
@@ -254,6 +255,11 @@ class Name::Search::SqlGeneratorFactory::Default
 
   def add_limit
     @sql = @sql.limit(@parser.args['limit'] || 100)
+  end
+
+  def add_offset
+    return if @parser.args['offset'].blank?
+    @sql = @sql.offset(@parser.offset)
   end
 
   def preprocessed_search_term
