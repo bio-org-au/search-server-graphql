@@ -37,7 +37,7 @@ class Name::Search::SqlGeneratorFactory::Default
   SPECIES_CLAUSE = "#{SIMPLE_NAME_CLAUSE} or #{SIMPLE_NAME_CLAUSE}"
   # Rank
   RANK_CLAUSE =
-    'name_rank.id = (select id from name_rank where lower(abbrev) = lower(?))'
+    'name_rank.id = (select id from name_rank where lower(name) = lower(?))'
 
   def initialize(parser)
     @parser = parser

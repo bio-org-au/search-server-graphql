@@ -41,6 +41,6 @@ class NameRank < ActiveRecord::Base
   end
 
   def options
-    NameRank.all.order(:sort_order).where('not deprecated').map(&:abbrev)
+    NameRank.all.order(:sort_order).where('not deprecated').map(&:name)
   end
 end
