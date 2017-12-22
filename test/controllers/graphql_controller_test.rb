@@ -30,6 +30,5 @@ class GraphqlControllerTest < ActionController::TestCase
     post 'execute',
       {query: '{taxonomy_search(search_term:"angophora"){taxa{id,full_name,name_status_name}}}' }
     assert_response :success
-    # {"data":{"taxonomy_search":{"taxa":[]}}}
   end
 end

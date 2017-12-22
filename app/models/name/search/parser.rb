@@ -131,4 +131,29 @@ class Name::Search::Parser
   def add_trailing_wildcard?
     @fuzzy_or_exact.casecmp(ADD_TRAILING_WILDCARD).zero?
   end
+
+  def type_note_text
+    return nil if @args[:type_note_text].blank?
+    @args[:type_note_text].strip.tr('*', '%')
+  end
+
+  def type_note_key
+    return nil if @args[:type_note_key].blank?
+    term = @args[:type_note_text].strip.tr('*', '').tr('%','')
+  end
+
+  def type_note_lectotype?
+    return true if @args[:type_note_key].blank?
+    return true if @args[:type_note_key].match(/lectotype/i)
+  end
+
+  def type_note_neotype?
+    return true if @args[:type_note_key].blank?
+    return true if @args[:type_note_key].match(/neotype/i)
+  end
+
+  def type_note_type?
+    return true if @args[:type_note_key].blank?
+    return true if @args[:type_note_key].match(/\Atype\A/i)
+  end
 end

@@ -7,6 +7,7 @@ class Name::Search::SqlGeneratorFactory::Default
   FULL_NAME = 'lower(f_unaccent(name.full_name)) like lower(f_unaccent(?))'
   NAME_INSTANCE = '(select null from instance where instance.name_id = name.id)'
   INSTANCE_EXISTS = "exists #{NAME_INSTANCE}"
+
   NAME_ID = '(select id from name fn where lower(fn.simple_name) like lower(?))'
   NAME_TREE_PATH_FAMILY = "name_tree_path.family_id in (#{NAME_ID})"
   TREE_LABEL = "(select value from shard_config where name = 'name tree label')"
@@ -47,11 +48,12 @@ class Name::Search::SqlGeneratorFactory::Default
 
   def search_sql
     @sql = base_query
-    add_name_type
-    add_name
+    @sql = add_instance(@sql)
+    @sql = add_name_type(@sql)
+    @sql = add_name(@sql)
     add_taxon_name_author_abbrev
     add_basionym_author_abbrev
-    add_name_tree_path unless @parser.common?
+    add_name_tree_path(@sql) unless @parser.common?
     add_family unless @parser.common?
     add_genus
     add_species
@@ -67,6 +69,23 @@ class Name::Search::SqlGeneratorFactory::Default
   end
 
   def count
+    @cql = base_query
+    @cql = add_instance(@cql)
+    @cql = add_name_type(@cql)
+    @cql = add_name(@cql)
+    count_taxon_name_author_abbrev
+    count_basionym_author_abbrev
+    add_name_tree_path(@cql) unless @parser.common?
+    count_family unless @parser.common?
+    count_genus
+    count_species
+    count_publication
+    count_rank
+    count_name_element
+    @cql = @cql.count
+  end
+
+  def xcount
     @cql = Name.joins(:name_type).joins(:name_rank).where(@name_type_clause)
                .where(INSTANCE_EXISTS)
     unless @parser.args['search_term'].blank?
@@ -246,7 +265,18 @@ class Name::Search::SqlGeneratorFactory::Default
 
   def base_query
     Name.joins(:name_type).joins(:name_rank).joins(:name_status)
-        .where(INSTANCE_EXISTS)
+  end
+
+  def add_instance(sql)
+    if @parser.type_note_text.blank?
+      sql.where(INSTANCE_EXISTS)
+    else
+      add_instance_with_type_note_restriction(sql)
+    end
+  end
+
+  def add_instance_with_type_note_restriction(sql)
+    sql.where(["exists ( select null from instance where instance.name_id =  name.id and exists (select null from instance_note inote where lower(value) like lower(?) and inote.instance_id = instance.id and inote.instance_note_key_id in (select id from instance_note_key ink where ink.name in ('Type','Lectotype','Neotype'))))", '%' + @parser.type_note_text + '%'])
   end
 
   def add_select
@@ -278,24 +308,24 @@ class Name::Search::SqlGeneratorFactory::Default
     end
   end
 
-  def add_name
-    return if @parser.args['search_term'].blank?
-    @sql = @sql.where([name_clause,
-                       preprocessed_search_term,
-                       preprocessed_search_term])
+  def add_name(sql)
+    return sql if @parser.args['search_term'].blank?
+    sql.where([name_clause,
+               preprocessed_search_term,
+               preprocessed_search_term])
   end
 
   def name_clause
     "#{SIMPLE_NAME} or #{FULL_NAME}"
   end
 
-  def add_name_type
-    @sql = @sql.where(@name_type_clause)
+  def add_name_type(sql)
+    sql = sql.where(@name_type_clause)
   end
 
-  def add_name_tree_path
-    @sql = @sql.joins(:name_tree_paths)
-               .where(NAME_TREE)
+  def add_name_tree_path(sql)
+    sql.joins(:name_tree_paths)
+       .where(NAME_TREE)
   end
 
   def order_scientifically
