@@ -137,23 +137,31 @@ class Name::Search::Parser
     @args[:type_note_text].strip.tr('*', '%')
   end
 
-  def type_note_key
-    return nil if @args[:type_note_key].blank?
-    term = @args[:type_note_text].strip.tr('*', '').tr('%','')
+  # Same as the arg, but remove blank elements
+  def type_note_keys_without_blanks
+    @args[:type_note_keys].reject {|k| k.empty?}
+  end
+
+  def type_note_any?
+    @args[:type_note_keys].nil? ||
+    type_note_keys_without_blanks.blank?
   end
 
   def type_note_lectotype?
-    return true if @args[:type_note_key].blank?
-    return true if @args[:type_note_key].match(/lectotype/i)
+    return true if type_note_any?
+    return true if @args[:type_note_keys].include?('lectotype')
+    false
   end
 
   def type_note_neotype?
-    return true if @args[:type_note_key].blank?
-    return true if @args[:type_note_key].match(/neotype/i)
+    return true if type_note_any?
+    return true if @args[:type_note_keys].include?('neotype')
+    false
   end
 
   def type_note_type?
-    return true if @args[:type_note_key].blank?
-    return true if @args[:type_note_key].match(/\Atype\A/i)
+    return true if type_note_any?
+    return true if @args[:type_note_keys].include?('type')
+    false
   end
 end

@@ -19,7 +19,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :name_element, types.String
     argument :type_of_name, types.String
     argument :type_note_text, types.String
-    argument :type_note_keys, types.String
+    argument :type_note_keys, types[types.String]
     argument :fuzzy_or_exact, types.String
     argument :limit, types.Int
     argument :offset, types.Int

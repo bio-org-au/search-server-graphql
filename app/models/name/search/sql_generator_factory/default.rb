@@ -53,7 +53,7 @@ class Name::Search::SqlGeneratorFactory::Default
     @sql = add_name(@sql)
     add_taxon_name_author_abbrev
     add_basionym_author_abbrev
-    add_name_tree_path(@sql) unless @parser.common?
+    @sql = add_name_tree_path(@sql) unless @parser.common?
     add_family unless @parser.common?
     add_genus
     add_species
@@ -75,7 +75,7 @@ class Name::Search::SqlGeneratorFactory::Default
     @cql = add_name(@cql)
     count_taxon_name_author_abbrev
     count_basionym_author_abbrev
-    add_name_tree_path(@cql) unless @parser.common?
+    @cql = count_name_tree_path(@cql) unless @parser.common?
     count_family unless @parser.common?
     count_genus
     count_species
@@ -276,7 +276,15 @@ class Name::Search::SqlGeneratorFactory::Default
   end
 
   def add_instance_with_type_note_restriction(sql)
-    sql.where(["exists ( select null from instance where instance.name_id =  name.id and exists (select null from instance_note inote where lower(value) like lower(?) and inote.instance_id = instance.id and inote.instance_note_key_id in (select id from instance_note_key ink where ink.name in ('Type','Lectotype','Neotype'))))", '%' + @parser.type_note_text + '%'])
+    sql.where(["exists ( select null from instance where instance.name_id =  name.id and exists (select null from instance_note inote where lower(value) like lower(?) and inote.instance_id = instance.id and inote.instance_note_key_id in (select id from instance_note_key ink where ink.name in (#{list_of_type_notes_allowed}))))", '%' + @parser.type_note_text + '%'])
+  end
+
+  def list_of_type_notes_allowed
+    note_types = []
+    note_types.push "'Type'" if @parser.type_note_type?
+    note_types.push "'Neotype'" if @parser.type_note_neotype?
+    note_types.push "'Lectotype'" if @parser.type_note_lectotype?
+    note_types.join(',')
   end
 
   def add_select
@@ -324,6 +332,12 @@ class Name::Search::SqlGeneratorFactory::Default
   end
 
   def add_name_tree_path(sql)
+    sql.joins(:name_tree_paths)
+       .where(NAME_TREE)
+  end
+
+
+  def count_name_tree_path(sql)
     sql.joins(:name_tree_paths)
        .where(NAME_TREE)
   end
