@@ -42,7 +42,7 @@ class Reference::Search::SqlGenerator
   end
 
   def add_order
-    @sql = @sql.order('year, citation')
+    @sql = @sql.order('citation')
   end
 
   def count_publication
