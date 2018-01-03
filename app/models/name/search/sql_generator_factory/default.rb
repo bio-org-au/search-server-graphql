@@ -39,6 +39,8 @@ class Name::Search::SqlGeneratorFactory::Default
   # Rank
   RANK_CLAUSE =
     'name_rank.id = (select id from name_rank where lower(name) = lower(?))'
+  RANK_AND_BELOW_CLAUSE =
+    "name_rank.id in (select id from name_rank where sort_order >= (select sort_order from name_rank nrs where lower(nrs.name) = lower(?)) and sort_order < (select sort_order from name_rank where name = '[n/a]'))"
 
   def initialize(parser)
     @parser = parser
@@ -58,7 +60,7 @@ class Name::Search::SqlGeneratorFactory::Default
     add_genus
     add_species
     add_publication
-    add_rank
+    @sql = add_rank(@sql)
     add_name_element
     add_select
     add_limit
@@ -80,28 +82,9 @@ class Name::Search::SqlGeneratorFactory::Default
     count_genus
     count_species
     count_publication
-    count_rank
+    @cql = add_rank(@cql)
     count_name_element
     @cql = @cql.count
-  end
-
-  def xcount
-    @cql = Name.joins(:name_type).joins(:name_rank).where(@name_type_clause)
-               .where(INSTANCE_EXISTS)
-    unless @parser.args['search_term'].blank?
-      @cql = @cql.where([name_clause, preprocessed_search_term,
-                         preprocessed_search_term])
-    end
-    @cql = @cql.joins(:name_tree_paths).where(NAME_TREE)
-    count_taxon_name_author_abbrev
-    count_basionym_author_abbrev
-    count_family
-    count_genus
-    count_species
-    count_publication
-    count_rank
-    count_name_element
-    @cql.count
   end
 
   def add_includes
@@ -229,9 +212,14 @@ class Name::Search::SqlGeneratorFactory::Default
     cleaned(@parser.args['species'])
   end
 
-  def add_rank
-    return if rank_string.blank?
-    @sql = @sql.where([RANK_CLAUSE, rank_string])
+  def add_rank(sql)
+    return sql if rank_string.blank?
+    if @parser.args['include_ranks_below'] == 'true'
+      sql = sql.where([RANK_AND_BELOW_CLAUSE, rank_string])
+    else
+      sql = sql.where([RANK_CLAUSE, rank_string])
+    end
+    sql
   end
 
   def count_rank
