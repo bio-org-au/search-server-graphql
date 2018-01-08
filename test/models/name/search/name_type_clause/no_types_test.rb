@@ -16,20 +16,39 @@
 #
 require 'test_helper'
 
-# Single controller test.
-class NameSearchCommonSimpleTest < ActionController::TestCase
-  tests GraphqlController
-  setup do
+class NoTypeParserDummy
+  def scientific?
+   false
   end
 
-  test "simple common name search test" do
-    post 'execute',
-      {query: '{name_search(search_term:"a*", common_name:true){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}' }
-    assert_response :success
-    obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    assert_match 'argyle apple',
-                  obj.data.name_search.names.first.full_name,
-                 "Name should match 'argyle apple'"
+  def autonym?
+    false
+  end
+
+  def hybrid?
+    false
+  end
+  
+  def cultivar?
+   false
+  end
+
+  def common?
+    false
   end
 end
 
+
+# Single controller test.
+class NameSeachNameTypeClauseNoTypesTest < ActionController::TestCase
+  setup do
+    @parser = NoTypeParserDummy.new
+  end
+
+  test 'name search name type clause no types provided' do
+    expected = ""
+    clause = Name::Search::NameTypeClause.new(NoTypeParserDummy.new).clause
+    assert_match "(1=2)", clause,
+                 "Clause: #{clause} not as expected: #{expected}"
+  end
+end

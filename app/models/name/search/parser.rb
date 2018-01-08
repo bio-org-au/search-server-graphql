@@ -4,11 +4,9 @@
 # Interpret GraphQL args and provided
 # directions for the required search.
 class Name::Search::Parser
-  attr_reader :search_term,
-              :sci_cult_or_common,
+  attr_reader :sci_cult_or_common,
               :simple_or_advanced,
               :list_or_details,
-              :limit,
               :args
 
   # Type of name
@@ -36,13 +34,13 @@ class Name::Search::Parser
   def initialize(args)
     Rails.logger.debug('Search::Parser.initialize')
     @args = args
-    resolve_sci_cult_or_common
+    #resolve_sci_cult_or_common
     resolve_fuzzy_or_exact
   end
 
   def run_search?
-    @args.keys.include?('search_term') || 
-    @args.keys.include?('author_abbrev')
+    @args.keys.include?('search_term') ||
+      @args.keys.include?('author_abbrev')
   end
 
   def resolve_sci_cult_or_common
@@ -89,7 +87,7 @@ class Name::Search::Parser
   end
 
   def offset
-    [@args[:offset].to_i,0].max
+    [@args[:offset].to_i, 0].max
   end
 
   def list?
@@ -109,19 +107,28 @@ class Name::Search::Parser
   end
 
   def scientific?
-    @sci_cult_or_common.strip.casecmp(SCIENTIFIC).zero?
-  end
-
-  def scientific_or_cultivar?
-    @sci_cult_or_common.strip.casecmp(SCIENTIFIC_OR_CULTIVAR).zero?
+    #@sci_cult_or_common.strip.casecmp(SCIENTIFIC).zero?
+    @args[:scientific_name]
   end
 
   def cultivar?
-    @sci_cult_or_common.strip.casecmp(CULTIVAR).zero?
+    #@sci_cult_or_common.strip.casecmp(CULTIVAR).zero?
+    @args[:cultivar_name]
   end
 
   def common?
-    @sci_cult_or_common.strip.casecmp(COMMON).zero?
+    # @sci_cult_or_common.strip.casecmp(COMMON).zero?
+    @args[:common_name]
+  end
+
+  def autonym?
+    # @sci_cult_or_common.strip.casecmp(COMMON).zero?
+    @args[:scientific_autonym_name]
+  end
+
+  def hybrid?
+    # @sci_cult_or_common.strip.casecmp(COMMON).zero?
+    @args[:scientific_hybrid_name]
   end
 
   def name_type_all?
@@ -139,12 +146,12 @@ class Name::Search::Parser
 
   # Same as the arg, but remove blank elements
   def type_note_keys_without_blanks
-    @args[:type_note_keys].reject {|k| k.empty?}
+    @args[:type_note_keys].reject(&:empty?)
   end
 
   def type_note_any?
     @args[:type_note_keys].nil? ||
-    type_note_keys_without_blanks.blank?
+      type_note_keys_without_blanks.blank?
   end
 
   def type_note_lectotype?

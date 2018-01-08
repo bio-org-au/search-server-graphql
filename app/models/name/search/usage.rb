@@ -98,6 +98,7 @@ class Name::Search::Usage
     notes = []
     InstanceNote.where(instance_id: @name_usage.instance_id)
                 .without_epbc_notes
+                .ordered_for_display
                 .each do |note|
       notes.push(note)
     end
