@@ -2,6 +2,7 @@
 
 # Rails model
 class Reference < ActiveRecord::Base
+  include PgSearch
   self.table_name = 'reference'
   self.primary_key = 'id'
   # has_many :instances
@@ -37,4 +38,18 @@ class Reference < ActiveRecord::Base
            -> { where "cited_by_id is not null" },
            class_name: "Instance",
            foreign_key: "reference_id"
+  
+  # https://github.com/Casecommons/pg_search
+  # https://content.pivotal.io/blog/pg-search-how-i-learned-to-stop-
+  # worrying-and-love-postgresql-full-text-search
+  PgSearch.unaccent_function = "f_unaccent"
+  pg_search_scope :search_citation_text_for,
+                  against: :citation,
+                  ignoring: :accents,
+                  using: {
+                    tsearch: {
+                      dictionary: "english",
+                      prefix: "true",
+                    }
+                  }
 end

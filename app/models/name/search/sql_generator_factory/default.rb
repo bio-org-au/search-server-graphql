@@ -21,9 +21,6 @@ class Name::Search::SqlGeneratorFactory::Default
   SIMPLE_NAME_CLAUSE = 'lower(name.simple_name) like lower(?)'
   GENUS_CLAUSE = "#{RANK_GENUS_CLAUSE} and #{SIMPLE_NAME_CLAUSE}"
   # Publication
-  CIT_WHERE = "where to_tsvector('english'::regconfig, citation::text) @@ to_tsquery(quote_literal(?))"
-  REF_SELECT = "select id from reference #{CIT_WHERE}"
-  PUBLICATION_CLAUSE = "instance.reference_id in (#{REF_SELECT})"
   PROTOLOGUE_CLAUSE = "instance.instance_type_id in (select id from instance_type where protologue)"
   # Name element
   NAME_ELEMENT_CLAUSE = '(lower(unaccent(name_element)) like lower(unaccent(?)))'
@@ -59,7 +56,7 @@ class Name::Search::SqlGeneratorFactory::Default
     add_family unless @parser.common?
     add_genus
     add_species
-    add_publication
+    @sql = add_publication(@sql)
     @sql = add_rank(@sql)
     add_name_element
     add_select
@@ -81,9 +78,10 @@ class Name::Search::SqlGeneratorFactory::Default
     count_family unless @parser.common?
     count_genus
     count_species
-    count_publication
+    @cql = add_publication(@cql)
     @cql = add_rank(@cql)
     count_name_element
+    @cql = @cql.select('distinct(name.id)')
     @cql = @cql.count
   end
 
@@ -168,22 +166,13 @@ class Name::Search::SqlGeneratorFactory::Default
     "#{cleaned(@parser.args['genus'])}%"
   end
 
-  def add_publication
-    return if publication_string.blank?
-    @sql = @sql.joins(:instances).where([PUBLICATION_CLAUSE,
-                       publication_string.gsub(/  */,' & ')])
+  def add_publication(sql)
+    return sql if publication_string.blank?
+    sql = sql.joins(:instances).joins(instances: :reference).merge(Reference.search_citation_text_for(publication_string))
     if @parser.args['protologue'] == '1'
-      @sql = @sql.where(PROTOLOGUE_CLAUSE)
+      sql = sql.where(PROTOLOGUE_CLAUSE)
     end
-  end
-
-  def count_publication
-    return if publication_string.blank?
-    @cql = @cql.joins(:instances).where([PUBLICATION_CLAUSE,
-                       publication_string.gsub(/  */,' & ')])
-    if @parser.args['protologue'] == '1'
-      @cql = @cql.where(PROTOLOGUE_CLAUSE)
-    end
+    sql
   end
 
   def publication_string
@@ -257,10 +246,11 @@ class Name::Search::SqlGeneratorFactory::Default
 
   def add_instance(sql)
     if @parser.type_note_text.blank?
-      sql.where(INSTANCE_EXISTS)
+      sql = sql.joins(:instances)
     else
       add_instance_with_type_note_restriction(sql)
     end
+    sql
   end
 
   def add_instance_with_type_note_restriction(sql)

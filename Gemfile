@@ -42,15 +42,15 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
 gem 'graphql'
-gem 'awesome_print'
+gem 'pg_search'
 
 gem 'graphiql-rails', group: :development
 
 
 group :development do
   gem "puma"
+  gem 'awesome_print'
   # gem "better_errors", "~>1.0"
   # gem "spring"
   # gem "binding_of_caller", platforms: [:mri_19, :mri_20, :mri_21, :rbx]

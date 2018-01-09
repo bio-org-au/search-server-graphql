@@ -18,8 +18,12 @@ class GraphqlController < ApplicationController
     record_metadata
     render json: @result
   rescue => e
-    Rails.logger.error("Error: #{e}")
-    render json: {data: {error: "#{e}" }}
+    Rails.logger.error("Error rescue at GraphqlController#execute: #{e}")
+    Rails.logger.error("Backtrace below")
+    e.backtrace.each {|b| Rails.logger.error(b)}
+    Rails.logger.error("End of backtrace. Now render the error as JSON.")
+    # Standard error format for our JSON
+    render json: { errors: [{message: "#{e}"}] }
   end
 
   private

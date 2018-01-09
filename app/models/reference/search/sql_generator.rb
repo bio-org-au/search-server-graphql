@@ -38,7 +38,7 @@ class Reference::Search::SqlGenerator
   end
 
   def add_publication
-    @sql = @sql.where([CIT_WHERE, publication.gsub(/  */, ' & ')])
+    @sql = @sql.search_citation_text_for(publication)
   end
 
   def add_order
