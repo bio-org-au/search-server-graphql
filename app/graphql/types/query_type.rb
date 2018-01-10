@@ -16,6 +16,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :rank, types.String
     argument :include_ranks_below, types.String
     argument :publication, types.String
+    argument :publication_year, types.String
     argument :protologue, types.String
     argument :name_element, types.String
     argument :type_of_name, types.String

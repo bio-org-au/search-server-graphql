@@ -399,7 +399,7 @@ acacia:
 angophora:
   name_element: Angophora
   simple_name: Angophora
-  full_name: Angophora
+  full_name: Angophora Gaertn.
   name_rank: genus
   name_status: unknown
   name_type: scientific
@@ -524,18 +524,25 @@ metrosideros_costata:
   updated_by: greg
   created_by: greg
 
-angophora_costata: 
-  simple_name: angophora costata
+angophora_costata:
+  author: britten
+  ex_author: gaertn
+  created_by: greg
   full_name: Angophora costata (Gaertn.) Britten
-  name_element: costata
+  full_name_html: "<scientific><name id='91851'><scientific><name id='91714'><element><i>Angophora</i></element></name></scientific> <element><i>costata</i></element> <authors><author id='6830' title='Cavanilles, A.J.'>Cav.</author></authors></name></scientific> name_element: costata"
   name_rank: species
-  name_status: unknown
+  name_status: legitimate
   name_type: scientific
   namespace: apni
+  orth_var: false
   parent: angophora
+  simple_name: Angophora costata
+  simple_name_html: <scientific><name id='91851'><scientific><name id='91714'><element><i>Angophora</i></element></name></scientific> <element><i>costata</i></element></name></scientific>
+  source_id: 37859
+  source_id_string: '37859'
+  source_system: PLANT_NAME
   updated_by: greg
-  created_by: greg
-
+  
 by_authority_with_just_one_name: 
   author: has_one_name_that_is_all
   simple_name: By Authority With Just One Name 

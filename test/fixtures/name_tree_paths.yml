@@ -22,8 +22,8 @@ angophora_ntp:
   rank_path: Regnum>Division>Classis>Subclassis>Superordo>Ordo>Familia>Genus
   name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora
   name_id_path: xyzz
-  parent: myrtaceae
-  family: myrtaceae
+  parent: a_division
+  family: myrtaceae (Name)
   tree: apni
   version: 1
   inserted: 0
@@ -268,13 +268,13 @@ rusty_gum_ntp:
 
 metrosideros_costata_ntp:
   <<: *DEFAULTS
-  name: costata
+  name: metrosideros_costata
   name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
   parent: metrosideros
 
 angophora_costata_ntp:
   <<: *DEFAULTS
-  name: costata
+  name: angophora_costata
   name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
   parent: angophora
 
@@ -514,6 +514,7 @@ angophora_lanceolata_cav_ntp:
   name: angophora_lanceolata_cav
   name_path: Regnum:Plantae>Division:Charophyta>Classis:Equisetopsida>Subclassis:Magnoliidae>Superordo:Rosanae>Ordo:Myrtales>Familia:Myrtaceae>Genus:Angophora species
   parent: a_genus
+  family: myrtaceae
   
 nothing_name_for_invalid_instance_ntp:
   <<: *DEFAULTS

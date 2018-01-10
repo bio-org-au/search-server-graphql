@@ -57,6 +57,7 @@ class Name::Search::SqlGeneratorFactory::Default
     add_genus
     add_species
     @sql = add_publication(@sql)
+    @sql = add_publication_year(@sql)
     @sql = add_rank(@sql)
     add_name_element
     add_select
@@ -79,6 +80,7 @@ class Name::Search::SqlGeneratorFactory::Default
     count_genus
     count_species
     @cql = add_publication(@cql)
+    @cql = add_publication_year(@cql)
     @cql = add_rank(@cql)
     count_name_element
     @cql = @cql.select('distinct(name.id)')
@@ -175,10 +177,25 @@ class Name::Search::SqlGeneratorFactory::Default
     sql
   end
 
+  def add_publication_year(sql)
+    return sql if publication_year_string.blank?
+    sql = sql.joins(:instances).joins(instances: :reference).merge(Reference.where(year: publication_year_string.to_i))
+    if @parser.args['protologue'] == '1'
+      sql = sql.where(PROTOLOGUE_CLAUSE)
+    end
+    sql
+  end
+
   def publication_string
     return nil if @parser.args['publication'].blank?
     return nil if @parser.args['publication'].strip.blank?
     cleaned(@parser.args['publication'], false)
+  end
+
+  def publication_year_string
+    return nil if @parser.args['publication_year'].blank?
+    return nil if @parser.args['publication_year'].strip.blank?
+    cleaned(@parser.args['publication_year'], false)
   end
 
   def add_species

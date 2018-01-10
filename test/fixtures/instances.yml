@@ -152,6 +152,16 @@ secondary_reference_instance_for_a_division:
   updated_by: tester
   page: 76
 
+handbook_secondary_reference_instance_for_angophora_costata:
+  reference: handbook_of_the_vascular_plants_of_sydney
+  name: angophora_costata
+  instance_type: secondary_reference
+  verbatim_name_string: verbatim
+  namespace: apni
+  created_by: tester
+  updated_by: tester
+  page: 263
+
 
 # Default instance so name can be offered as parent
 default_instance_for_a_classis:

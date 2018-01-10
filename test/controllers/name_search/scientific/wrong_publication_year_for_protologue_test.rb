@@ -17,21 +17,19 @@
 require 'test_helper'
 
 # Single controller test.
-class NameSearchScientificFamilyTest < ActionController::TestCase
+class NameSearchScientificWrongPubYear4ProtoTest < ActionController::TestCase
   tests GraphqlController
   setup do
   end
 
-  test "scientific name search on family" do
+  test "scientific name search on wrong publication year 4 protologue" do
     post 'execute',
-      {query: '{name_search(family:"myrtaceae", type_of_name:"scientific"){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}' }
+      {query: '{name_search(search_term:"angophora costata", publication_year: "1962", protologue: "1", type_of_name:"scientific"){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.errors.nil?, "Not expecting any errors but got: #{obj.errors}."
-    expected = /\AAngophora lanceolata Cav.\z/
-    actual = obj.data.name_search.names.first.full_name
-    assert_match expected, actual,
-                 "Actual name #{actual} should match #{expected}"
+    assert obj.data.name_search.names.blank?, "Should be no names returned."
+    assert_equal 0, obj.data.name_search.count, "Should be no names counted."
   end
 end
 
