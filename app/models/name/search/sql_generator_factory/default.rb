@@ -265,13 +265,13 @@ class Name::Search::SqlGeneratorFactory::Default
     if @parser.type_note_text.blank?
       sql = sql.joins(:instances)
     else
-      add_instance_with_type_note_restriction(sql)
+      sql = add_instance_with_type_note_restriction(sql)
     end
     sql
   end
 
   def add_instance_with_type_note_restriction(sql)
-    sql.where(["exists ( select null from instance where instance.name_id =  name.id and exists (select null from instance_note inote where lower(value) like lower(?) and inote.instance_id = instance.id and inote.instance_note_key_id in (select id from instance_note_key ink where ink.name in (#{list_of_type_notes_allowed}))))", '%' + @parser.type_note_text + '%'])
+    sql = sql.where(["exists ( select null from instance where instance.name_id =  name.id and exists (select null from instance_note inote where lower(value) like lower(?) and inote.instance_id = instance.id and inote.instance_note_key_id in (select id from instance_note_key ink where ink.name in (#{list_of_type_notes_allowed}))))", '%' + @parser.type_note_text + '%'])
   end
 
   def list_of_type_notes_allowed
