@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.9'
+gem 'rails', '4.2.10'
 # Use jdbcpostgresql as the database for Active Record
 platform :jruby do
   gem "activerecord-jdbcpostgresql-adapter"
