@@ -11,6 +11,7 @@ Types::NameUsageType = GraphQL::ObjectType.define do
   field :year, types.String
   field :standalone, types.Boolean
   field :instance_type_name, types.String
+  field :accepted_tree_status, types.String
   field :primary_instance, types.Boolean
   field :misapplied, types.Boolean
   field :misapplied_to_name, types.String

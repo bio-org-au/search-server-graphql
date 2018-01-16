@@ -53,6 +53,10 @@ class Name::Search::Usage
     @name_usage.instance_type_name
   end
 
+  def accepted_tree_status
+    @name_usage.accepted_tree_status
+  end
+
   def primary_instance
     @name_usage.primary_instance == 't'
   end
