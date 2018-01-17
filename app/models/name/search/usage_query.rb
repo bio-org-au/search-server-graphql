@@ -46,10 +46,7 @@ class Name::Search::UsageQuery
     instance_type.name, instance_type.misapplied,
     author.id,reference.citation_html,coalesce(reference.year,9999),  \
     author.name, primary_instance, instance.id, instance.page, \
-    instance.page_qualifier, reference.citation " #, case when instance.id = \
-    #tnode.instance_id and tnode.next_node_id is null and \
-    #tnode.checked_in_at_id is not null and instance_id = tnode.instance_id \
-    #then tnode.type_uri_id_part else '' end"
+    instance.page_qualifier, reference.citation " 
   end
 
   def ordering
