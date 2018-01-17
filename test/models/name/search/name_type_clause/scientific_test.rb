@@ -25,6 +25,10 @@ class ScientificParserDummy
     true
   end
 
+  def hybrid_formula?
+    true
+  end
+
   def named_hybrid?
     true
   end
@@ -46,7 +50,7 @@ class NameSeachNameTypeClauseScientificTest < ActionController::TestCase
   end
 
   test 'name search name type clause scientific' do
-    expected = "(name_type.scientific)x"
+    expected = "(name_type.scientific)"
     clause = Name::Search::NameTypeClause.new(@parser).clause
     assert_match "(name_type.scientific)", clause,
                  "Clause: #{clause} not as expected: #{expected}"

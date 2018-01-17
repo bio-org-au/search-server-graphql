@@ -23,6 +23,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :scientific_name, types.Boolean
     argument :scientific_autonym_name, types.Boolean
     argument :scientific_named_hybrid_name, types.Boolean
+    argument :scientific_hybrid_formula_name, types.Boolean
     argument :cultivar_name, types.Boolean
     argument :common_name, types.Boolean
     argument :type_note_text, types.String

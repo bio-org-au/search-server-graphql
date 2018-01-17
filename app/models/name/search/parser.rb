@@ -126,6 +126,10 @@ class Name::Search::Parser
     @args[:scientific_named_hybrid_name]
   end
 
+  def hybrid_formula?
+    @args[:scientific_hybrid_formula_name]
+  end
+
   def name_type_all?
     @sci_cult_or_common.strip.casecmp(ALL).zero?
   end

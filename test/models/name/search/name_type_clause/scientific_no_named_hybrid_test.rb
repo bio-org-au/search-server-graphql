@@ -25,6 +25,10 @@ class ScientificNoNamedHybridParserDummy
     true
   end
 
+  def hybrid_formula?
+    true
+  end
+
   def named_hybrid?
     false
   end

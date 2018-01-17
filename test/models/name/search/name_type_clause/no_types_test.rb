@@ -25,6 +25,10 @@ class NoTypeParserDummy
     false
   end
 
+  def hybrid_formula?
+    false
+  end
+
   def named_hybrid?
     false
   end

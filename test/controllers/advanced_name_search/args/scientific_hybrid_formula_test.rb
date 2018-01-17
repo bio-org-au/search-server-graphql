@@ -16,43 +16,21 @@
 #
 require 'test_helper'
 
-class ScientificNoAutonymParserDummy
-  def scientific?
-    true
-  end
-
-  def autonym?
-    false
-  end
-
-  def hybrid_formula?
-    true
-  end
-
-  def named_hybrid?
-    true
-  end
-  
-  def cultivar?
-   false
-  end
-
-  def common?
-    false
-  end
-end
-
-
 # Single controller test.
-class NameSearchNameTypeClauseScientificNoAutonymTest < ActionController::TestCase
+class AdvNameSearchArgsScHybridFormulaTest < ActionController::TestCase
+  tests GraphqlController
   setup do
-    @parser = ScientificNoAutonymParserDummy.new
+    @query = '{name_search(search_term:"*", scientific_hybrid_formula_name: true)'
+    @query += '{count,names{id,full_name,name_history'
+    @query += '{name_usages{citation,page,page_qualifier,year,standalone}}}}}'
   end
 
-  test 'name search name type clause scientific' do
-    expected = "(name_type.scientific and not name_type.autonym)"
-    actual = Name::Search::NameTypeClause.new(@parser).clause
-    assert_match expected, actual
-                 "Clause: #{actual} not as expected: #{expected}"
+  test 'simple all name search test' do
+    post 'execute', query: @query
+    assert_response :success,
+                    'Should allow for scientific_hybrid_formula_name arg'
+    obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
+    assert obj.data.name_search.names.size >= 1,
+           'Should find at least 1 record'
   end
 end
