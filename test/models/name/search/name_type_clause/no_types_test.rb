@@ -25,7 +25,7 @@ class NoTypeParserDummy
     false
   end
 
-  def hybrid?
+  def named_hybrid?
     false
   end
   
@@ -47,7 +47,7 @@ class NameSeachNameTypeClauseNoTypesTest < ActionController::TestCase
 
   test 'name search name type clause no types provided' do
     expected = /\A\(name_type.scientific\)\z/
-    actual = Name::Search::NameTypeClause.new(NoTypeParserDummy.new).clause
+    actual = Name::Search::NameTypeClause.new(@parser).clause
     assert_match expected, actual,
                  %(Clause: "#{actual}" not as expected: "#{expected}")
   end

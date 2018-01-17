@@ -107,28 +107,23 @@ class Name::Search::Parser
   end
 
   def scientific?
-    #@sci_cult_or_common.strip.casecmp(SCIENTIFIC).zero?
     @args[:scientific_name]
   end
 
   def cultivar?
-    #@sci_cult_or_common.strip.casecmp(CULTIVAR).zero?
     @args[:cultivar_name]
   end
 
   def common?
-    # @sci_cult_or_common.strip.casecmp(COMMON).zero?
     @args[:common_name]
   end
 
   def autonym?
-    # @sci_cult_or_common.strip.casecmp(COMMON).zero?
     @args[:scientific_autonym_name]
   end
 
-  def hybrid?
-    # @sci_cult_or_common.strip.casecmp(COMMON).zero?
-    @args[:scientific_hybrid_name]
+  def named_hybrid?
+    @args[:scientific_named_hybrid_name]
   end
 
   def name_type_all?

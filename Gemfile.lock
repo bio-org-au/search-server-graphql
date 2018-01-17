@@ -80,7 +80,7 @@ GEM
     json (1.8.6-java)
     loofah (2.1.1)
       crass (~> 1.0.2)
-      nokogiri (>= 1.8.1)
+      nokogiri (>= 1.5.9)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
     method_source (0.9.0)
@@ -216,4 +216,4 @@ DEPENDENCIES
   warbler
 
 BUNDLED WITH
-   1.16.0
+   1.16.1

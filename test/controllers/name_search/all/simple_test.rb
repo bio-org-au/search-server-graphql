@@ -20,7 +20,7 @@ require 'test_helper'
 class NameSearchAllSimpleTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @query = '{name_search(search_term:"a*", scientific_name: true, scientific_autonym_name: true, scientific_hybrid_name: true, cultivar_name: true, common_name: true)'
+    @query = '{name_search(search_term:"a*", scientific_name: true, scientific_autonym_name: true, scientific_named_hybrid_name: true, cultivar_name: true, common_name: true)'
     @query += '{count,names{id,full_name,name_history'
     @query += '{name_usages{citation,page,page_qualifier,year,standalone}}}}}'
   end

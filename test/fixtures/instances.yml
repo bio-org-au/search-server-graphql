@@ -994,3 +994,30 @@ argyle_apple_instance:
   namespace: apni
   created_by: tester
   updated_by: tester
+
+hybrid_autonym_with_mismatched_name_instance:
+  reference: book_by_fred_on_argyle_apple
+  name: hybrid_autonym_with_mismatched_name
+  instance_type: basionym
+  page: exclude-from-ordering-test
+  namespace: apni
+  created_by: tester
+  updated_by: tester
+
+named_hybrid_autonym_with_mismatched_name:
+  reference: book_by_fred_on_argyle_apple
+  name: named_hybrid_autonym_with_mismatched_name
+  instance_type: basionym
+  page: exclude-from-ordering-test
+  namespace: apni
+  created_by: tester
+  updated_by: tester
+
+x_vappaculum:
+  reference: book_by_fred_on_argyle_apple
+  name: x_vappaculum
+  instance_type: basionym
+  page: exclude-from-ordering-test
+  namespace: apni
+  created_by: tester
+  updated_by: tester

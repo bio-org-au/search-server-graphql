@@ -16,17 +16,17 @@
 #
 require 'test_helper'
 
-class ScientificNoAutonymParserDummy
+class ScientificNoNamedHybridParserDummy
   def scientific?
     true
   end
 
   def autonym?
-    false
+    true
   end
 
   def named_hybrid?
-    true
+    false
   end
   
   def cultivar?
@@ -40,15 +40,15 @@ end
 
 
 # Single controller test.
-class NameSearchNameTypeClauseScientificNoAutonymTest < ActionController::TestCase
+class NameSeachNameTypeClauseSciNoNamedHybridTest < ActionController::TestCase
   setup do
-    @parser = ScientificNoAutonymParserDummy.new
+    @parser = ScientificNoNamedHybridParserDummy.new
   end
 
   test 'name search name type clause scientific' do
-    expected = "(name_type.scientific and not name_type.autonym)"
+    expected = "(name_type.scientific and not (name_type.hybrid and not name_type.formula))"
     actual = Name::Search::NameTypeClause.new(@parser).clause
-    assert_match expected, actual
+    assert_match expected, actual,
                  "Clause: #{actual} not as expected: #{expected}"
   end
 end

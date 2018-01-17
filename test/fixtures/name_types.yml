@@ -66,6 +66,7 @@ hybrid_formula_parents_known:
   scientific: true
   autonym: false
   hybrid: true
+  formula: true
   sort_order: 7
   deprecated: false
 
@@ -76,6 +77,7 @@ hybrid_formula_unknown_2nd_parent:
   scientific: true
   autonym: false
   hybrid: true
+  formula: true
   sort_order: 8
   deprecated: false
 
@@ -86,6 +88,7 @@ named_hybrid:
   scientific: true
   autonym: false
   hybrid: true
+  formula: false
   sort_order: 9
   deprecated: false
 
@@ -96,6 +99,7 @@ named_hybrid_autonym:
   scientific: true
   autonym: true
   hybrid: true
+  formula: false
   sort_order: 10
   deprecated: false
 
@@ -106,6 +110,7 @@ hybrid_autonym:
   scientific: true
   autonym: true
   hybrid: true
+  formula: false
   sort_order: 11
   deprecated: false
 
@@ -116,6 +121,7 @@ intergrade:
   scientific: true
   autonym: false
   hybrid: true
+  formula: true
   sort_order: 12
   deprecated: false
 
@@ -168,6 +174,7 @@ cultivar_hybrid_formula:
   scientific: false
   autonym: false
   hybrid: true
+  formula: true
   cultivar: true
   sort_order: 18
   deprecated: false
@@ -245,6 +252,7 @@ graft_chimera:
   scientific: false
   autonym: false
   hybrid: false
+  formula: true
   cultivar: true
   sort_order: 25
   deprecated: false

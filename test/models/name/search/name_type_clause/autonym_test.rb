@@ -25,7 +25,7 @@ class AutonymParserDummy
     true
   end
 
-  def hybrid?
+  def named_hybrid?
     false
   end
   
@@ -47,7 +47,7 @@ class NameSeachNameTypeClauseAutonymTest < ActionController::TestCase
 
   test 'name search name type clause autonym' do
     expected = "(name_type.autonym)"
-    clause = Name::Search::NameTypeClause.new(AutonymParserDummy.new).clause
+    clause = Name::Search::NameTypeClause.new(@parser).clause
     assert_match "(name_type.autonym)", clause,
                  "Clause: #{clause} not as expected: #{expected}"
   end
