@@ -8,8 +8,8 @@ class Name::Search::Usage
               :misapplied_to_name, :misapplied_to_id
 
   def initialize(name_usage_query_record, synonym_bunch)
-    Rails.logger.debug("Namme::Search::Usage initialize +++++++++++++++++++++++++++++++++++++++++")
-    Rails.logger.debug("name_usage_query_record.class: #{name_usage_query_record.class}")
+    Rails.logger.error("Namme::Search::Usage initialize +++++++++++++++++++++")
+    Rails.logger.error("name_usage_query_record.class: #{name_usage_query_record.class}")
     @name_usage_query_record = name_usage_query_record
     @synonym_bunch = synonym_bunch
     initialize_misapplied
