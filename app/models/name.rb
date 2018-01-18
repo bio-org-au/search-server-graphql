@@ -120,4 +120,8 @@ class Name < ApplicationRecord
   def self.select_with_args(sql, args)
     sanitize_sql_array([sql, args].flatten)
   end
+
+  def accepted_tree_status
+    "Don't look here"
+  end
 end

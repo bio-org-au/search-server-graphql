@@ -11,9 +11,9 @@ class Name::Search::History
     instance_ids = raw_results.map(&:instance_id)
     @synonym_bunch = Name::Search::Synonym::BunchQuery.new(instance_ids)
     unless @synonym_bunch.results.empty?
-    end
-    @name_usages = raw_results.collect do |usage|
-      Name::Search::Usage.new(usage, @synonym_bunch)
+      @name_usages = raw_results.collect do |usage|
+        Name::Search::Usage.new(usage, @synonym_bunch)
+      end
     end
   end
 end

@@ -8,7 +8,9 @@ class Name::Search::Usage
               :misapplied_to_name, :misapplied_to_id
 
   def initialize(name_usage_query_record, synonym_bunch)
-    @name_usage = name_usage_query_record
+    Rails.logger.debug("Namme::Search::Usage initialize +++++++++++++++++++++++++++++++++++++++++")
+    Rails.logger.debug("name_usage_query_record.class: #{name_usage_query_record.class}")
+    @name_usage_query_record = name_usage_query_record
     @synonym_bunch = synonym_bunch
     initialize_misapplied
   end
@@ -18,7 +20,7 @@ class Name::Search::Usage
     @misapplied_to_name = ''
     @misapplied_by_id = nil
     @misapplied_on_page = ''
-    return unless @name_usage.misapplied == 't'
+    return unless @name_usage_query_record.misapplied == 't'
     prepare_misapplied
   end
 
@@ -28,15 +30,15 @@ class Name::Search::Usage
   end
 
   def cited_by_for_misapplied
-    inst1 = Instance.find(@name_usage.instance_id)
+    inst1 = Instance.find(@name_usage_query_record.instance_id)
     return if inst1.cited_by_id.blank?
-    cited_by = Instance.find(Instance.find(@name_usage.instance_id).cited_by_id)
+    cited_by = Instance.find(Instance.find(@name_usage_query_record.instance_id).cited_by_id)
     @misapplied_to_id = cited_by.name_id
     @misapplied_to_name = cited_by.name.full_name
   end
 
   def cites_for_misapplied
-    instance = Instance.find(@name_usage.instance_id)
+    instance = Instance.find(@name_usage_query_record.instance_id)
     inst2 = Instance.find(instance.id)
     return if inst2.cites_id.blank?
     cites = Instance.find(Instance.find(instance.id).cites_id)
@@ -46,47 +48,47 @@ class Name::Search::Usage
   end
 
   def instance_id
-    @name_usage.instance_id
+    @name_usage_query_record.instance_id
   end
 
   def instance_type_name
-    @name_usage.instance_type_name
+    @name_usage_query_record.instance_type_name
   end
 
   def accepted_tree_status
-    @name_usage.accepted_tree_status
+    @name_usage_query_record.accepted_tree_status
   end
 
   def primary_instance
-    @name_usage.primary_instance == 't'
+    @name_usage_query_record.primary_instance == 't'
   end
 
   def name_id
-    @name_usage.name_id
+    @name_usage_query_record.name_id
   end
 
   def reference_id
-    @name_usage.reference_id
+    @name_usage_query_record.reference_id
   end
 
   def citation
-    @name_usage.reference_citation
+    @name_usage_query_record.reference_citation
   end
 
   def page
-    @name_usage.instance_page
+    @name_usage_query_record.instance_page
   end
 
   def page_qualifier
-    @name_usage.instance_page_qualifier
+    @name_usage_query_record.instance_page_qualifier
   end
 
   def year
-    @name_usage.reference_year
+    @name_usage_query_record.reference_year
   end
 
   def misapplied
-    @name_usage.misapplied == 't'
+    @name_usage_query_record.misapplied == 't'
   end
 
   def standalone
@@ -94,13 +96,13 @@ class Name::Search::Usage
   end
 
   def synonyms
-    res = Name::Search::Synonym::Pick.new(@name_usage.instance_id, @synonym_bunch).results
+    res = Name::Search::Synonym::Pick.new(@name_usage_query_record.instance_id, @synonym_bunch).results
     res
   end
 
   def notes
     notes = []
-    InstanceNote.where(instance_id: @name_usage.instance_id)
+    InstanceNote.where(instance_id: @name_usage_query_record.instance_id)
                 .without_epbc_notes
                 .ordered_for_display
                 .each do |note|
