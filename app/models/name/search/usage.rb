@@ -8,8 +8,9 @@ class Name::Search::Usage
               :misapplied_to_name, :misapplied_to_id
 
   def initialize(name_usage_query_record, synonym_bunch)
-    Rails.logger.error("Namme::Search::Usage initialize +++++++++++++++++++++")
-    Rails.logger.error("name_usage_query_record.class: #{name_usage_query_record.class}")
+    Rails.logger.debug("Namme::Search::Usage initialize +++++++++++++++++++++")
+    Rails.logger.debug("name_usage_query_record.class: #{name_usage_query_record.class}")
+    Rails.logger.debug("name_usage_query_record[:accepted_tree_status]: #{name_usage_query_record[:accepted_tree_status]}")
     @name_usage_query_record = name_usage_query_record
     @synonym_bunch = synonym_bunch
     initialize_misapplied
@@ -56,7 +57,7 @@ class Name::Search::Usage
   end
 
   def accepted_tree_status
-    @name_usage_query_record.accepted_tree_status
+    @name_usage_query_record[:accepted_tree_status]
   end
 
   def primary_instance
