@@ -8,9 +8,6 @@ class Reference::Search::Parser
               :limit,
               :args
 
-  # Fuzzy or exact
-  ADD_TRAILING_WILDCARD = 'add_trailing_wildcard'
-
   # List or list with details output
   DETAILS = 'details'
   LIST = 'list'

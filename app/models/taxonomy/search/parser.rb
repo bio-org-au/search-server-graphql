@@ -17,9 +17,6 @@ class Taxonomy::Search::Parser
   CULTIVAR = 'Cultivar'
   COMMON = 'Common'
 
-  # Fuzzy or exact
-  ADD_TRAILING_WILDCARD = 'Add_trailing_wildcard'
-
   # List or list with details output
   DETAILS = 'details'
   LIST = 'list'
@@ -53,7 +50,7 @@ class Taxonomy::Search::Parser
   end
 
   def resolve_fuzzy_or_exact
-    @fuzzy_or_exact = ADD_TRAILING_WILDCARD
+    @fuzzy_or_exact = ''
     return unless @args.keys.include?('fuzzy_or_exact')
     @fuzzy_or_exact = @args['fuzzy_or_exact']
   end
@@ -122,6 +119,6 @@ class Taxonomy::Search::Parser
   end
 
   def add_trailing_wildcard?
-    @fuzzy_or_exact.casecmp(ADD_TRAILING_WILDCARD.downcase).zero?
+    false
   end
 end

@@ -3,13 +3,10 @@
 # Rails model
 # Interpret GraphQL args and provided
 # directions for the required search.
-class Reference::Search::Parser
+class NameRank::Search::Parser
   attr_reader :list_or_details,
               :limit,
               :args
-
-  # Fuzzy or exact
-  ADD_TRAILING_WILDCARD = 'add_trailing_wildcard'
 
   # List or list with details output
   DETAILS = 'details'

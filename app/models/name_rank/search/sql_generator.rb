@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Generate the sql to answer a request.
-class Reference::Search::SqlGenerator
+class NameRank::Search::SqlGenerator
   attr_reader :sql
 
   def initialize(parser)
@@ -25,11 +25,11 @@ class Reference::Search::SqlGenerator
   end
 
   def base_query
-    Reference.where("1=1")
+    NameRank.where("1=1")
   end
 
   def add_select
-    @sql = @sql.select('reference.*')
+    @sql = @sql.select('name_rank.*')
   end
 
   def add_limit
