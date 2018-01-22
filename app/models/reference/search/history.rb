@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Class for name_history_type
-class Name::Search::History
+class Reference::Search::History
   attr_reader :name_usages, :synonym_bunch
 
   def initialize(name_id)

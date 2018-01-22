@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Attributes for synonym type.
-class Name::Search::Synonym
+class Reference::Search::Synonym
   attr_reader :id, :full_name, :full_name_html, :instance_type, :page, :label,
               :page_qualifier, :name_status_name, :has_type_synonym,
               :of_type_synonym, :name_id

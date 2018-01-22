@@ -2,7 +2,7 @@
 
 # For a given name ID, retrieve a set of grouped and ordered
 # instance results suitable for displaying the name usages.
-class Name::Search::UsageQuery
+class Reference::Search::UsageQuery
   attr_reader :results, :id
   def initialize(name_id)
     @id = name_id
