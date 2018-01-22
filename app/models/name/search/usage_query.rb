@@ -12,11 +12,13 @@ class Name::Search::UsageQuery
   TREE_JOIN = "#{LEFT_OUTER_JOIN} #{FOR_TNODE} #{FOR_TREE_LABEL}"
 
   def initialize(name_id)
+    Rails.logger.debug('Name::Search::UsageQuery initialize')
     @id = name_id
     build_query
   end
 
   def build_query
+    Rails.logger.debug('Name::Search::UsageQuery.build_query')
     Rails.logger.debug('Name::Search::UsageQuery start ====================')
     @results = Name.where(id: @id)
                    .joins(instances: [:instance_type, reference: :author])
@@ -25,6 +27,8 @@ class Name::Search::UsageQuery
                    .select(columns)
                    .group(grouping)
                    .order(ordering)
+
+    Rails.logger.debug("@results.inspect: #{@results.inspect} ====================")
     Rails.logger.debug('Name::Search::UsageQuery end   ====================')
   end
 
