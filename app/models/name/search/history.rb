@@ -8,6 +8,7 @@ class Name::Search::History
     Rails.logger.debug('Name::Search::History initialize')
     @name = Name.find(name_id)
     usage_query_results = Name::Search::UsageQuery.new(name_id).results
+    Rails.logger.debug("usage_query_results.inspect: #{usage_query_results.inspect}")
     usage_query_results.each do |uqresult|
       Rails.logger.debug("uqresult[:accepted_tree_status]: #{uqresult[:accepted_tree_status]}")
     end
