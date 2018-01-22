@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #   Copyright 2015 Australian National Botanic Gardens
 #
 #   This file is part of the NSL Editor.
@@ -16,24 +17,24 @@
 #   limitations under the License.
 #
 class RefAuthorRole < ActiveRecord::Base
-  self.table_name = "ref_author_role"
-  self.primary_key = "id"
+  self.table_name = 'ref_author_role'
+  self.primary_key = 'id'
   has_many :references
 
   def as_citation
-    name.downcase =~ /editor/ ? "(ed.)" : ""
+    name.downcase =~ /editor/ ? '(ed.)' : ''
   end
 
   def as_excitation
-    name.downcase =~ /editor/ ? "(ed.)" : ""
+    name.downcase =~ /editor/ ? '(ed.)' : ''
   end
 
   def self.author
-    where(name: "Author").push(order("name").limit(1).first).first
+    where(name: 'Author').push(order('name').limit(1).first).first
   end
 
   def self.unknown
-    where(name: "Unknown").push(order("name").limit(1).first).first
+    where(name: 'Unknown').push(order('name').limit(1).first).first
   end
 
   def self.options
@@ -41,6 +42,6 @@ class RefAuthorRole < ActiveRecord::Base
   end
 
   def self.query_form_options
-    all.sort_by(&:name).collect { |n| [n.name, n.name.downcase, class: ""] }
+    all.sort_by(&:name).collect { |n| [n.name, n.name.downcase, class: ''] }
   end
 end

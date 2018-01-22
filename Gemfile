@@ -6,13 +6,13 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.10'
 # Use jdbcpostgresql as the database for Active Record
 platform :jruby do
-  gem "activerecord-jdbcpostgresql-adapter"
+  gem 'activerecord-jdbcpostgresql-adapter'
   gem 'jruby-jars', '9.1.12.0'
   gem 'warbler'
 end
 
 platform :ruby do
-  gem "pg"
+  gem 'pg'
 end
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -41,16 +41,15 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'graphql'
 gem 'pg_search'
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'graphiql-rails', group: :development
 
-
 group :development do
-  gem "puma"
   gem 'awesome_print'
+  gem 'puma'
   # gem "better_errors", "~>1.0"
   # gem "spring"
   # gem "binding_of_caller", platforms: [:mri_19, :mri_20, :mri_21, :rbx]
@@ -66,8 +65,8 @@ group :development do
 end
 
 group :development, :test do
-  gem "pry-rails"
-  gem "pry-rescue"
+  gem 'pry-rails'
+  gem 'pry-rescue'
   # gem "webmock"
   # gem "schema_plus"
 end

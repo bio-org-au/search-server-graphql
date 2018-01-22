@@ -32,16 +32,15 @@ class ScientificNoNamedHybridParserDummy
   def named_hybrid?
     false
   end
-  
+
   def cultivar?
-   false
+    false
   end
 
   def common?
     false
   end
 end
-
 
 # Single controller test.
 class NameSeachNameTypeClauseSciNoNamedHybridTest < ActionController::TestCase
@@ -50,7 +49,7 @@ class NameSeachNameTypeClauseSciNoNamedHybridTest < ActionController::TestCase
   end
 
   test 'name search name type clause scientific' do
-    expected = "(name_type.scientific and not (name_type.hybrid and not name_type.formula))"
+    expected = '(name_type.scientific and not (name_type.hybrid and not name_type.formula))'
     actual = Name::Search::NameTypeClause.new(@parser).clause
     assert_match expected, actual,
                  "Clause: #{actual} not as expected: #{expected}"

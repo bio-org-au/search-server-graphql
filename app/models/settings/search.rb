@@ -8,7 +8,7 @@ class Settings::Search
   end
 
   def value
-    ShardConfig.where(['name = ? ',@search_term]).first.value
+    ShardConfig.where(['name = ? ', @search_term]).first.value
   rescue
     'Unknown'
   end

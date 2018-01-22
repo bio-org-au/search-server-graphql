@@ -39,8 +39,8 @@ class Taxonomy::Search::Parser
   end
 
   def run_search?
-    @args.keys.include?('search_term') || 
-    @args.keys.include?('author_abbrev')
+    @args.keys.include?('search_term') ||
+      @args.keys.include?('author_abbrev')
   end
 
   def resolve_sci_cult_or_common

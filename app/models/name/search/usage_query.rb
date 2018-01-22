@@ -50,7 +50,7 @@ class Name::Search::UsageQuery
     instance_type.name, instance_type.misapplied,
     author.id,reference.citation_html,coalesce(reference.year,9999),  \
     author.name, primary_instance, instance.id, instance.page, \
-    instance.page_qualifier, reference.citation " 
+    instance.page_qualifier, reference.citation "
   end
 
   def ordering

@@ -18,7 +18,7 @@ require 'test_helper'
 
 class NoTypeParserDummy
   def scientific?
-   false
+    false
   end
 
   def autonym?
@@ -32,16 +32,15 @@ class NoTypeParserDummy
   def named_hybrid?
     false
   end
-  
+
   def cultivar?
-   false
+    false
   end
 
   def common?
     false
   end
 end
-
 
 # Single controller test.
 class NameSeachNameTypeClauseNoTypesTest < ActionController::TestCase

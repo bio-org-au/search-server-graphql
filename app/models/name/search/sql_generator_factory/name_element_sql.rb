@@ -39,12 +39,11 @@ class Name::Search::SqlGeneratorFactory::NameElementSql
     search_sql
   end
 
-
   def search_sql
     Rails.logger.debug('search_sql')
     @sql = []
-    #ActiveRecord::Base.connection.select_all(base_query).each do |x|
-    #ActiveRecord::Base.connection.select_all(Name.select_with_args(base_query_sql, @parser.args['name_element'] + '%')).each do |x|
+    # ActiveRecord::Base.connection.select_all(base_query).each do |x|
+    # ActiveRecord::Base.connection.select_all(Name.select_with_args(base_query_sql, @parser.args['name_element'] + '%')).each do |x|
     ActiveRecord::Base.connection.select_all(base_query).each do |x|
       Rails.logger.debug('search_sql loop')
       @sql.push(OpenStruct.new(x))
@@ -63,7 +62,7 @@ class Name::Search::SqlGeneratorFactory::NameElementSql
     add_species
     add_publication
     add_rank
-    #add_name_element
+    # add_name_element
     add_select
     add_limit
     order_scientifically unless @parser.common?
@@ -94,17 +93,17 @@ class Name::Search::SqlGeneratorFactory::NameElementSql
 
   def base_query
     Rails.logger.debug('base_query')
-    #Rails.logger.debug(Name.select_with_args(base_query_sql, @parser.args['name_element']))
+    # Rails.logger.debug(Name.select_with_args(base_query_sql, @parser.args['name_element']))
     # Name.select_with_args(base_query_sql, 'distans')
     Name.select_with_args(base_query_sql, @parser.args['name_element'])
   end
 
   def xbase_query
     Name.joins(:name_type).joins(:name_rank).joins(:name_status)
-      .where("lower(unaccent(name_element) like lower(unaccent(?))", @parser.args['name_element'] + '%')
-      .select('name.id')
+        .where('lower(unaccent(name_element) like lower(unaccent(?))', @parser.args['name_element'] + '%')
+        .select('name.id')
   end
-        #.where(INSTANCE_EXISTS)
+  # .where(INSTANCE_EXISTS)
 
   def add_author_abbrev
     return if author_abbrev_string.blank?
@@ -230,26 +229,26 @@ class Name::Search::SqlGeneratorFactory::NameElementSql
 
   def base_query_sql
     <<~HEREDOC
-    select inner_name.*
-from 
-(
-SELECT name.id, name.author_id, name.simple_name, name.full_name, name_status.name name_status_name, name_type.scientific
-  FROM name
- INNER JOIN name_type
-    ON name_type.id = name.name_type_id
- INNER JOIN name_status
-    ON name_status.id = name.name_status_id
- INNER JOIN name_rank
-    ON name_rank.id = name.name_rank_id
- INNER JOIN name_tree_path
-    ON name_tree_path.name_id = name.id
- WHERE lower(f_unaccent(name_element)) like lower(f_unaccent(?))
-order by coalesce(trim( trailing '>' from substring(substring( name_tree_path.rank_path from 'Familia:[^>]*>') from 9)), 'A'||to_char(name_rank.sort_order, '0009')), sort_name, name_rank.sort_order
- ) inner_name
-where scientific
- limit 20
+          select inner_name.*
+      from
+      (
+      SELECT name.id, name.author_id, name.simple_name, name.full_name, name_status.name name_status_name, name_type.scientific
+        FROM name
+       INNER JOIN name_type
+          ON name_type.id = name.name_type_id
+       INNER JOIN name_status
+          ON name_status.id = name.name_status_id
+       INNER JOIN name_rank
+          ON name_rank.id = name.name_rank_id
+       INNER JOIN name_tree_path
+          ON name_tree_path.name_id = name.id
+       WHERE lower(f_unaccent(name_element)) like lower(f_unaccent(?))
+      order by coalesce(trim( trailing '>' from substring(substring( name_tree_path.rank_path from 'Familia:[^>]*>') from 9)), 'A'||to_char(name_rank.sort_order, '0009')), sort_name, name_rank.sort_order
+       ) inner_name
+      where scientific
+       limit 20
       HEREDOC
-  end    
+  end
 
   def preprocessed_search_term
     return @pp_search_term if @pp_search_term.present?

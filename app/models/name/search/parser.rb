@@ -34,7 +34,7 @@ class Name::Search::Parser
   def initialize(args)
     Rails.logger.debug('Search::Parser.initialize')
     @args = args
-    #resolve_sci_cult_or_common
+    # resolve_sci_cult_or_common
     resolve_fuzzy_or_exact
   end
 

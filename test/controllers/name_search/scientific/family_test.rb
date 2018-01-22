@@ -22,9 +22,9 @@ class NameSearchScientificFamilyTest < ActionController::TestCase
   setup do
   end
 
-  test "scientific name search on family" do
+  test 'scientific name search on family' do
     post 'execute',
-      {query: '{name_search(family:"myrtaceae", type_of_name:"scientific"){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}' }
+         query: '{name_search(family:"myrtaceae", type_of_name:"scientific"){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}'
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.errors.nil?, "Not expecting any errors but got: #{obj.errors}."
@@ -34,4 +34,3 @@ class NameSearchScientificFamilyTest < ActionController::TestCase
                  "Actual name #{actual} should match #{expected}"
   end
 end
-

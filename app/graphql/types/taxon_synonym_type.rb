@@ -5,8 +5,8 @@ Types::TaxonSynonymType = GraphQL::ObjectType.define do
   field :id, types.ID
   field :name_id, types.ID
   field :full_name, types.String
-  #field :instance_type, types.String
-  #field :label, types.String
-  #field :page, types.String
-  #field :page_qualifier, types.String
+  # field :instance_type, types.String
+  # field :label, types.String
+  # field :page, types.String
+  # field :page_qualifier, types.String
 end

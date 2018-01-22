@@ -22,17 +22,16 @@ class NameSearchScientificRightPublicationYearTest < ActionController::TestCase
   setup do
   end
 
-  test "scientific name search on right publication year" do
+  test 'scientific name search on right publication year' do
     post 'execute',
-      {query: '{name_search(search_term:"angophora costata", publication_year: "1916", type_of_name:"scientific"){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}' }
+         query: '{name_search(search_term:"angophora costata", publication_year: "1916", type_of_name:"scientific"){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}'
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.errors.nil?, "Not expecting any errors but got: #{obj.errors}."
-    assert obj.data.name_search.names.present?, "Should be a name returned."
+    assert obj.data.name_search.names.present?, 'Should be a name returned.'
     expected = /\AAngophora costata \(Gaertn.\) Britten\z/
     actual = obj.data.name_search.names.first.full_name
     assert_match expected, actual,
                  "Actual name #{actual} should match #{expected}"
   end
 end
-

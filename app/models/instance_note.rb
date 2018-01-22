@@ -28,8 +28,8 @@ class InstanceNote < ActiveRecord::Base
   end)
 
   scope :ordered_for_display, (lambda do
-                                    order("id asc")
-                                  end)
+                                 order('id asc')
+                               end)
 
   def apc_distribution?
     instance_note_key.apc_distribution?

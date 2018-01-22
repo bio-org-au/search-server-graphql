@@ -22,15 +22,14 @@ class RanksOptionsTest < ActionController::TestCase
   setup do
   end
 
-  test "ranks query test" do
-    post 'execute', {query: '{ranks{options}}' }
+  test 'ranks query test' do
+    post 'execute', query: '{ranks{options}}'
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    assert obj.data.ranks.present?, "Ranks should be there"
-    assert obj.data.ranks.options.present?, "Ranks options should be there"
+    assert obj.data.ranks.present?, 'Ranks should be there'
+    assert obj.data.ranks.options.present?, 'Ranks options should be there'
     assert_same Array, obj.data.ranks.options.class,
-                "Options should be an Array"
-    assert obj.data.ranks.options.size > 25, "Should be at least 25 ranks."
+                'Options should be an Array'
+    assert obj.data.ranks.options.size > 25, 'Should be at least 25 ranks.'
   end
 end
-

@@ -22,14 +22,13 @@ class NameSearchCommonSimpleTest < ActionController::TestCase
   setup do
   end
 
-  test "simple common name search test" do
+  test 'simple common name search test' do
     post 'execute',
-      {query: '{name_search(search_term:"a*", common_name:true){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}' }
+         query: '{name_search(search_term:"a*", common_name:true){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}'
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert_match 'argyle apple',
-                  obj.data.name_search.names.first.full_name,
+                 obj.data.name_search.names.first.full_name,
                  "Name should match 'argyle apple'"
   end
 end
-

@@ -22,8 +22,8 @@ class NameTreePath < ActiveRecord::Base
              foreign_key: 'tree_id'
 
   belongs_to :tree, class_name: 'TreeArrangement', foreign_key: 'tree_id'
-  belongs_to :parent, class_name: "NameTreePath"
+  belongs_to :parent, class_name: 'NameTreePath'
   has_many :children,
-            class_name: "NameTreePath",
-            foreign_key: "parent_id"
+           class_name: 'NameTreePath',
+           foreign_key: 'parent_id'
 end

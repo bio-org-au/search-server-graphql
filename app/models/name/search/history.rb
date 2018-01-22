@@ -17,12 +17,12 @@ class Name::Search::History
     end
     usage_instance_ids = usage_query_results.map(&:instance_id)
     @synonym_bunch = Name::Search::Synonym::BunchQuery.new(usage_instance_ids)
-    Rails.logger.debug("Building @name_usages ===========================")
+    Rails.logger.debug('Building @name_usages ===========================')
     @name_usages = usage_query_results.collect do |usage_query_result|
       Rails.logger.debug("usage_query_result.class: #{usage_query_result.class}")
       Name::Search::Usage.new(usage_query_result, @synonym_bunch) unless usage_query_result.nil?
     end
-    Rails.logger.debug("After building @name_usages ===========================")
+    Rails.logger.debug('After building @name_usages ===========================')
     @name_usages.each do |name_usage|
       Rails.logger.debug("name_usage.accepted_tree_status: #{name_usage.accepted_tree_status}")
     end

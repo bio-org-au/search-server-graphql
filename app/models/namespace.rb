@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #   Copyright 2015 Australian National Botanic Gardens
 #
 #   This file is part of the NSL Editor.
@@ -16,13 +17,13 @@
 #   limitations under the License.
 #
 class Namespace < ActiveRecord::Base
-  self.table_name = "namespace"
-  self.primary_key = "id"
-  self.sequence_name = "nsl_global_seq"
+  self.table_name = 'namespace'
+  self.primary_key = 'id'
+  self.sequence_name = 'nsl_global_seq'
 
-  has_many :references, foreign_key: "namespace_id"
-  has_many :names, foreign_key: "namespace_id"
-  has_many :instances, foreign_key: "namespace_id"
+  has_many :references, foreign_key: 'namespace_id'
+  has_many :names, foreign_key: 'namespace_id'
+  has_many :instances, foreign_key: 'namespace_id'
 
   def self.default
     Namespace.first

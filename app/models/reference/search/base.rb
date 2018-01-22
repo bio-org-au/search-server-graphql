@@ -2,14 +2,14 @@
 
 # Class that conducts reference searches
 # The instance object must respond to these methods:
-# - references 
+# - references
 # - count
 class Reference::Search::Base
   attr_reader :reference_search_results
   def initialize(args)
     @args = args
     @parser = Reference::Search::Parser.new(args)
-    @generator =  Reference::Search::SqlGenerator.new(@parser)
+    @generator = Reference::Search::SqlGenerator.new(@parser)
     assemble_references
   end
 

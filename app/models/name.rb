@@ -12,20 +12,20 @@ class Name < ApplicationRecord
   belongs_to :author
   belongs_to :namespace
   belongs_to :author
-  belongs_to :ex_author, class_name: "Author"
-  belongs_to :base_author, class_name: "Author"
-  belongs_to :ex_base_author, class_name: "Author"
-  belongs_to :sanctioning_author, class_name: "Author"
-  belongs_to :parent, class_name: "Name", foreign_key: "parent_id"
+  belongs_to :ex_author, class_name: 'Author'
+  belongs_to :base_author, class_name: 'Author'
+  belongs_to :ex_base_author, class_name: 'Author'
+  belongs_to :sanctioning_author, class_name: 'Author'
+  belongs_to :parent, class_name: 'Name', foreign_key: 'parent_id'
   has_many :children,
-           class_name: "Name",
-           foreign_key: "parent_id",
+           class_name: 'Name',
+           foreign_key: 'parent_id',
            dependent: :restrict_with_exception
   belongs_to :second_parent,
-             class_name: "Name", foreign_key: "second_parent_id"
+             class_name: 'Name', foreign_key: 'second_parent_id'
   has_many :second_children,
-           class_name: "Name",
-           foreign_key: "second_parent_id",
+           class_name: 'Name',
+           foreign_key: 'second_parent_id',
            dependent: :restrict_with_exception
   has_many :name_tree_paths
   has_many :ntp_children, class_name: 'NameTreePath', foreign_key: 'family_id'
@@ -37,10 +37,10 @@ class Name < ApplicationRecord
   has_many :references, through: :instances
   has_many :reference_authors, through: :references, class_name: 'Author'
   has_many :tree_nodes
-  belongs_to :duplicate_of, class_name: "Name", foreign_key: "duplicate_of_id"
+  belongs_to :duplicate_of, class_name: 'Name', foreign_key: 'duplicate_of_id'
   has_many :duplicates,
-           class_name: "Name",
-           foreign_key: "duplicate_of_id",
+           class_name: 'Name',
+           foreign_key: 'duplicate_of_id',
            dependent: :restrict_with_exception # , order: 'name_element'
   scope :not_a_duplicate, -> { where(duplicate_of_id: nil) }
   scope :ordered_scientifically, (lambda do
@@ -114,7 +114,7 @@ class Name < ApplicationRecord
   #   activerecord-select-with-parameter-binding
   #
   # Example use:
-  # ActiveRecord::Base.connection.select_all(Name.select_with_args('select 
+  # ActiveRecord::Base.connection.select_all(Name.select_with_args('select
   # simple_name,nt.name from name join name_type nt on name.name_type_id = nt.id
   # where name.id = ?',91755))
   def self.select_with_args(sql, args)

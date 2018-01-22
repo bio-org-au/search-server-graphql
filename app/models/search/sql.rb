@@ -6,11 +6,11 @@
 class Search::Sql
   attr_reader :search_term,
 
-  def initialize(args, add_trailing_wildcard)
-    @args = args
-    @add_trailing_wildcard = add_trailing_wildcard
-    scientific_search_sql
-  end
+              def initialize(args, add_trailing_wildcard)
+                @args = args
+                @add_trailing_wildcard = add_trailing_wildcard
+                scientific_search_sql
+              end
 
   def scientific_search_sql
     Name.where(['lower(simple_name) like lower(?) or lower(full_name) like lower(?)', preprocessed_search_term, preprocessed_search_term])
@@ -25,17 +25,16 @@ class Search::Sql
         .ordered_scientifically
         .limit(@args['limit'] || 100)
   end
-  
+
   def preprocessed_search_term
     return @pp_search_term if @pp_search_term.present?
     stripped_term = @args['search_term'].strip
     @pp_search_term = if stripped_term.blank?
-                     ''
-                   elsif add_trailing_wildcard
-                     stripped_term.sub(/$/, '%').tr('*', '%')
-                   else
-                     stripped_term.tr('*', '%')
+                        ''
+                      elsif add_trailing_wildcard
+                        stripped_term.sub(/$/, '%').tr('*', '%')
+                      else
+                        stripped_term.tr('*', '%')
                    end
   end
-
 end

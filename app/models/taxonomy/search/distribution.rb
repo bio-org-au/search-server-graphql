@@ -7,7 +7,7 @@ class Taxonomy::Search::Distribution
     @instance_id = instance_id
     instance = Instance.find(instance_id)
     instance.instance_as_synonyms.each do |synonym|
-      self.push Taxonomy::Search::Synonym.new(synonym)
+      push Taxonomy::Search::Synonym.new(synonym)
     end
   end
 end

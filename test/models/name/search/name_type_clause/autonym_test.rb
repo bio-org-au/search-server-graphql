@@ -18,7 +18,7 @@ require 'test_helper'
 
 class AutonymParserDummy
   def scientific?
-   false
+    false
   end
 
   def autonym?
@@ -32,16 +32,15 @@ class AutonymParserDummy
   def named_hybrid?
     false
   end
-  
+
   def cultivar?
-   false
+    false
   end
 
   def common?
     false
   end
 end
-
 
 # Single controller test.
 class NameSeachNameTypeClauseAutonymTest < ActionController::TestCase
@@ -50,9 +49,9 @@ class NameSeachNameTypeClauseAutonymTest < ActionController::TestCase
   end
 
   test 'name search name type clause autonym' do
-    expected = "(name_type.autonym)"
+    expected = '(name_type.autonym)'
     clause = Name::Search::NameTypeClause.new(@parser).clause
-    assert_match "(name_type.autonym)", clause,
+    assert_match '(name_type.autonym)', clause,
                  "Clause: #{clause} not as expected: #{expected}"
   end
 end

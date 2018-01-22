@@ -21,14 +21,14 @@ class GraphqlControllerTest < ActionController::TestCase
   setup do
   end
 
-  test "should be a minimal test" do
+  test 'should be a minimal test' do
     post 'execute'
     assert_response :success
   end
 
-  test "simple taxonomy query test" do
+  test 'simple taxonomy query test' do
     post 'execute',
-      {query: '{taxonomy_search(search_term:"angophora"){taxa{id,full_name,name_status_name}}}' }
+         query: '{taxonomy_search(search_term:"angophora"){taxa{id,full_name,name_status_name}}}'
     assert_response :success
   end
 end

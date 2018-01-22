@@ -2,7 +2,7 @@
 
 # Class that conducts name_rank searches
 # The instance object must respond to these methods:
-# - options 
+# - options
 class NameRank::Search::Base
   def options
     NameRank.new.options

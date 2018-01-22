@@ -25,7 +25,7 @@ class NameRank::Search::SqlGenerator
   end
 
   def base_query
-    NameRank.where("1=1")
+    NameRank.where('1=1')
   end
 
   def add_select
@@ -37,7 +37,7 @@ class NameRank::Search::SqlGenerator
   end
 
   def add_publication
-    @sql = @sql.where(['lower(citation) like lower(?)',publication])
+    @sql = @sql.where(['lower(citation) like lower(?)', publication])
   end
 
   def add_order
@@ -45,7 +45,7 @@ class NameRank::Search::SqlGenerator
   end
 
   def count_publication
-    @cql = @cql.where(['lower(citation) like lower(?)',publication])
+    @cql = @cql.where(['lower(citation) like lower(?)', publication])
   end
 
   def publication

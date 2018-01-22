@@ -4,7 +4,7 @@
 class NameRank::Search::Factory
   attr_reader :options
   # The returned object must respond to the "options" method call.
-  def self.build(args)
+  def self.build(_args)
     NameRank::Search::Base.new
   end
 end

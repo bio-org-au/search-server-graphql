@@ -17,33 +17,33 @@
 #   limitations under the License.
 #
 class Language < ActiveRecord::Base
-  self.table_name = "language"
-  self.primary_key = "id"
+  self.table_name = 'language'
+  self.primary_key = 'id'
   has_many :references
   ORDER_BY = "case name when 'Undetermined' then 'AAA' \
   when 'English' then 'AAB' when 'French' then 'AAC' when 'German' then 'AAD'\
   when 'Latin' then 'AAE' else name end"
 
   def self.unknown
-    find_by(name: "Undetermined")
+    find_by(name: 'Undetermined')
   end
 
   def self.default
-    find_by(name: "Undetermined")
+    find_by(name: 'Undetermined')
   end
 
   # For any language select list.
   def self.options
     all.order(ORDER_BY).collect do |lang|
       [lang.name, lang.id]
-    end.insert(5, ["──────────", "disabled"])
+    end.insert(5, ['──────────', 'disabled'])
   end
 
   def self.english
-    find_by(name: "English")
+    find_by(name: 'English')
   end
 
   def determined?
-    name != "Undetermined"
+    name != 'Undetermined'
   end
 end

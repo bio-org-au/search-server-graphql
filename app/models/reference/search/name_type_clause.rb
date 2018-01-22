@@ -18,15 +18,15 @@ class Reference::Search::NameTypeClause
   def clause
     buffer = String.new
     if @parser.scientific?
-      if @parser.autonym? && @parser.hybrid?
-        buffer << SCIENTIFIC_CLAUSE_OR
-      elsif @parser.autonym?
-        buffer << SCIENTIFIC_CLAUSE_NOT_HYBRID_OR
-      elsif @parser.hybrid?
-        buffer << SCIENTIFIC_CLAUSE_NOT_AUTONYM_OR
-      else
-        buffer << SCIENTIFIC_CLAUSE_NOT_HYBRID_NOT_AUTONYM_OR
-      end
+      buffer << if @parser.autonym? && @parser.hybrid?
+                  SCIENTIFIC_CLAUSE_OR
+                elsif @parser.autonym?
+                  SCIENTIFIC_CLAUSE_NOT_HYBRID_OR
+                elsif @parser.hybrid?
+                  SCIENTIFIC_CLAUSE_NOT_AUTONYM_OR
+                else
+                  SCIENTIFIC_CLAUSE_NOT_HYBRID_NOT_AUTONYM_OR
+                end
     else
       buffer << AUTONYM_CLAUSE_OR if @parser.autonym?
       buffer << HYBRID_CLAUSE_OR if @parser.hybrid?
@@ -34,7 +34,7 @@ class Reference::Search::NameTypeClause
     buffer << CULTIVAR_CLAUSE_OR if @parser.cultivar?
     buffer << COMMON_CLAUSE_OR if @parser.common?
     buffer << SCIENTIFIC_CLAUSE_OR if buffer.blank?
-    buffer = buffer.sub(/ or $/,'')
+    buffer = buffer.sub(/ or $/, '')
     "(#{buffer})"
   end
 end

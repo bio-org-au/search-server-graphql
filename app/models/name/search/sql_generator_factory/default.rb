@@ -21,15 +21,15 @@ class Name::Search::SqlGeneratorFactory::Default
   SIMPLE_NAME_CLAUSE = 'lower(name.simple_name) like lower(?)'
   GENUS_CLAUSE = "#{RANK_GENUS_CLAUSE} and #{SIMPLE_NAME_CLAUSE}"
   # Publication
-  PROTOLOGUE_CLAUSE = "instance.instance_type_id in (select id from instance_type where protologue)"
+  PROTOLOGUE_CLAUSE = 'instance.instance_type_id in (select id from instance_type where protologue)'
   # Name element
   NAME_ELEMENT_CLAUSE = '(lower(unaccent(name_element)) like lower(unaccent(?)))'
   # Species
   # For species we want to match the species-search-term with
-  # - "Genus species-search-term subsp. xyz" 
+  # - "Genus species-search-term subsp. xyz"
   # - "Genus species-search-term"
   # For species we want to exclude:
-  # - "Genus species-search-termWith-some-extra-text subsp. xyz" 
+  # - "Genus species-search-termWith-some-extra-text subsp. xyz"
   #
   # (They can always add their own wildcards.)
   SPECIES_CLAUSE = "#{SIMPLE_NAME_CLAUSE} or #{SIMPLE_NAME_CLAUSE}"
@@ -111,8 +111,8 @@ class Name::Search::SqlGeneratorFactory::Default
   def count_taxon_name_author_abbrev
     return if taxon_name_author_abbrev_string.blank?
     @cql = @cql.where([TAXON_NAME_AUTHOR_ABBREV_CLAUSE,
-                      taxon_name_author_abbrev_string,
-                      taxon_name_author_abbrev_string])
+                       taxon_name_author_abbrev_string,
+                       taxon_name_author_abbrev_string])
   end
 
   def count_basionym_author_abbrev
@@ -171,18 +171,14 @@ class Name::Search::SqlGeneratorFactory::Default
   def add_publication(sql)
     return sql if publication_string.blank?
     sql = sql.joins(:instances).joins(instances: :reference).merge(Reference.search_citation_text_for(publication_string))
-    if @parser.args['protologue'] == '1'
-      sql = sql.where(PROTOLOGUE_CLAUSE)
-    end
+    sql = sql.where(PROTOLOGUE_CLAUSE) if @parser.args['protologue'] == '1'
     sql
   end
 
   def add_publication_year(sql)
     return sql if publication_year_string.blank?
     sql = sql.joins(:instances).joins(instances: :reference).merge(Reference.where(year: publication_year_string.to_i))
-    if @parser.args['protologue'] == '1'
-      sql = sql.where(PROTOLOGUE_CLAUSE)
-    end
+    sql = sql.where(PROTOLOGUE_CLAUSE) if @parser.args['protologue'] == '1'
     sql
   end
 
@@ -220,11 +216,11 @@ class Name::Search::SqlGeneratorFactory::Default
 
   def add_rank(sql)
     return sql if rank_string.blank?
-    if @parser.args['include_ranks_below'] == 'true'
-      sql = sql.where([RANK_AND_BELOW_CLAUSE, rank_string])
-    else
-      sql = sql.where([RANK_CLAUSE, rank_string])
-    end
+    sql = if @parser.args['include_ranks_below'] == 'true'
+            sql.where([RANK_AND_BELOW_CLAUSE, rank_string])
+          else
+            sql.where([RANK_CLAUSE, rank_string])
+          end
     sql
   end
 
@@ -262,11 +258,11 @@ class Name::Search::SqlGeneratorFactory::Default
   end
 
   def add_instance(sql)
-    if @parser.type_note_text.blank?
-      sql = sql.joins(:instances)
-    else
-      sql = add_instance_with_type_note_restriction(sql)
-    end
+    sql = if @parser.type_note_text.blank?
+            sql.joins(:instances)
+          else
+            add_instance_with_type_note_restriction(sql)
+          end
     sql
   end
 
@@ -330,7 +326,6 @@ class Name::Search::SqlGeneratorFactory::Default
     sql.joins(:name_tree_paths)
        .where(NAME_TREE)
   end
-
 
   def count_name_tree_path(sql)
     sql.joins(:name_tree_paths)

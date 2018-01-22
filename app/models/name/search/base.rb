@@ -2,13 +2,13 @@
 
 # Class that conducts name searches
 # The instance object must respond to these methods:
-# - names 
+# - names
 # - count
 class Name::Search::Base
   def initialize(args)
     @args = args
     @parser = Name::Search::Parser.new(args)
-    @generator =  Name::Search::SqlGeneratorFactory.new(@parser).build
+    @generator = Name::Search::SqlGeneratorFactory.new(@parser).build
   end
 
   def count

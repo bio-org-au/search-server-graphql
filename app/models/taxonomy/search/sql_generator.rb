@@ -22,7 +22,7 @@ class Taxonomy::Search::SqlGenerator
     Name.select("name.id, name.full_name, name.simple_name, name_status.name \
                 name_status_name, reference.citation reference_citation, \
                 instance.id instance_id")
-        .order("name.sort_name")
+        .order('name.sort_name')
     # .ordered_scientifically
   end
 
