@@ -4,11 +4,7 @@
 # Interpret GraphQL args and provided
 # directions for the required search.
 class Taxonomy::Search::Parser
-  attr_reader :search_term,
-              :sci_cult_or_common,
-              :simple_or_advanced,
-              :list_or_details,
-              :limit,
+  attr_reader :sci_cult_or_common,
               :args
 
   # Type of name
@@ -22,14 +18,15 @@ class Taxonomy::Search::Parser
   LIST = 'list'
 
   # Limits
-  DEFAULT_LIST_LIMIT = 1000
-  DEFAULT_DETAILS_LIMIT = 3
+  DEFAULT_LIST_LIMIT = 50
+  DEFAULT_DETAILS_LIMIT = 10
 
   SIMPLE_SEARCH = 'Search'
 
   def initialize(args)
     Rails.logger.debug('Search::Parser.initialize')
     @args = args
+    Rails.logger.debug("@args: #{@args.inspect}")
     resolve_sci_cult_or_common
     resolve_fuzzy_or_exact
     # @search_type = search_type
@@ -55,7 +52,7 @@ class Taxonomy::Search::Parser
     @fuzzy_or_exact = @args['fuzzy_or_exact']
   end
 
-  def search_type
+  def xsearch_type
     if @args.key?(:search_type)
       "#{@args[:search_type]} Search"
     else
@@ -69,8 +66,7 @@ class Taxonomy::Search::Parser
   end
 
   def search_term
-    term = @args[:q].strip.tr('*', '%')
-    return term unless add_trailing_wildcard.start_with?('t')
+    term = @args[:search_term].strip.tr('*', '%')
     term.sub(/$/, '%')
   end
 
@@ -79,11 +75,15 @@ class Taxonomy::Search::Parser
   end
 
   def limit
-    if list?
-      DEFAULT_LIST_LIMIT
-    else
-      DEFAULT_DETAILS_LIMIT
-    end
+    @args['limit'].blank? ? default_limit : [@args['limit'].to_i, 1].max
+  end
+
+  def default_limit
+    list? ? DEFAULT_LIST_LIMIT : DEFAULT_DETAILS_LIMIT
+  end
+
+  def offset
+    [@args['offset'].to_i, 0].max
   end
 
   def list?
@@ -114,11 +114,23 @@ class Taxonomy::Search::Parser
     @sci_cult_or_common.strip.casecmp(CULTIVAR.downcase).zero?
   end
 
-  def common?
+  def xcommon?
     @sci_cult_or_common.strip.casecmp(COMMON.downcase).zero?
   end
 
   def add_trailing_wildcard?
     false
+  end
+
+  def accepted?
+    @args.key?(:accepted_name) && @args[:accepted_name] == true
+  end
+
+  def excluded?
+    @args.key?(:excluded_name) && @args[:excluded_name] == true
+  end
+
+  def cross_reference?
+    @args.key?(:cross_reference) && @args[:cross_reference] == true
   end
 end

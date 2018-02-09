@@ -2,26 +2,24 @@
 
 # Class that conducts taxonomy searches
 class Taxonomy::Search::Base
-  attr_reader :taxonomy_search_results
-  # The returned object must respond to the "taxa" method call.
   def initialize(args)
-    Rails.logger.debug('Taxonomy::Search::Base.new')
     @args = args
-    @parser = Taxonomy::Search::Parser.new(args)
-    search
+    @parser = Taxonomy::Search::Parser.new(@args)
+    @generator = Taxonomy::Search::SqlGeneratorFactory.new(@parser).build
   end
 
-  # The returned object must respond to the "taxa" method call.
+  # The returned object must respond to the "count" message
+  def count
+    @generator.count
+  end
+
+  # The returned object must respond to the "taxa" message
   def taxa
-    @taxonomy_search_results
-  end
-
-  def search
-    Rails.logger.debug('Taxonomy::Search::Base#search scientific_search =====')
-    @taxonomy_search_results = Taxonomy::Search::Results.new
-    Taxonomy::Search::SqlGenerator.new(@parser).sql.each do |result|
-      @taxonomy_search_results.push Taxonomy::Search::Result.new(result)
+    taxonomy_search_results = Taxonomy::Search::Results.new
+    @generator.search.each do |one_record|
+      Rails.logger.debug(one_record.class)
+      taxonomy_search_results.push one_record
     end
-    @taxonomy_search_results
+    taxonomy_search_results
   end
 end

@@ -2,6 +2,7 @@
 
 Types::TaxonType = GraphQL::ObjectType.define do
   name 'taxon'
+  field :record_type, types.String
   field :id, types.ID
   field :simple_name, types.String
   field :full_name, types.String
@@ -9,4 +10,6 @@ Types::TaxonType = GraphQL::ObjectType.define do
   field :name_status_name, types.String
   field :reference_citation, types.String
   field :taxon_details, Types::TaxonDetailsType
+  field :accepted_full_name, types.String
+  field :cites_misapplied, types.Boolean
 end

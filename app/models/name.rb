@@ -99,6 +99,7 @@ class Name < ApplicationRecord
   end
 
   def name_status_name
+    # 'name-status-from-name' # name_status.name
     name_status.name
   end
 

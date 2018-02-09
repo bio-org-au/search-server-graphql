@@ -7,7 +7,6 @@ class Name::Search::SqlGeneratorFactory
   end
 
   def build
-    # NameElementSql.new(@parser)
     Default.new(@parser)
   end
 end

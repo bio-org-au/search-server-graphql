@@ -61,9 +61,12 @@ Types::QueryType = GraphQL::ObjectType.define do
     type Types::Taxonomy::SearchType
     argument :search_term, types.String
     argument :author_abbrev, types.String
-    argument :type_of_name, types.String
+    argument :accepted_name, types.Boolean
+    argument :excluded_name, types.Boolean
+    argument :cross_reference, types.Boolean
     argument :fuzzy_or_exact, types.String
     argument :limit, types.Int
+    argument :offset, types.Int
     argument :id, types.ID
     resolve ->(_obj, args, _ctx) {
       Taxonomy::Search::Factory.build(args)
