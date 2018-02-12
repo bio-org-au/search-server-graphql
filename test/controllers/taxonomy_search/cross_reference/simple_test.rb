@@ -24,11 +24,11 @@ class TaxonomySearchCrossReferenceNameSimpleTest < ActionController::TestCase
 
   test 'simple cross reference name taxonomy query test' do
     post 'execute',
-         query: '{taxonomy_search(search_term:"angophora costata", cross_reference_name: true){count,taxa{id,full_name}}}'
+         query: '{taxonomy_search(search_term:"angophora costata", cross_reference: true){count,taxa{id,full_name}}}'
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
+    assert obj.errors.blank?, "Error: #{obj.errors.try('first').try('message')}"
     # no tree fixtures yet, so expect no results
-    # puts response.body
     # assert_match 'Angophora',
     #              obj.data.taxonomy_search.taxa.first.full_name,
     #              "Taxon name should match 'Angophora'"

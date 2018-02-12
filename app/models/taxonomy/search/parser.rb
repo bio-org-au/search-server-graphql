@@ -71,7 +71,7 @@ class Taxonomy::Search::Parser
   end
 
   def show_as
-    @args[:show_results_as] || @args[:default_show_results_as] || SHOW_LIST
+    @args[:show_results_as] || @args[:default_show_results_as] || LIST
   end
 
   def limit
@@ -87,7 +87,7 @@ class Taxonomy::Search::Parser
   end
 
   def list?
-    @show_as == SHOW_LIST
+    @show_as == LIST
   end
 
   def show_list?
