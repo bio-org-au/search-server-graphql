@@ -65,15 +65,15 @@ class NameOrSynonym < ActiveRecord::Base
     Reference.find(reference_id).citation
   end
 
-  def xrecord_type
-    'x'
+  def accepted_taxon_comment
+    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: InstanceNoteKey.find_by(name: 'APC Comment').id).try('first').try('value')
   end
 
-  def xname_status_name
-    'x'
+  def accepted_taxon_distribution
+    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: InstanceNoteKey.find_by(name: 'APC Dist.').id).try('first').try('value')
   end
 
-  def xreference_citation
-    'x'
+  def cross_referenced_full_name
+    accepted_full_name
   end
 end

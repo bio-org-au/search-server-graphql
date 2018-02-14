@@ -72,4 +72,13 @@ class AcceptedSynonym < ActiveRecord::Base
   def reference_citation
     'no reference citation'
   end
+
+  def accepted_taxon_comment
+  end
+
+  def accepted_taxon_distribution
+  end
+
+  def cross_referenced_full_name
+  end
 end

@@ -84,4 +84,15 @@ class AcceptedName < ActiveRecord::Base
   def reference_citation
     reference.citation
   end
+
+  def accepted_taxon_comment
+    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: InstanceNoteKey.find_by(name: 'APC Comment').id).try('first').try('value')
+  end
+
+  def accepted_taxon_distribution
+    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: InstanceNoteKey.find_by(name: 'APC Dist.').id).try('first').try('value')
+  end
+
+  def cross_referenced_full_name
+  end
 end

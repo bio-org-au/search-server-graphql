@@ -10,6 +10,8 @@ Types::TaxonType = GraphQL::ObjectType.define do
   field :name_status_name, types.String
   field :reference_citation, types.String
   field :taxon_details, Types::TaxonDetailsType
-  field :accepted_full_name, types.String
+  field :cross_referenced_full_name, types.String
   field :cites_misapplied, types.Boolean
+  field :accepted_taxon_comment, types.String
+  field :accepted_taxon_distribution, types.String
 end
