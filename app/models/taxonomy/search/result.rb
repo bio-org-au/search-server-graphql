@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Class for the result of a taxonomy search
-class xxTaxonomy::Search::Resultx
+class Taxonomy::Search::Result
   attr_reader :id, :full_name, :simple_name, :name_status_name,
               :reference_citation
   def initialize(h)
