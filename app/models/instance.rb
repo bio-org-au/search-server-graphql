@@ -27,7 +27,7 @@ class Instance < ActiveRecord::Base
           where name = 'APC Comment')"
   end),
            class_name: 'InstanceNote', foreign_key: 'instance_id'
-  has_many :instance_as_synonyms, foreign_key: 'cited_by_id'
+  has_many :synonyms, foreign_key: "cited_by_id", class_name: 'Instance'
   has_one :accepted_name
 
   belongs_to :cited_by_instance, foreign_key: 'cited_by_id'

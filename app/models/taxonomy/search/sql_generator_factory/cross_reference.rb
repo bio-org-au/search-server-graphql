@@ -7,7 +7,7 @@ class Taxonomy::Search::SqlGeneratorFactory::CrossReference
   end
 
   def search
-    AcceptedSynonym.ordered
+    CrossReferenceSynonym.default_ordered
                    .name_matches(@parser.search_term)
                    .includes(:status)
                    .limit(@parser.limit)
@@ -15,7 +15,7 @@ class Taxonomy::Search::SqlGeneratorFactory::CrossReference
   end
 
   def count
-    AcceptedSynonym.name_matches(@parser.search_term).count
+    CrossReferenceSynonym.name_matches(@parser.search_term).count
   end
 end
 

@@ -20,5 +20,3 @@ class Taxonomy::Search::SqlGeneratorFactory::Excluded
     AcceptedName.excluded.name_matches(@parser.search_term).count
   end
 end
-
-

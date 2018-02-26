@@ -52,4 +52,7 @@ class Reference < ActiveRecord::Base
                       prefix: 'true',
                     }
                   }
+  def author_string_and_year
+    citation.sub(/\),.*/,')')
+  end
 end

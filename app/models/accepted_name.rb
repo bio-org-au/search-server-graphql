@@ -95,4 +95,43 @@ class AcceptedName < ActiveRecord::Base
 
   def cross_referenced_full_name
   end
+
+  def synonyms
+    Taxonomy::Search::Synonyms.new(instance_id)
+  end
+
+  def cross_reference_misapplication_details
+  end
+
+  def misapplication?
+    cites_misapplied
+  end
+
+  # graphql does not like question marks
+  def is_misapplication
+    misapplication?
+  end
+
+  def pro_parte?
+    Rails.logger.debug("CRS#pro_parte?")
+    # Follow misapplication pattern
+    if cites_instance_id == 0
+      false
+    else
+      pp = Instance.find(cites_instance_id).instance_type.pro_parte
+      pp == 't' || pp == true
+    end
+  end
+
+  def is_pro_parte
+    pro_parte?
+  end
+
+  def order_string
+    sort_name
+  end
+
+  def source_object
+    'acn'
+  end
 end

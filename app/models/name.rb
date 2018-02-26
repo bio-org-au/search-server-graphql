@@ -125,4 +125,8 @@ class Name < ApplicationRecord
   def accepted_tree_status
     "Don't look here"
   end
+
+  def author_component_of_full_name
+    full_name.sub(/#{Regexp.escape(simple_name)}/, "")
+  end
 end

@@ -18,6 +18,6 @@ class Taxonomy::Search::Synonym
   end
 
   def full_name
-    @instance.name.full_name
+    '@instance.name.full_name'
   end
 end

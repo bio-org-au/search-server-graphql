@@ -17,7 +17,6 @@ class Taxonomy::Search::Base
   def taxa
     taxonomy_search_results = Taxonomy::Search::Results.new
     @generator.search.each do |one_record|
-      Rails.logger.debug(one_record.class)
       taxonomy_search_results.push one_record
     end
     taxonomy_search_results

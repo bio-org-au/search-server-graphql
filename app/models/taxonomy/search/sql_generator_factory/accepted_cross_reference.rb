@@ -8,6 +8,7 @@ class Taxonomy::Search::SqlGeneratorFactory::AcceptedCrossReference
 
   def search
     NameOrSynonym.name_matches(@parser.search_term, {accepted: true, excluded: false})
+                .default_ordered
                 .limit(@parser.limit)
                 .offset(@parser.offset)
                 #.includes(:status)
