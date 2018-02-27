@@ -72,10 +72,12 @@ class NameOrSynonym < ActiveRecord::Base
 
   def reference_citation
     return nil if reference_id == 0
+    return nil if cross_reference?
     Reference.find(reference_id).citation
   end
 
   def accepted_taxon_comment
+    return nil if cross_reference?
     InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: InstanceNoteKey.find_by(name: 'APC Comment').id).try('first').try('value')
   end
 
