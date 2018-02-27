@@ -91,7 +91,7 @@ class NameOrSynonym < ActiveRecord::Base
   end
 
   def synonyms
-    if accepted_accepted?
+    unless cross_reference?
       Taxonomy::Search::Synonyms.new(instance_id)
     else
       []
