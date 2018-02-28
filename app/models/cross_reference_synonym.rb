@@ -129,18 +129,16 @@ class CrossReferenceSynonym < ActiveRecord::Base
       details = OpenStruct.new
       details.citing_instance_id = citing_instance.id
       details.citing_reference_id = citing_instance.reference_id
-      details.citing_reference_author_string_and_year = Instance.find(cites_instance_id).reference.author_string_and_year
+      details.citing_reference_author_string_and_year = citing_instance.reference.author_string_and_year
       details.misapplying_author_string_and_year = misapplying_author_string_and_year
-      details.name_author_string = 'name_author_string' #'synonym.this_cites.name.author_component_of_full_name.strip'
-      details.cites_simple_name = 'cites_simple_name' #'synonym.this_is_cited_by.name.simple_name'
-      details.cites_page = 'cites_page' #'synonym.this_cites.page'
       details.pro_parte = citing_instance.instance_type.pro_parte
+      details.is_doubtful = citing_instance.instance_type.doubtful?
     else
       details = nil
     end
     details
   end
-
+ 
   def source_object
     'crs'
   end

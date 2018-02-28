@@ -122,7 +122,8 @@ class NameOrSynonym < ActiveRecord::Base
       details.name_author_string = Instance.find(cites_instance_id).name.author_component_of_full_name.strip
       details.cites_simple_name = 'cites_simple_name' #'synonym.this_is_cited_by.name.simple_name'
       details.cites_page = 'cites_page' #'synonym.this_cites.page'
-      details.pro_parte = Instance.find(cites_instance_id).instance_type.pro_parte
+      details.pro_parte = citing_instance.instance_type.pro_parte
+      details.is_doubtful = citing_instance.instance_type.doubtful?
     else
       details = nil
     end
