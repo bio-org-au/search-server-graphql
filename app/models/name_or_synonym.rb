@@ -90,6 +90,10 @@ class NameOrSynonym < ActiveRecord::Base
     accepted_full_name
   end
 
+  def cross_referenced_full_name_id
+    accepted_id
+  end
+
   def synonyms
     unless cross_reference?
       Taxonomy::Search::Synonyms.new(instance_id)

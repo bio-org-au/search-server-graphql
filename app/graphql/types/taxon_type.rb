@@ -13,6 +13,7 @@ Types::TaxonType = GraphQL::ObjectType.define do
   field :reference_id, types.ID
   field :taxon_details, Types::TaxonDetailsType
   field :cross_referenced_full_name, types.String
+  field :cross_referenced_full_name_id, types.String
   field :is_misapplication, types.Boolean
   field :is_pro_parte, types.Boolean
   field :cites_instance_id, types.ID

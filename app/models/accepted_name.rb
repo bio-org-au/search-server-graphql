@@ -96,6 +96,9 @@ class AcceptedName < ActiveRecord::Base
   def cross_referenced_full_name
   end
 
+  def cross_referenced_full_name_id
+  end
+
   def synonyms
     Taxonomy::Search::Synonyms.new(instance_id)
   end
