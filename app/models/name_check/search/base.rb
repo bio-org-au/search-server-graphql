@@ -20,8 +20,33 @@ class NameCheck::Search::Base
     @engine.results_limited
   end
 
+  # The returned object must respond to the "count" message
+  def names_checked_count
+    @engine.names_checked_count
+  end
+
+  # The returned object must respond to the "count" message
+  def names_checked_limited
+    @engine.names_checked_limited
+  end
+
+  # The returned object must respond to the "count" message
+  def names_found_count
+    @engine.names_found_count
+  end
+
   # The returned object must respond to the "results" message
   def results
     @engine.results
+  end
+
+  # The returned object must respond to the "results" message
+  def names_to_check_count
+    @engine.names_to_check_count
+  end
+
+  # The returned object must respond to the "count" message
+  def names_with_match_count
+    @engine.names_with_match_count
   end
 end

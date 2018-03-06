@@ -3,6 +3,9 @@
 # Run name check queries.
 class NameCheck::Search::Engine
   include NameSearchable
+
+  attr_reader :names_found_count, :results_limited,
+              :names_checked_count, :results_count, :names_with_match_count
   def initialize(parser)
     @parser = parser
     search
@@ -11,40 +14,47 @@ class NameCheck::Search::Engine
   #ToDo: refactor!
   def search
     @results_array = []
-    @loop_count = 0
-    @limited = false
+    @results_count = 0
+    @names_checked_count = 0
+    @names_with_match_count = 0
+    @names_found_count = 0
+    @results_limited = false
     @parser.names.each do |search_term|
-      @limited = true if @loop_count >= @parser.limit
-      break if @loop_count >= @parser.limit
+      @results_limited = true if @results_count >= @parser.limit
+      break if @results_count >= @parser.limit
+      @names_checked_count += 1
       @per_search_term_index = 0
       sql_query = Name.name_matches(search_term)
                       .has_an_instance.joins(:name_status)
                       .where(name_status: {nom_illeg: false})
                       .where(name_status: {nom_inval: false})
       if sql_query.size > 0
+        @names_with_match_count += 1
         sql_query.each do |record|
-          @limited = true if @loop_count >= @parser.limit
-          break if @loop_count >= @parser.limit
-          @loop_count += 1
+          @results_limited = true if @results_count >= @parser.limit
+          break if @results_count >= @parser.limit
+          @results_count += 1
+          @names_found_count += 1
           @per_search_term_index += 1
           @results_array.push(one_record(search_term, record))
         end
       else
+        @results_count += 1
         @results_array.push(nothing_found(search_term))
       end
     end
-  end
-
-  def results_limited
-    @limited
   end
 
   def results
     @results_array
   end
 
-  def results_count
-    @loop_count
+  def names_to_check_count
+    @parser.names.size
+  end
+
+  def names_checked_limited
+    @names_checked_count < @parser.names.size
   end
 
   private
@@ -66,21 +76,6 @@ class NameCheck::Search::Engine
       data.matched_name_id = record.id
       data.matched_name_full_name = record.full_name
       data.matched_name_family_name = record.family_name
-    end
-    data
-  end
-
-  def old_info(search_term, one_result)
-    Rails.logger.debug("info for search_term: #{search_term}")
-    data = OpenStruct.new
-    data.search_term = search_term
-    data.found = search.size > 0
-    Rails.logger.debug("info: search.size: #{search.size}")
-    if data.found
-      data.matched_name_id = search.first.id
-      data.matched_name_full_name = search.first.full_name
-      data.matched_name_family_name = search.first.family_name
-      #data.matched_name_accepted_tree_accepted, types.Boolean
     end
     data
   end
