@@ -29,10 +29,6 @@ class Taxonomy::Search::Parser
     Rails.logger.debug("@args: #{@args.inspect}")
     resolve_sci_cult_or_common
     resolve_fuzzy_or_exact
-    # @search_type = search_type
-    # @search_term = search_term
-    # @show_as = show_as
-    # @limit = limit
   end
 
   def run_search?
@@ -50,14 +46,6 @@ class Taxonomy::Search::Parser
     @fuzzy_or_exact = ''
     return unless @args.keys.include?('fuzzy_or_exact')
     @fuzzy_or_exact = @args['fuzzy_or_exact']
-  end
-
-  def xsearch_type
-    if @args.key?(:search_type)
-      "#{@args[:search_type]} Search"
-    else
-      SIMPLE_SEARCH
-    end
   end
 
   def add_trailing_wildcard
@@ -112,10 +100,6 @@ class Taxonomy::Search::Parser
 
   def cultivar?
     @sci_cult_or_common.strip.casecmp(CULTIVAR.downcase).zero?
-  end
-
-  def xcommon?
-    @sci_cult_or_common.strip.casecmp(COMMON.downcase).zero?
   end
 
   def add_trailing_wildcard?

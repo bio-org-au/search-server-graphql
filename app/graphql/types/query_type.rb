@@ -43,6 +43,15 @@ Types::QueryType = GraphQL::ObjectType.define do
       Name.find(args['id'])
     }
   end
+  field :name_check do
+    type Types::NameCheckResultType
+    argument :names, types[types.String]
+    argument :limit, types.Int
+    argument :offset, types.Int
+    resolve ->(_obj, args, _ctx) {
+      NameCheck::Search::Base.new(args)
+    }
+  end
   field :reference do
     type Types::ReferenceType
     argument :id, !types.ID

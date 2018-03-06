@@ -1,8 +1,25 @@
 # frozen_string_literal: true
 
+# String methods
+module SearchableNameStrings
+  refine String do
+    def regexified
+      gsub("*", ".*").gsub("%", ".*").sub(/$/, "$").sub(/^/, "^")
+    end
+
+    def hybridized
+      strip.gsub(/  */, " (x )?").sub(/^ */, "(x )?").tr("×", "x")
+    end
+  end
+end
+
 # Name model
 class Name < ApplicationRecord
-  include NameSearchable
+  using SearchableNameStrings
+  SIMPLE_NAME_REGEX =
+    'lower(f_unaccent(simple_name)) ~ lower(f_unaccent(?)) '
+  FULL_NAME_REGEX =
+    'lower(f_unaccent(full_name)) ~ lower(f_unaccent(?))'
   self.table_name = 'name'
   self.primary_key = 'id'
   belongs_to :name_type
@@ -56,6 +73,12 @@ class Name < ApplicationRecord
     where(["exists (select null
            from instance
            where name.id = instance.name_id)"])
+  end)
+
+  scope :name_matches, (lambda do |string|
+    where("#{SIMPLE_NAME_REGEX} or #{FULL_NAME_REGEX}",
+          string.hybridized.regexified,
+          string.hybridized.regexified)
   end)
 
   def self.scientific_search
@@ -128,5 +151,9 @@ class Name < ApplicationRecord
 
   def author_component_of_full_name
     full_name.sub(/#{Regexp.escape(simple_name)}/, "")
+  end
+
+  def check_name(name)
+    Name.where(["lower(simple_name) like ? or lower(full_name) like ?", name, name])
   end
 end
