@@ -121,8 +121,12 @@ class Name < ApplicationRecord
     name_tree_paths.first.try('family').try('full_name')
   end
 
+  # Expensive, see above.
+  def family_name_id
+    name_tree_paths.first.try('family').try('id')
+  end
+
   def name_status_name
-    # 'name-status-from-name' # name_status.name
     name_status.name
   end
 

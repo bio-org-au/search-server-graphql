@@ -77,6 +77,7 @@ class NameCheck::Search::Engine
       data.matched_name_id = record.id
       data.matched_name_full_name = record.full_name
       data.matched_name_family_name = record.family_name
+      data.matched_name_family_name_id = record.family_name_id
     end
     data
   end
