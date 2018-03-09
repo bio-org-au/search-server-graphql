@@ -59,6 +59,7 @@ class Name < ApplicationRecord
            class_name: 'Name',
            foreign_key: 'duplicate_of_id',
            dependent: :restrict_with_exception # , order: 'name_element'
+  has_one :accepted_name, foreign_key: 'id'
   scope :not_a_duplicate, -> { where(duplicate_of_id: nil) }
   scope :ordered_scientifically, (lambda do
                                     order("coalesce(trim( trailing '>'
@@ -151,6 +152,14 @@ class Name < ApplicationRecord
 
   def accepted_tree_status
     "Don't look here"
+  end
+
+  def accepted?
+    accepted_name.present? && accepted_name.accepted_accepted?
+  end
+
+  def excluded?
+    accepted_name.present? && accepted_name.accepted_excluded?
   end
 
   def author_component_of_full_name

@@ -67,17 +67,19 @@ class NameCheck::Search::Engine
     data
   end
 
-  def one_record(search_term, record)
+  def one_record(search_term, name_record)
     Rails.logger.debug("one_record for search_term: #{search_term}")
     data = OpenStruct.new
     data.search_term = search_term
     data.found = true
     if data.found
       data.index = @per_search_term_index
-      data.matched_name_id = record.id
-      data.matched_name_full_name = record.full_name
-      data.matched_name_family_name = record.family_name
-      data.matched_name_family_name_id = record.family_name_id
+      data.matched_name_id = name_record.id
+      data.matched_name_full_name = name_record.full_name
+      data.matched_name_family_name = name_record.family_name
+      data.matched_name_family_name_id = name_record.family_name_id
+      data.matched_name_accepted_taxonomy_accepted = name_record.accepted?
+      data.matched_name_accepted_taxonomy_excluded = name_record.excluded?
     end
     data
   end
