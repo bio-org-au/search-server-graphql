@@ -28,6 +28,7 @@ class NameCheck::Search::Engine
                       .has_an_instance.joins(:name_status)
                       .where(name_status: {nom_illeg: false})
                       .where(name_status: {nom_inval: false})
+                      .where("name_status.name != 'isonym'")
                       .where.not(name_status: {name: 'orth. var.'})
       if sql_query.size > 0
         @names_with_match_count += 1
