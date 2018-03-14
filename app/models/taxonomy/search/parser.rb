@@ -55,7 +55,6 @@ class Taxonomy::Search::Parser
 
   def search_term
     term = @args[:search_term].strip.tr('*', '%')
-    term.sub(/$/, '%')
   end
 
   def show_as
