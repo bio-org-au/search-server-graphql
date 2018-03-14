@@ -25,11 +25,16 @@ class NameCheck::Search::Engine
       @names_checked_count += 1
       @per_search_term_index = 0
       sql_query = Name.name_matches(search_term)
-                      .has_an_instance.joins(:name_status)
+                      .has_an_instance
+                      .joins(:name_status)
+                      .joins(name_tree_paths: [:apni_tree_arrangement])
+                      .joins(:name_rank)
+                      .joins(:name_tree_paths)
                       .where(name_status: {nom_illeg: false})
                       .where(name_status: {nom_inval: false})
                       .where("name_status.name != 'isonym'")
                       .where.not(name_status: {name: 'orth. var.'})
+                      .ordered_scientifically
       if sql_query.size > 0
         @names_with_match_count += 1
         sql_query.each do |record|
