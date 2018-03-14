@@ -3,10 +3,18 @@
 # String methods
 module SearchableNameStrings
   refine String do
+    # Convert 
+    # - star to regex wildcard
+    # - percent to regex wildcard
+    # Add top and tail anchors.
+    # Treat matching inverted commas as general quoting characters
     def regexified
-      gsub("*", ".*").gsub("%", ".*").sub(/$/, "$").sub(/^/, "^")
+      gsub("*", ".*").gsub("%", ".*").sub(/$/, "$").sub(/^/, "^") 
+      #.gsub(/[‘’]/,%q(["‘''’])) # only works the first time after "compiling"
+      # a change!
     end
 
+    # Allow for hybrids even if the user doesn't
     def hybridized
       strip.gsub(/  */, " (x )?").sub(/^ */, "(x )?").tr("×", "x")
     end
@@ -78,8 +86,9 @@ class Name < ApplicationRecord
 
   scope :name_matches, (lambda do |string|
     where("#{SIMPLE_NAME_REGEX} or #{FULL_NAME_REGEX}",
-          string.hybridized.regexified,
-          string.hybridized.regexified)
+          string.hybridized.regexified.gsub(/[‘’]/,%q(["‘''’])),
+          string.hybridized.regexified.gsub(/[‘’]/,%q(["‘''’]))
+         )
   end)
 
   def self.scientific_search
