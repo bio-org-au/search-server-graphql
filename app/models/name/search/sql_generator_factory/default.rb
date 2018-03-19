@@ -64,8 +64,8 @@ class Name::Search::SqlGeneratorFactory::Default
     add_limit
     add_offset
     add_includes
-    order_scientifically unless @parser.common?
-    order_by_name if @parser.common?
+    order_scientifically if @parser.order_scientifically?
+    order_by_name unless @parser.order_scientifically?
   end
 
   def count

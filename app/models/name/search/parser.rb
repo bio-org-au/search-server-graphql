@@ -170,4 +170,12 @@ class Name::Search::Parser
     return true if @args[:type_note_keys].include?('type')
     false
   end
+
+  def order_by_name?
+    @args[:order_by_name] == true || common?
+  end
+
+  def order_scientifically?
+    !order_by_name?
+  end
 end
