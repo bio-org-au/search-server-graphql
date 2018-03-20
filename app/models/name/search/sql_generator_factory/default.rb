@@ -300,11 +300,12 @@ class Name::Search::SqlGeneratorFactory::Default
   def cleaned(term, fuzzy = false)
     return nil if term.nil?
     return nil if term.strip.blank?
-    if fuzzy
+    term = if fuzzy
       term.strip.tr('*', '%').sub(/$/, '%')
     else
       term.strip.tr('*', '%')
     end
+    term.gsub(/×/,'x')
   end
 
   def add_name(sql)
