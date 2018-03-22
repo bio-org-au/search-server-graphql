@@ -31,12 +31,12 @@ class InstanceNote < ActiveRecord::Base
                                  order('id asc')
                                end)
 
-  def apc_distribution?
-    instance_note_key.apc_distribution?
+  def accepted_tree_distribution?
+    instance_note_key.accepted_tree_distribution?
   end
 
-  def apc_comment?
-    instance_note_key.apc_comment?
+  def accepted_tree_comment?
+    instance_note_key.accepted_tree_comment?
   end
 
   def marked_up_value

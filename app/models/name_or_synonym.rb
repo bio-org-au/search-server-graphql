@@ -3,8 +3,8 @@
 # Rails model
 class NameOrSynonym < ActiveRecord::Base
   self.table_name = "name_or_synonym_vw"
-  APC_ACCEPTED = "ApcConcept"
-  APC_EXCLUDED = "ApcExcluded"
+  ACCEPTED_TREE_ACCEPTED = "ApcConcept"
+  ACCEPTED_TREE_EXCLUDED = "ApcExcluded"
   ACCEPTED_NAME = 'accepted-name'
   EXCLUDED_NAME = 'excluded-name'
   CROSS_REFERENCE = 'cross-reference'
@@ -44,11 +44,11 @@ class NameOrSynonym < ActiveRecord::Base
   end
 
   def accepted_accepted?
-    type_code == APC_ACCEPTED
+    type_code == ACCEPTED_TREE_ACCEPTED
   end
 
   def accepted_excluded?
-    type_code == APC_EXCLUDED
+    type_code == ACCEPTED_TREE_EXCLUDED
   end
 
   def to_csv
@@ -78,12 +78,18 @@ class NameOrSynonym < ActiveRecord::Base
 
   def accepted_taxon_comment
     return nil if cross_reference?
-    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: InstanceNoteKey.find_by(name: 'APC Comment').id).try('first').try('value')
+    note_key_name_for_shard = "#{ShardConfig.tree_label} Comment"
+    note_keys = InstanceNoteKey.where(name: note_key_name_for_shard)
+    return nil if note_keys.blank?
+    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: note_keys.first.id).try('first').try('value')
   end
 
   def accepted_taxon_distribution
     return nil unless accepted_name?
-    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: InstanceNoteKey.find_by(name: 'APC Dist.').id).try('first').try('value')
+    note_key_name_for_shard = "#{ShardConfig.tree_label} Dist."
+    note_keys = InstanceNoteKey.where(name: note_key_name_for_shard)
+    return nil if note_keys.blank?
+    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: note_keys.first.id).try('first').try('value')
   end
 
   def cross_referenced_full_name

@@ -54,11 +54,11 @@ class CrossReferenceSynonym < ActiveRecord::Base
   end
 
   def accepted_accepted?
-    type_code == "ApcConcept"
+    type_code == NameOrSynonym.ACCEPTED_TREE_ACCEPTED
   end
 
   def accepted_excluded?
-    type_code == "ApcExcluded"
+    type_code == NameOrSynonym.ACCEPTED_TREE_EXCLUDED
   end
 
   def synonym?

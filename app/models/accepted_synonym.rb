@@ -50,11 +50,11 @@ class AcceptedSynonym < ActiveRecord::Base
   scope :ordered, -> { order("sort_name") }
 
   def accepted_accepted?
-    type_code == "ApcConcept"
+    type_code == NameOrSynonym.ACCEPTED_TREE_ACCEPTED
   end
 
   def accepted_excluded?
-    type_code == "ApcExcluded"
+    type_code == NameOrSynonym.ACCEPTED_TREE_EXCLUDED
   end
 
   def synonym?

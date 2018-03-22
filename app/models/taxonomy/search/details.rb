@@ -13,10 +13,10 @@ class Taxonomy::Search::Details
   end
 
   def taxon_distribution
-    @instance.apc_distribution
+    @instance.accepted_tree_distribution
   end
 
   def taxon_comment
-    @instance.apc_comment
+    @instance.accepted_tree_comment
   end
 end

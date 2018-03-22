@@ -10,11 +10,11 @@ class InstanceNoteKey < ActiveRecord::Base
   has_many :instance_note_for_type_specimens
   has_many :instance_notes_for_details
 
-  def apc_comment?
-    name.match(/APC Comment/)
+  def accepted_tree_comment?
+    name.match(/#{ShardConfig.tree_label} Comment/)
   end
 
-  def apc_distribution?
-    name.match(/APC Dist./)
+  def accepted_tree_distribution?
+    name.match(/#{ShardConfig.tree_label} Dist./)
   end
 end

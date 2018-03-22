@@ -22,7 +22,7 @@ class Instance < ActiveRecord::Base
   has_one  :instance_note_for_distribution
   has_one  :instance_note_for_comment
   has_many :name_detail_commons
-  has_one  :apc_comment, (lambda do
+  has_one  :accepted_tree_comment, (lambda do
     where "instance_note_key_id = (select id from instance_note_key
           where name = 'APC Comment')"
   end),
@@ -74,16 +74,16 @@ class Instance < ActiveRecord::Base
     instance_type.primary?
   end
 
-  def apc_comment
+  def acccepted_comment
     instance_notes.each do |note|
-      return note.value if note.apc_comment?
+      return note.value if note.accepted_tree_comment?
     end
     nil
   end
 
-  def apc_distribution
+  def accepted_tree_distribution
     instance_notes.each do |note|
-      return note.value if note.apc_distribution?
+      return note.value if note.accepted_tree_distribution?
     end
     nil
   end
