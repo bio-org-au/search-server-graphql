@@ -81,7 +81,7 @@ class NameOrSynonym < ActiveRecord::Base
     note_key_name_for_shard = "#{ShardConfig.tree_label} Comment"
     note_keys = InstanceNoteKey.where(name: note_key_name_for_shard)
     return nil if note_keys.blank?
-    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: note_keys.first.id).try('first').try('value')
+    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: note_keys.try('first').try('id')).try('first').try('value')
   end
 
   def accepted_taxon_distribution
@@ -89,7 +89,7 @@ class NameOrSynonym < ActiveRecord::Base
     note_key_name_for_shard = "#{ShardConfig.tree_label} Dist."
     note_keys = InstanceNoteKey.where(name: note_key_name_for_shard)
     return nil if note_keys.blank?
-    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: note_keys.first.id).try('first').try('value')
+    InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: note_keys.try('first').try('id')).try('first').try('value')
   end
 
   def cross_referenced_full_name
