@@ -41,7 +41,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     type Types::NameType
     argument :id, !types.ID
     resolve ->(_obj, args, _ctx) {
-      Name.find(args['id'])
+      Name.search_for_id(args['id'])
     }
   end
   field :name_check do

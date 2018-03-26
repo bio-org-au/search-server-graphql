@@ -99,6 +99,20 @@ class Name < ApplicationRecord
         .includes(:rank)
   end
 
+  def self.search_for_id(id)
+    results = Name.where(id: id)
+    if results.blank?
+      empty_record_object
+    else
+      results.first
+    end
+  end
+
+  def self.empty_record_object
+    obj = OpenStruct.new
+    obj.id = nil
+  end
+
   def full_name_html_with_status
     if status.show?
       "#{full_name_html}#{status.name_to_show}"
