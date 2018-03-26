@@ -7,7 +7,7 @@ gem 'rails', '4.2.10'
 # Use jdbcpostgresql as the database for Active Record
 platform :jruby do
   gem 'activerecord-jdbcpostgresql-adapter'
-  gem 'jruby-jars', '9.1.12.0'
+  gem 'jruby-jars', '9.1.16.0'
   gem 'warbler'
 end
 
