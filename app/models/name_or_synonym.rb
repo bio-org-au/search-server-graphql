@@ -78,9 +78,14 @@ class NameOrSynonym < ActiveRecord::Base
 
   def accepted_taxon_comment
     return nil if cross_reference?
-    note_key_name_for_shard = "#{ShardConfig.tree_label} Comment"
+    #note_key_name_for_shard = "#{ShardConfig.tree_label} Comment"
+    Rails.logger.info('point 1')
+    note_key_name_for_shard = 'APC Comment'
+    Rails.logger.info('point 2')
     note_keys = InstanceNoteKey.where(name: note_key_name_for_shard)
+    Rails.logger.info('point 3')
     return nil if note_keys.blank?
+    Rails.logger.info('point 4')
     InstanceNote.where(instance_id: instance_id).where(instance_note_key_id: note_keys.try('first').try('id')).try('first').try('value')
   end
 
