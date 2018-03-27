@@ -24,7 +24,7 @@ class NameSearchScientificRightPubYear4NonProtoTest < ActionController::TestCase
 
   test 'scientific name search on right publication year 4 non protologue' do
     post 'execute',
-         query: '{name_search(search_term:"angophora costata", publication_year: "1962", type_of_name:"scientific"){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}'
+         params: { query: '{name_search(search_term:"angophora costata", publication_year: "1962", type_of_name:"scientific"){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.errors.nil?, "Not expecting any errors but got: #{obj.errors}."

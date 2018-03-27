@@ -24,7 +24,7 @@ class TaxonomySearchAcceptedExcludedNameSimpleTest < ActionController::TestCase
 
   test 'simple accepted and excluded name taxonomy query test' do
     post 'execute',
-         query: '{taxonomy_search(search_term:"angophora costata", accepted_name: true, excluded_name: true){count,taxa{id,full_name}}}'
+         params: { query: '{taxonomy_search(search_term:"angophora costata", accepted_name: true, excluded_name: true){count,taxa{id,full_name}}}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.errors.blank?, "Error: #{obj.errors.try('first').try('message')}"

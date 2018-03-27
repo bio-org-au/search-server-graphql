@@ -26,7 +26,7 @@ class NameSearchNoTypesSimpleTest < ActionController::TestCase
   end
 
   test 'simple no types specified name search test' do
-    post 'execute', query: @query
+    post 'execute', params: { query: @query }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     puts obj.errors if obj.errors.present?

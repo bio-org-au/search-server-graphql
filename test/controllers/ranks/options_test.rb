@@ -23,7 +23,7 @@ class RanksOptionsTest < ActionController::TestCase
   end
 
   test 'ranks query test' do
-    post 'execute', query: '{ranks{options}}'
+    post 'execute', params: { query: '{ranks{options}}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.data.ranks.present?, 'Ranks should be there'

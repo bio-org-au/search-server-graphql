@@ -28,7 +28,7 @@ class GraphqlControllerTest < ActionController::TestCase
 
   test 'simple taxonomy query test' do
     post 'execute',
-         query: '{taxonomy_search(search_term:"angophora"){taxa{id,full_name,name_status_name}}}'
+         params: { query: '{taxonomy_search(search_term:"angophora"){taxa{id,full_name,name_status_name}}}' }
     assert_response :success
   end
 end

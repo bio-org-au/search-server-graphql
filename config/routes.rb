@@ -1,10 +1,5 @@
-# frozen_string_literal: true
-
 Rails.application.routes.draw do
-  if Rails.env.development?
-    mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql'
-  end
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get '/v1', to: 'graphql#execute'
   post '/v1', to: 'graphql#execute'
-  # post "/graphql", to: "graphql#execute"
 end

@@ -24,7 +24,7 @@ class TaxoSearchAcceptedExcludedCrossRefNameSiTest < ActionController::TestCase
 
   test 'simple accepted excluded cross reference name taxonomy query test' do
     post 'execute',
-         query: '{taxonomy_search(search_term:"angophora costata", accepted_name: true, excluded_name: true, cross_reference: true){count,taxa{id,full_name}}}'
+         params: { query: '{taxonomy_search(search_term:"angophora costata", accepted_name: true, excluded_name: true, cross_reference: true){count,taxa{id,full_name}}}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.errors.blank?, "Error: #{obj.errors.try('first').try('message')}"
@@ -34,4 +34,3 @@ class TaxoSearchAcceptedExcludedCrossRefNameSiTest < ActionController::TestCase
     #              "Taxon name should match 'Angophora'"
   end
 end
-

@@ -20,13 +20,13 @@ require 'test_helper'
 class AdvNameSearchArgsScHybridFormulaTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @query = '{name_search(search_term:"*", scientific_hybrid_formula_name: true)'
+    @query = '{name_search(search_term:"*",scientific_hybrid_formula_name:true)'
     @query += '{count,names{id,full_name,name_history'
     @query += '{name_usages{citation,page,page_qualifier,year,standalone}}}}}'
   end
 
   test 'simple all name search test' do
-    post 'execute', query: @query
+    post 'execute', params: { query: @query }
     assert_response :success,
                     'Should allow for scientific_hybrid_formula_name arg'
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)

@@ -26,7 +26,7 @@ class NameSearchAllSimpleTest < ActionController::TestCase
   end
 
   test 'simple all name search test' do
-    post 'execute', query: @query
+    post 'execute', params: { query: @query }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.data.name_search.names.size > 20,

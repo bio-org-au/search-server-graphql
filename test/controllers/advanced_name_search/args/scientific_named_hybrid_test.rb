@@ -26,7 +26,8 @@ class AdvNameSearchArgsScNamedHybridTest < ActionController::TestCase
   end
 
   test 'simple all name search test' do
-    post 'execute', query: @query
+    # post 'execute', query: @query
+    post 'execute', params: { query: @query }
     assert_response :success,
                     'Should allow for scientific_named_hybrid_name arg'
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)

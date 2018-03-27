@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.10'
+gem 'rails', '5.0.6'
 # Use jdbcpostgresql as the database for Active Record
 platform :jruby do
   gem 'activerecord-jdbcpostgresql-adapter'
@@ -12,7 +12,9 @@ platform :jruby do
 end
 
 platform :ruby do
-  gem 'pg'
+  # https://github.com/rails/rails/issues/31673
+  # fix: Lock 'pg' gem to 0.21.0 until pg 1.0.0 is officially supported 
+  gem 'pg', '0.21.0'
 end
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
