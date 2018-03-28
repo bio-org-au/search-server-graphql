@@ -25,3 +25,10 @@ diff test5.expected $temp_dir/test5.log
 echo test6: name show for non-existing id 87221755
 curl -S -d 'query={ name(id: 87221755) { id, simple_name, full_name, full_name_html, family_name, name_status_name, name_history { name_usages { instance_id, reference_id, citation, page, page_qualifier, year, standalone, instance_type_name, accepted_tree_status, primary_instance, misapplied, misapplied_to_name, misapplied_to_id, misapplied_by_id, misapplied_by_citation, misapplied_on_page, synonyms { id, full_name, instance_type, label, page, name_status_name, } notes { id, key, value } } } } }' -X POST http://localhost:2004/v1 -o $temp_dir/test6.log
 diff test6.expected $temp_dir/test6.log
+
+test_number=7
+test_name="test${test_number}"
+echo $test_name
+echo Query runtime environment
+curl -S -d 'query={ runtime_environment }' -X POST http://localhost:2004/v1 -o $temp_dir/${test_name}.log
+diff ${test_name}.expected $temp_dir/${test_name}.log

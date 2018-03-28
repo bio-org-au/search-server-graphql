@@ -105,4 +105,10 @@ Types::QueryType = GraphQL::ObjectType.define do
       NameRank::Search::Factory.build(args)
     }
   end
+  field :runtime_environment do
+    type types.String
+    resolve ->(_obj, args, _ctx) {
+      Runtime::Environment.new(args).value
+    }
+  end
 end
