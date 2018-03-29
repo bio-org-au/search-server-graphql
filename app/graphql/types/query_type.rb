@@ -106,7 +106,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
   field :runtime_environment do
-    type types.String
+    type Types::Runtime::EnvironmentType
     resolve ->(_obj, args, _ctx) {
       Runtime::Environment.new(args).value
     }

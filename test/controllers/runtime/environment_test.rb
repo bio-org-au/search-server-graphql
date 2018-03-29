@@ -23,14 +23,16 @@ class RuntimeEnvironmentTest < ActionController::TestCase
   end
 
   test 'query test' do
-    post 'execute', params: { query: '{runtime_environment}' }
+    post 'execute', params: { query: '{ runtime_environment {ruby_platform, ruby_version, rails_version, database} }' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    assert obj.data.runtime_environment =~ /Ruby platform/,
-           "Should show Ruby platform."
-    assert obj.data.runtime_environment =~ /Ruby version/,
-           "Should show Ruby version."
-    assert obj.data.runtime_environment =~ /Rails/, "Should show Rails."
-    assert obj.data.runtime_environment =~ /Database/, "Should show Database."
+    assert_not obj.data.runtime_environment.ruby_platform.nil?, msg("platform")
+    assert_not obj.data.runtime_environment.ruby_version.nil?, msg("ruby vers")
+    assert_not obj.data.runtime_environment.rails_version.nil?, msg("rails ver")
+    assert_not obj.data.runtime_environment.database.nil?, msg("database")
+  end
+
+  def msg(thing)
+    "Should show #{thing}"
   end
 end

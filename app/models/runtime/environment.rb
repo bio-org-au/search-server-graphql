@@ -3,12 +3,15 @@
 # Class that runs about searches
 class Runtime::Environment
   def initialize(args)
+    Rails.logger.debug('new env')
   end
 
   def value
-    "Ruby platform: #{RUBY_PLATFORM}; " + 
-    "Ruby version: #{RUBY_VERSION}; " + 
-    "Rails: #{Rails::VERSION::STRING}; " + 
-    "Database: #{Rails.configuration.database_configuration[Rails.env]['database']}; "
+    obj = OpenStruct.new
+    obj.ruby_platform = RUBY_PLATFORM
+    obj.ruby_version  = RUBY_VERSION
+    obj.rails_version = Rails::VERSION::STRING
+    obj.database = Rails.configuration.database_configuration[Rails.env]['database']
+    obj
   end
 end

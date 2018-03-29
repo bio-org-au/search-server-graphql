@@ -30,5 +30,5 @@ test_number=7
 test_name="test${test_number}"
 echo $test_name
 echo Query runtime environment
-curl -S -d 'query={ runtime_environment }' -X POST http://localhost:2004/v1 -o $temp_dir/${test_name}.log
+curl -S -d 'query={ runtime_environment {ruby_platform, ruby_version, rails_version, database} }' -X POST http://localhost:2004/v1 -o $temp_dir/${test_name}.log
 diff ${test_name}.expected $temp_dir/${test_name}.log
