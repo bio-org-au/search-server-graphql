@@ -14,6 +14,10 @@ class Name::Search::SqlGeneratorFactory::Default
   TREE_ID = "(select id from tree_arrangement where label = #{TREE_LABEL})"
   NAME_TREE = "name_tree_path.tree_id = #{TREE_ID}"
   TAXON_NAME_AUTHOR_ABBREV_CLAUSE = '( author_id in (select id from author where lower(abbrev) like lower(?)) or ex_author_id in (select id from author where abbrev like lower(?)) )'
+  AUTHOR_ABBREV_CLAUSE = '( author_id in (select id from author where lower(abbrev) like lower(?)))'
+  EX_AUTHOR_ABBREV_CLAUSE = '( ex_author_id in (select id from author where lower(abbrev) like lower(?)))'
+  BASE_AUTHOR_ABBREV_CLAUSE = '( base_author_id in (select id from author where lower(abbrev) like lower(?)))'
+  EX_BASE_AUTHOR_ABBREV_CLAUSE = '( ex_base_author_id in (select id from author where lower(abbrev) like lower(?)))'
   BASIONYM_AUTHOR_ABBREV_CLAUSE = '( base_author_id in (select id from author where lower(abbrev) like lower(?)) or ex_base_author_id in (select id from author where abbrev like lower(?)) )'
   # Genus
   GENUS_SO_SQL = "select sort_order from name_rank where name = 'Genus'"
@@ -50,8 +54,10 @@ class Name::Search::SqlGeneratorFactory::Default
     @sql = add_instance(@sql)
     @sql = add_name_type(@sql)
     @sql = add_name(@sql)
-    add_taxon_name_author_abbrev
-    add_basionym_author_abbrev
+    @sql = add_author_abbrev(@sql)
+    @sql = add_ex_author_abbrev(@sql)
+    @sql = add_base_author_abbrev(@sql)
+    @sql = add_ex_base_author_abbrev(@sql)
     @sql = add_name_tree_path(@sql) unless @parser.common?
     add_family unless @parser.common?
     add_genus
@@ -73,8 +79,10 @@ class Name::Search::SqlGeneratorFactory::Default
     @cql = add_instance(@cql)
     @cql = add_name_type(@cql)
     @cql = add_name(@cql)
-    count_taxon_name_author_abbrev
-    count_basionym_author_abbrev
+    @cql = add_author_abbrev(@cql)
+    @cql = add_ex_author_abbrev(@cql)
+    @cql = add_base_author_abbrev(@cql)
+    @cql = add_ex_base_author_abbrev(@cql)
     @cql = count_name_tree_path(@cql) unless @parser.common?
     count_family unless @parser.common?
     count_genus
@@ -94,44 +102,56 @@ class Name::Search::SqlGeneratorFactory::Default
                .includes(:name_tree_paths)
   end
 
-  def add_taxon_name_author_abbrev
-    return if taxon_name_author_abbrev_string.blank?
-    @sql = @sql.where([TAXON_NAME_AUTHOR_ABBREV_CLAUSE,
-                       taxon_name_author_abbrev_string,
-                       taxon_name_author_abbrev_string])
+  def add_author_abbrev(sql)
+    return sql if author_abbrev.blank?
+    sql = sql.where([AUTHOR_ABBREV_CLAUSE,
+                     author_abbrev])
+    return sql
   end
 
-  def add_basionym_author_abbrev
-    return if basionym_author_abbrev_string.blank?
-    @sql = @sql.where([BASIONYM_AUTHOR_ABBREV_CLAUSE,
-                       basionym_author_abbrev_string,
-                       basionym_author_abbrev_string])
+  def add_ex_author_abbrev(sql)
+    return sql if ex_author_abbrev.blank?
+    sql = sql.where([EX_AUTHOR_ABBREV_CLAUSE,
+                     ex_author_abbrev])
+    return sql
   end
 
-  def count_taxon_name_author_abbrev
-    return if taxon_name_author_abbrev_string.blank?
-    @cql = @cql.where([TAXON_NAME_AUTHOR_ABBREV_CLAUSE,
-                       taxon_name_author_abbrev_string,
-                       taxon_name_author_abbrev_string])
+  def add_base_author_abbrev(sql)
+    return sql if base_author_abbrev.blank?
+    sql = sql.where([BASE_AUTHOR_ABBREV_CLAUSE,
+                     base_author_abbrev])
+    return sql
   end
 
-  def count_basionym_author_abbrev
-    return if basionym_author_abbrev_string.blank?
-    @cql = @cql.where([BASIONYM_AUTHOR_ABBREV_CLAUSE,
-                       basionym_author_abbrev_string,
-                       basionym_author_abbrev_string])
+  def add_ex_base_author_abbrev(sql)
+    return sql if ex_base_author_abbrev.blank?
+    sql = sql.where([EX_BASE_AUTHOR_ABBREV_CLAUSE,
+                     ex_base_author_abbrev])
+    return sql
   end
 
-  def taxon_name_author_abbrev_string
-    return nil if @parser.args['taxon_name_author_abbrev'].blank?
-    return nil if @parser.args['taxon_name_author_abbrev'].strip.blank?
-    cleaned(@parser.args['taxon_name_author_abbrev'])
+  def author_abbrev
+    return nil if @parser.args['author_abbrev'].blank?
+    return nil if @parser.args['author_abbrev'].strip.blank?
+    cleaned(@parser.args['author_abbrev'])
   end
 
-  def basionym_author_abbrev_string
-    return nil if @parser.args['basionym_author_abbrev'].blank?
-    return nil if @parser.args['basionym_author_abbrev'].strip.blank?
-    cleaned(@parser.args['basionym_author_abbrev'])
+  def ex_author_abbrev
+    return nil if @parser.args['ex_author_abbrev'].blank?
+    return nil if @parser.args['ex_author_abbrev'].strip.blank?
+    cleaned(@parser.args['ex_author_abbrev'])
+  end
+
+  def base_author_abbrev
+    return nil if @parser.args['base_author_abbrev'].blank?
+    return nil if @parser.args['base_author_abbrev'].strip.blank?
+    cleaned(@parser.args['base_author_abbrev'])
+  end
+
+  def ex_base_author_abbrev
+    return nil if @parser.args['ex_base_author_abbrev'].blank?
+    return nil if @parser.args['ex_base_author_abbrev'].strip.blank?
+    cleaned(@parser.args['ex_base_author_abbrev'])
   end
 
   def add_family
