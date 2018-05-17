@@ -4,7 +4,8 @@
 class Name::Search::Synonym
   attr_reader :id, :full_name, :full_name_html, :instance_type, :page, :label,
               :page_qualifier, :name_status_name, :has_type_synonym,
-              :of_type_synonym, :name_id
+              :of_type_synonym, :name_id, :reference_citation, :reference_page,
+              :misapplied
 
   def initialize(instance, has_or_of_label = 'has')
     @id = instance[:instance_id]
@@ -26,5 +27,11 @@ class Name::Search::Synonym
     @name_status_name = instance[:name_status_name]
     @has_type_synonym = has_or_of_label == 'has'
     @of_type_synonym = !@has_type_synonym
+    unless instance[:cites_id].blank?
+      cited_instance = Instance.find(instance[:cites_id]) 
+      @reference_citation = cited_instance.reference.citation_html
+      @reference_page = cited_instance.page
+    end
+    @misapplied = instance[:misapplied] == 't'
   end
 end

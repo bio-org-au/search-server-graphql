@@ -16,10 +16,10 @@ class Name::Search::Base
   end
 
   def names
-    name_search_results = Name::Search::Results.new
+    name_search_results = []
     @generator.sql.each do |name|
       name_search_results.push name
     end
-    name_search_results
+    Name::Search::Merge.new(name_search_results).merge
   end
 end

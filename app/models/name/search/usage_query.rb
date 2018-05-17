@@ -12,14 +12,11 @@ class Name::Search::UsageQuery
   TREE_JOIN = "#{LEFT_OUTER_JOIN} #{FOR_TNODE} #{FOR_TREE_LABEL}"
 
   def initialize(name_id)
-    Rails.logger.debug('Name::Search::UsageQuery initialize')
     @id = name_id
     build_query
   end
 
   def build_query
-    Rails.logger.debug('Name::Search::UsageQuery.build_query')
-    Rails.logger.debug('Name::Search::UsageQuery start ====================')
     @results = Name.where(id: @id)
                    .joins(instances: [:instance_type, reference: :author])
                    .joins(TREE_NODE_JOIN)
@@ -27,9 +24,6 @@ class Name::Search::UsageQuery
                    .select(columns)
                    .group(grouping)
                    .order(ordering)
-
-    Rails.logger.debug("@results.inspect: #{@results.inspect} ====================")
-    Rails.logger.debug('Name::Search::UsageQuery end   ====================')
   end
 
   def columns
@@ -39,6 +33,7 @@ class Name::Search::UsageQuery
     reference.citation_html,coalesce(reference.year,9999), author.name,  \
     primary_instance, instance.id instance_id, instance.page instance_page, \
     instance.page_qualifier instance_page_qualifier, \
+    instance_type.has_label, instance_type.of_label, \
     reference.citation reference_citation, max(case when instance.id = \
     tnode.instance_id and tnode.next_node_id is null and \
     tnode.checked_in_at_id is not null and instance_id = tnode.instance_id \
@@ -50,6 +45,7 @@ class Name::Search::UsageQuery
     instance_type.name, instance_type.misapplied,
     author.id,reference.citation_html,coalesce(reference.year,9999),  \
     author.name, primary_instance, instance.id, instance.page, \
+    instance_type.has_label, instance_type.of_label, \
     instance.page_qualifier, reference.citation "
   end
 

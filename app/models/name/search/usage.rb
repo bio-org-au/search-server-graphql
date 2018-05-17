@@ -5,12 +5,9 @@
 # but also allow for wrapped or otherwise processed data.
 class Name::Search::Usage
   attr_reader :misapplied_by_id, :misapplied_by_citation, :misapplied_on_page,
-              :misapplied_to_name, :misapplied_to_id
+              :misapplied_to_name, :misapplied_to_id, :misapplication_label
 
   def initialize(name_usage_query_record, synonym_bunch)
-    Rails.logger.debug('Namme::Search::Usage initialize +++++++++++++++++++++')
-    Rails.logger.debug("name_usage_query_record.class: #{name_usage_query_record.class}")
-    Rails.logger.debug("name_usage_query_record[:accepted_tree_status]: #{name_usage_query_record[:accepted_tree_status]}")
     @name_usage_query_record = name_usage_query_record
     @synonym_bunch = synonym_bunch
     initialize_misapplied
@@ -21,6 +18,7 @@ class Name::Search::Usage
     @misapplied_to_name = ''
     @misapplied_by_id = nil
     @misapplied_on_page = ''
+    @misapplication_label = ''
     return unless @name_usage_query_record.misapplied == 't'
     prepare_misapplied
   end
@@ -36,6 +34,7 @@ class Name::Search::Usage
     cited_by = Instance.find(Instance.find(@name_usage_query_record.instance_id).cited_by_id)
     @misapplied_to_id = cited_by.name_id
     @misapplied_to_name = cited_by.name.full_name
+    @misapplication_label = @name_usage_query_record.of_label
   end
 
   def cites_for_misapplied
@@ -92,13 +91,20 @@ class Name::Search::Usage
     @name_usage_query_record.misapplied == 't'
   end
 
+  def has_label
+    @name_usage_query_record.has_label
+  end
+
+  def of_label
+    @name_usage_query_record.of_label
+  end
+
   def standalone
     'standalone'
   end
 
   def synonyms
-    res = Name::Search::Synonym::Pick.new(@name_usage_query_record.instance_id, @synonym_bunch).results
-    res
+    Name::Search::Synonym::Pick.new(@name_usage_query_record.instance_id, @synonym_bunch).results
   end
 
   def notes

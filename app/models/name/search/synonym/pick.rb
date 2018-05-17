@@ -17,8 +17,11 @@ class Name::Search::Synonym::Pick
         @results.push(Name::Search::Synonym.new(result, 'has'))
       end
       if result[:instance_id] == @instance_id
-        @results.push(Name::Search::Synonym.new(result, 'of'))
+        if result.misapplied == 'f'
+          @results.push(Name::Search::Synonym.new(result, 'of'))
+        end
       end
     end
   end
 end
+

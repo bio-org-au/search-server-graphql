@@ -13,4 +13,7 @@ Types::SynonymType = GraphQL::ObjectType.define do
   field :name_status_name, types.String
   field :has_type_synonym, types.Boolean
   field :of_type_synonym, types.Boolean
+  field :reference_citation, types.String
+  field :reference_page, types.String
+  field :misapplied, types.Boolean
 end

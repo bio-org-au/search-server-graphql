@@ -21,15 +21,16 @@ class Name::Search::Synonym::BunchQuery
   def bunch_query
     Instance.where("cited_by_id in (#{ids}) or cites_id in (#{ids})")
             .joins(:instance_type)
-            .where(instance_type: { misapplied: false })
             .joins(name: :name_status)
+            .joins(:reference)
             .select(select_list)
-            .order('instance_type.sort_order')
+      .order('instance_type.sort_order, name.sort_name, reference.year')
   end
 
   def run_query
-    bunch_query.each do |record|
-      @results.push(record)
+    bunch_query.each do |r|
+      Rails.logger.debug("instance_id: #{r.instance_id}; name: #{r.name_full_name}; page: #{r.page}")
+      @results.push(r)
     end
   end
 
@@ -37,7 +38,8 @@ class Name::Search::Synonym::BunchQuery
     "instance.id instance_id, instance_type.name instance_type_name, \
     instance.page, instance.page_qualifier, instance_type.has_label \
     instance_type_has_label, instance_type.of_label instance_type_of_label, \
-    name.full_name name_full_name, name.full_name_html name_full_name_html,
-    instance.cited_by_id, name_status.name name_status_name, name_id"
+    name.full_name name_full_name, name.full_name_html name_full_name_html, \
+    instance.cited_by_id, instance.cites_id, name_status.name name_status_name,\
+    name_id, instance_type.misapplied"
   end
 end

@@ -52,6 +52,6 @@ class GraphqlController < ApplicationController
     name_search = data['name_search'] unless data.blank?
     names = name_search['names'] unless name_search.blank?
     size = names.size unless names.blank?
-    Rails.logger.debug("query: #{params[:query]}; @result.size: #{size}; elapsed: #{(Time.now - @start_time).round(3)}")
+    # Rails.logger.debug("query: #{params[:query]}; @result.size: #{size}; elapsed: #{(Time.now - @start_time).round(3)}")
   end
 end

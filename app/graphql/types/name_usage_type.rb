@@ -19,6 +19,7 @@ Types::NameUsageType = GraphQL::ObjectType.define do
   field :misapplied_by_id, types.ID
   field :misapplied_by_citation, types.String
   field :misapplied_on_page, types.String
+  field :misapplication_label, types.String
   field :synonyms, types[Types::SynonymType]
   field :notes, types[Types::InstanceNoteType]
 end
