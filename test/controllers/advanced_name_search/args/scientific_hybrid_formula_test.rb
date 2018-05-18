@@ -22,7 +22,7 @@ class AdvNameSearchArgsScHybridFormulaTest < ActionController::TestCase
   setup do
     @query = '{name_search(search_term:"*",scientific_hybrid_formula_name:true)'
     @query += '{count,names{id,full_name,name_usages'
-    @query += '{citation,page,page_qualifier,year,standalone}}}}'
+    @query += '{reference_usage{citation,page,page_qualifier,year,standalone}}}}}'
   end
 
   test 'simple all name search test' do
@@ -34,3 +34,4 @@ class AdvNameSearchArgsScHybridFormulaTest < ActionController::TestCase
            'Should find at least 1 record'
   end
 end
+

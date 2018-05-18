@@ -29,6 +29,19 @@ class Name::Search::Usage
     cites_for_misapplied
   end
 
+  def reference_usage
+    record = OpenStruct.new
+    record.instance_id = @name_usage_query_record.instance_id
+    record.citation = @name_usage_query_record.reference_citation
+    record.page = @name_usage_query_record.instance_page
+    record.year = @name_usage_query_record.reference_year
+    record.standalone = 'standalone'
+    record.instance_type_name = @name_usage_query_record.instance_type_name
+    record.primary_instance = @name_usage_query_record.primary_instance == 't'
+    record.accepted_tree_status = @name_usage_query_record[:accepted_tree_status]
+    record
+  end
+
   def cited_by_for_misapplied
     inst1 = Instance.find(@name_usage_query_record.instance_id)
     return if inst1.cited_by_id.blank?
@@ -55,10 +68,6 @@ class Name::Search::Usage
 
   def instance_type_name
     @name_usage_query_record.instance_type_name
-  end
-
-  def accepted_tree_status
-    @name_usage_query_record[:accepted_tree_status]
   end
 
   def primary_instance

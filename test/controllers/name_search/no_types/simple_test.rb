@@ -22,7 +22,7 @@ class NameSearchNoTypesSimpleTest < ActionController::TestCase
   setup do
     @query = '{name_search(search_term:"a*")'
     @query += '{count,names{id,full_name,name_usages'
-    @query += '{citation,page,page_qualifier,year,standalone}}}}'
+    @query += '{reference_usage{citation,page,page_qualifier,year,standalone}}}}}'
   end
 
   test 'simple no types specified name search test' do
