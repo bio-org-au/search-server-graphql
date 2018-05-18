@@ -5,7 +5,8 @@
 # but also allow for wrapped or otherwise processed data.
 class Name::Search::Usage
   attr_reader :misapplied_by_id, :misapplied_by_citation, :misapplied_on_page,
-              :misapplied_to_name, :misapplied_to_id, :misapplication_label
+              :misapplied_to_name, :misapplied_to_id, :misapplication_label,
+              :misapplied_by_reference_id
 
   def initialize(name_usage_query_record, synonym_bunch)
     @name_usage_query_record = name_usage_query_record
@@ -44,6 +45,7 @@ class Name::Search::Usage
     cites = Instance.find(Instance.find(instance.id).cites_id)
     @misapplied_by_id = cites.reference_id
     @misapplied_by_citation = cites.reference.citation
+    @misapplied_by_reference_id = cites.reference.id
     @misapplied_on_page = cites.page
   end
 
@@ -65,6 +67,10 @@ class Name::Search::Usage
 
   def name_id
     @name_usage_query_record.name_id
+  end
+
+  def reference_id
+    @name_usage_query_record.reference_id
   end
 
   def reference_id

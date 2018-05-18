@@ -24,7 +24,7 @@ class NameSearchCommonSimpleTest < ActionController::TestCase
 
   test 'simple common name search test' do
     post 'execute',
-         params: { query: '{name_search(search_term:"a*", common_name:true){count,names{id,full_name,name_history{name_usages{citation,page,page_qualifier,year,standalone}}}}}' }
+         params: { query: '{name_search(search_term:"a*", common_name:true){count,names{id,full_name,name_usages{citation,page,page_qualifier,year,standalone}}}}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert_match 'argyle apple',

@@ -14,21 +14,29 @@ class Name::Search::Merge
   end
 
   def explore
+    debug('===========================================================')
     debug('merge')
+    debug('===========================================================')
     @names_array.each do |record|
       debug("id: #{record.id}")
       debug("full name: #{record.full_name}")
-      debug("name history: #{record.name_history.class}")
-      debug("name usages: #{record.name_history.name_usages.class}")
-      debug("name usages size: #{record.name_history.name_usages.size}")
-      record.name_history.name_usages.each do |usage|
-        debug("#{usage.citation} #{usage.page} (#{usage.instance_id})")
+      debug("name usages: #{record.name_usages.class}")
+      debug("name usages size: #{record.name_usages.size}")
+      record.name_usages.each do |usage|
+        if usage.misapplied
+          debug("misapplied: ref id: #{usage.reference_id}; name id: #{usage.misapplied_to_id}: #{usage.misapplied_to_name}")
+          debug("misapplied: #{usage.citation} #{usage.page} (#{usage.instance_id})")
+        else
+          debug("not misapplied: #{usage.citation} #{usage.page} (#{usage.instance_id})")
+        end
       end
     end
+    debug('===========================================================')
+    debug('===========================================================')
   end
 
   def merge
+    explore
     @names_array
   end
 end
-

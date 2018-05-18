@@ -24,5 +24,5 @@ Types::NameType = GraphQL::ObjectType.define do
   field :name_status_name, types.String
   field :family_name, types.String
   field :name_rank_name, types.String
-  field :name_history, Types::NameHistoryType
+  field :name_usages, types[Types::NameUsageType]
 end

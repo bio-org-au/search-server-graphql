@@ -133,8 +133,8 @@ class Name < ApplicationRecord
     Rails.configuration.try('image_links_supported') || false
   end
 
-  def name_history
-    Name::Search::History.new(id)
+  def name_usages
+    Name::Search::Usages.new(id).name_usages
   end
 
   # This generates one select per record and I cannot

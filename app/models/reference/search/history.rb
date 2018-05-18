@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Class for name_history_type
+# Class for reference search history
 class Reference::Search::History
   attr_reader :ref_name_usages, :synonym_bunch
 

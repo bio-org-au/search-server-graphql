@@ -6,7 +6,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   # Add root-level fields here.
   # They will be entry points for queries on your schema.
   field :name_search do
-    type Types::Name::SearchType
+    type Types::Name::SearchResultType
     argument :search_term, types.String
     argument :author_abbrev, types.String
     argument :ex_author_abbrev, types.String
@@ -60,13 +60,6 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :id, !types.ID
     resolve ->(_obj, args, _ctx) {
       Reference.find(args['id'])
-    }
-  end
-  field :name_history do
-    type Types::NameHistoryType
-    argument :name_id, !types.ID
-    resolve ->(_obj, args, _ctx) {
-      NameHistory.new(args['name_id'])
     }
   end
   field :taxonomy_search do
