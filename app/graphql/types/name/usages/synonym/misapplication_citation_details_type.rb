@@ -8,4 +8,5 @@ Types::Name::Usages::Synonym::MisapplicationCitationDetailsType = GraphQL::Objec
   field :misapplied_on_page, types.String
   field :misapplied_on_page_qualifier, types.String
   field :misapplied_in_reference_year, types.Int
+  field :name_is_repeated, types.Boolean
 end

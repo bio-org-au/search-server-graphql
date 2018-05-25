@@ -7,7 +7,7 @@ class Name::Search::Synonym
               :of_type_synonym, :name_id, :reference_citation, :reference_page,
               :misapplied, :misapplication_citation_details
 
-  def initialize(instance, has_or_of_label = 'has')
+  def initialize(instance, has_or_of_label = 'has', misapp_name_repeated = false)
     @id = instance[:instance_id]
     @instance_type = instance[:instance_type_name]
     if has_or_of_label == 'has'
@@ -38,6 +38,8 @@ class Name::Search::Synonym
         mrec.misapplied_on_page = cited_instance.page
         mrec.misapplied_on_page_qualifier = cited_instance.page_qualifier
         mrec.misapplied_in_reference_year = cited_instance.reference.year
+        mrec.same_name_as_preceding_misapplication = false
+        mrec.name_is_repeated = misapp_name_repeated
         @misapplication_citation_details = mrec
       end
     end

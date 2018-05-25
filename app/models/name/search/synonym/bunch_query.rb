@@ -35,7 +35,6 @@ class Name::Search::Synonym::BunchQuery
 
   def run_query
     bunch_query.each do |r|
-      Rails.logger.debug("instance_id: #{r.instance_id}; name: #{r.name_full_name}; page: #{r.page}")
       @results.push(r)
     end
   end
@@ -46,6 +45,7 @@ class Name::Search::Synonym::BunchQuery
     instance_type_has_label, instance_type.of_label instance_type_of_label, \
     name.full_name name_full_name, name.full_name_html name_full_name_html, \
     instance.cited_by_id, instance.cites_id, name_status.name name_status_name,\
-    name_id, instance_type.misapplied, reference.year"
+    name_id, instance_type.misapplied, reference.year, \
+    reference.id reference_id, reference.citation reference_citation"
   end
 end

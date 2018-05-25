@@ -27,7 +27,7 @@ class Name::Search::Usage
   end
 
   def debug(s)
-    Rails.logger.debug("Name::Search::Usage: #{s}")
+    # Rails.logger.debug("Name::Search::Usage: #{s}")
   end
 
   def reference_details
