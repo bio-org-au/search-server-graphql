@@ -18,13 +18,19 @@ class Name::Search::Synonym::BunchQuery
     array_of_ids.join(',').to_s
   end
 
+  # Ordering is important because this ordering of the whole set is retained
+  # for each subset allocated to a reference usage.  And we want the 
+  # synonymns for any single ref. usage to appear in this order:
+  # 1. non-misapps first, followed by misapps
+  # 2. name-sort order within
+  # 3. year of the reference withing name-sort order
   def bunch_query
     Instance.where("cited_by_id in (#{ids}) or cites_id in (#{ids})")
             .joins(:instance_type)
             .joins(name: :name_status)
             .joins(:reference)
             .select(select_list)
-      .order('instance_type.sort_order, name.sort_name, reference.year')
+      .order('instance_type.misapplied, name.sort_name, reference.year')
   end
 
   def run_query
@@ -40,6 +46,6 @@ class Name::Search::Synonym::BunchQuery
     instance_type_has_label, instance_type.of_label instance_type_of_label, \
     name.full_name name_full_name, name.full_name_html name_full_name_html, \
     instance.cited_by_id, instance.cites_id, name_status.name name_status_name,\
-    name_id, instance_type.misapplied"
+    name_id, instance_type.misapplied, reference.year"
   end
 end

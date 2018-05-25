@@ -10,7 +10,7 @@ class Name::Search::Merge
   end
 
   def debug(s)
-    Rails.logger.debug("Name::Search::Merger: #{s}")
+    Rails.logger.debug("Name::Search::Merge: #{s}")
   end
 
   def explore
@@ -18,6 +18,7 @@ class Name::Search::Merge
     debug('merge')
     debug('===========================================================')
     @names_array.each do |record|
+      debug("class: #{record.class}")
       debug("id: #{record.id}")
       debug("full name: #{record.full_name}")
       debug("name usages: #{record.name_usages.class}")

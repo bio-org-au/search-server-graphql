@@ -2,15 +2,13 @@
 
 Types::NameUsageType = GraphQL::ObjectType.define do
   name 'name_usage'
-  field :reference_usage, Types::Name::Usages::ReferenceUsageType
-  field :misapplied, types.Boolean
-  field :misapplied_to_name, types.String
-  field :misapplied_to_id, types.ID
-  field :misapplied_by_id, types.ID
-  field :misapplied_by_citation, types.String
-  field :misapplied_by_reference_id, types.ID
-  field :misapplied_on_page, types.String
-  field :misapplication_label, types.String
+  field :instance_id, types.ID
+  field :standalone, types.Boolean
+  field :instance_type_name, types.String
+  field :accepted_tree_status, types.String
+  field :primary_instance, types.Boolean
+  field :reference_details, Types::Name::Usages::ReferenceDetailsType
   field :synonyms, types[Types::SynonymType]
+  field :misapplication_details, types[Types::Name::MisapplicationDetailsType]
   field :notes, types[Types::InstanceNoteType]
 end

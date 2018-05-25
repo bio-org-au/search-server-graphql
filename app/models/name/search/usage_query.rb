@@ -34,7 +34,9 @@ class Name::Search::UsageQuery
     primary_instance, instance.id instance_id, instance.page instance_page, \
     instance.page_qualifier instance_page_qualifier, \
     instance_type.has_label, instance_type.of_label, \
-    reference.citation reference_citation, max(case when instance.id = \
+    reference.citation reference_citation, \
+    reference.citation_html reference_citation_html, \
+    max(case when instance.id = \
     tnode.instance_id and tnode.next_node_id is null and \
     tnode.checked_in_at_id is not null and instance_id = tnode.instance_id \
     then tnode.type_uri_id_part else '' end) accepted_tree_status"

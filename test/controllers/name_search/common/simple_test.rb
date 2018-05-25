@@ -20,11 +20,13 @@ require 'test_helper'
 class NameSearchCommonSimpleTest < ActionController::TestCase
   tests GraphqlController
   setup do
+    @args = 'name_search(search_term:"a*", common_name: true)'
+    @fields = '{count,names{id,full_name,name_usages{reference_details'
+    @fields += '{citation,page,page_qualifier,year}}}}'
   end
 
   test 'simple common name search test' do
-    post 'execute',
-         params: { query: '{name_search(search_term:"a*", common_name:true){count,names{id,full_name,name_usages{reference_usage{citation,page,page_qualifier,year,standalone}}}}}' }
+    post 'execute', params: { query: "{#{@args}#{@fields}}" }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert_match 'argyle apple',

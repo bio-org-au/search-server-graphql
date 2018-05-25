@@ -22,7 +22,7 @@ class AdvNameSearchArgsScNamedHybridTest < ActionController::TestCase
   setup do
     @query = '{name_search(search_term:"*", scientific_named_hybrid_name: true)'
     @query += '{count,names{id,full_name,name_usages'
-    @query += '{reference_usage{citation,page,page_qualifier,year,standalone}}}}}'
+    @query += '{reference_details{citation,page,page_qualifier,year}}}}}'
   end
 
   test 'simple all name search test' do

@@ -20,13 +20,15 @@ require 'test_helper'
 class NameSearchAllSimpleTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @query = '{name_search(search_term:"a*", scientific_name: true, scientific_autonym_name: true, scientific_named_hybrid_name: true, cultivar_name: true, common_name: true)'
-    @query += '{count,names{id,full_name,'
-    @query += 'name_usages{reference_usage{citation,page,page_qualifier,year,standalone}}}}}'
+    @args = 'name_search(search_term:"a*", scientific_name: true,'
+    @args += 'scientific_autonym_name: true,scientific_named_hybrid_name: true,'
+    @args += 'cultivar_name: true, common_name: true)'
+    @fields = '{count,names{id,full_name,name_usages{reference_details'
+    @fields += '{citation,page,page_qualifier,year}}}}'
   end
 
   test 'simple all name search test' do
-    post 'execute', params: { query: @query }
+    post 'execute', params: { query: "{#{@args}#{@fields}}" }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.data.name_search.names.size > 20,
