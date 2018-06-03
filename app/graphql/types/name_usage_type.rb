@@ -9,6 +9,7 @@ Types::NameUsageType = GraphQL::ObjectType.define do
   field :primary_instance, types.Boolean
   field :reference_details, Types::Name::Usages::ReferenceDetailsType
   field :synonyms, types[Types::SynonymType]
-  field :misapplication_details, types[Types::Name::MisapplicationDetailsType]
+  field :misapplication, types.Boolean
+  field :misapplication_details, Types::Name::MisapplicationDetailsType
   field :notes, types[Types::InstanceNoteType]
 end

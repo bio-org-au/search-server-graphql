@@ -8,10 +8,11 @@ class Name::Search::Usage
               :misapplied_to_name, :misapplied_to_id, :misapplication_label,
               :misapplied_by_reference_id, :misapplication_details,
               :instance_type_name, :instance_id, :primary_instance,
-              :accepted_tree_status
+              :accepted_tree_status, :merged
 
-  def initialize(name_usage_query_record, synonym_bunch)
+  def initialize(name_usage_query_record, synonym_bunch, merged = false)
     debug("name_usage_query_record.instance_id: #{name_usage_query_record.instance_id}") 
+    @merged = merged
     @name_usage_query_record = name_usage_query_record
     @synonym_bunch = synonym_bunch
     @instance = Instance.find(@name_usage_query_record.instance_id)
@@ -30,6 +31,23 @@ class Name::Search::Usage
     # Rails.logger.debug("Name::Search::Usage: #{s}")
   end
 
+  def append(name_usage_query_record)
+    debug("append")
+    debug("misapplication_details.class: #{self.misapplication_details.class}")
+    debug("misapplication_details.misapplied_in_references.class: #{self.misapplication_details.misapplied_in_references.class}")
+    instance = Instance.find(name_usage_query_record.instance_id)
+    unless instance.cites_id.blank?
+      cites = Instance.find(instance.cites_id)
+      mir = OpenStruct.new
+      mir.citation = cites.reference.citation
+      mir.id = cites.reference_id
+      mir.page = cites.page
+      mir.page_qualifier = cites.page_qualifier
+      mir.display_entry = 'display entry'
+      misapplication_details.misapplied_in_references.push mir
+    end
+  end
+
   def reference_details
     record = OpenStruct.new
     record.id = @name_usage_query_record.reference_id
@@ -40,18 +58,8 @@ class Name::Search::Usage
     record
   end
 
-  def xinitialize_misapplied
-    @misapplied_to_id = nil
-    @misapplied_to_name = ''
-    @misapplied_by_id = nil
-    @misapplied_on_page = ''
-    @misapplication_label = ''
-    return unless @name_usage_query_record.misapplied == 't'
-    prepare_misapplied
-  end
-
   def initialize_misapplied
-    @misapplication_details = []
+    @misapplication_details = nil
     return if @instance.standalone?
     return unless misapplication?
     prepare_misapplied
@@ -59,11 +67,6 @@ class Name::Search::Usage
 
   def usage_is_a_misapplication?
     @name_usage_query_record.misapplied == 't'
-  end
-
-  def xprepare_misapplied
-    cited_by_for_misapplied
-    cites_for_misapplied
   end
 
   def prepare_misapplied
@@ -76,8 +79,8 @@ class Name::Search::Usage
     else
       cites_and_cited_by_for_misapplied_in_backward_direction
     end
-    xcited_by_for_misapplied
-    xcites_for_misapplied
+    cited_by_for_misapplied
+    cites_for_misapplied
   end
 
   def this_cites_a_misapplication
@@ -104,13 +107,21 @@ class Name::Search::Usage
       rec.misapplied_in_reference_id = cites.reference_id
       rec.misapplied_on_page = cites.page
       rec.misapplied_on_page_qualifier = cites.page_qualifier
+      rec.misapplied_in_references = []
+      mir = OpenStruct.new
+      mir.citation = cites.reference.citation
+      mir.id = cites.reference_id
+      mir.page = cites.page
+      mir.page_qualifier = cites.page_qualifier
+      mir.display_entry = 'display entry'
+      rec.misapplied_in_references.push mir
     else
       ref.misapplied_in_reference_citation = nil
       ref.misapplied_in_reference_id = nil
       rec.misapplied_on_page = nil
       rec.misapplied_on_page_qualifier = nil
     end
-    @misapplication_details.push(rec)
+    @misapplication_details = rec
   end
 
   def cites_and_cited_by_for_misapplied_in_backward_direction
@@ -135,10 +146,10 @@ class Name::Search::Usage
       rec.misapplied_on_page = nil
       rec.misapplied_on_page_qualifier = nil
     end
-    @misapplication_details.push(rec)
+    @misapplication_details = rec
   end
 
-  def xcited_by_for_misapplied
+  def cited_by_for_misapplied
     inst1 = Instance.find(@name_usage_query_record.instance_id)
     return if inst1.cited_by_id.blank?
     cited_by = Instance.find(Instance.find(@name_usage_query_record.instance_id).cited_by_id)
@@ -159,10 +170,10 @@ class Name::Search::Usage
     rec.reference_id = cites.reference.id
     rec.page = cites.page
     rec.page_qualifier = cites.page_qualifier
-    @misapplication_details.push(rec)
+    @misapplication_details = rec
   end
 
-  def xcites_for_misapplied
+  def cites_for_misapplied
     instance = Instance.find(@name_usage_query_record.instance_id)
     inst2 = Instance.find(instance.id)
     return if inst2.cites_id.blank?
@@ -215,6 +226,10 @@ class Name::Search::Usage
 
   def misapplied
     @name_usage_query_record.misapplied == 't'
+  end
+
+  def misapplication
+    misapplication?
   end
 
   def misapplication?

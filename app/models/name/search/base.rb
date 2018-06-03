@@ -20,7 +20,6 @@ class Name::Search::Base
     @generator.sql.each do |name|
       name_search_results.push name
     end
-    # merged_results = Name::Search::Merge.new(name_search_results).merge
-    name_search_results
+    Name::Search::Merge.new(name_search_results).merge
   end
 end
