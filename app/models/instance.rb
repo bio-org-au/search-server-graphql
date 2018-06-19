@@ -15,6 +15,11 @@ class Instance < ActiveRecord::Base
   belongs_to :this_cites,
              class_name: 'Instance',
              foreign_key: 'cites_id'
+
+
+  belongs_to :citer_instance, class_name: 'Instance', foreign_key: 'cited_by_id'
+  belongs_to :cited_instance, class_name: 'Instance', foreign_key: 'cites_id'
+
   has_many :instance_notes
   has_many :instance_notes_for_details, foreign_key: :instance_id
   has_many :instance_note_keys, through: :instance_notes

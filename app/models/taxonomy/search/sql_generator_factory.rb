@@ -17,4 +17,15 @@ class Taxonomy::Search::SqlGeneratorFactory
     Rails.logger.debug("Taxonomy::Search::SqlGeneratorFactory::#{name}".constantize)
     "Taxonomy::Search::SqlGeneratorFactory::#{name}".constantize.new(@parser)
   end
+
+  def xxbuild
+    Rails.logger.debug("Taxonomy::Search::SqlGeneratorFactory#build....")
+    name = ""
+    name += 'Accepted' if @parser.accepted? || @parser.excluded?
+    name += 'CrossReference' if @parser.cross_reference?
+    name += 'Accepted' if name.blank?
+    Rails.logger.debug("Taxonomy::Search::SqlGeneratorFactory#build....name: #{name}")
+    Rails.logger.debug("Taxonomy::Search::SqlGeneratorFactory::#{name}".constantize)
+    "Taxonomy::Search::SqlGeneratorFactory::#{name}".constantize.new(@parser)
+  end
 end

@@ -8,18 +8,32 @@ class Name::Search::Base
   def initialize(args)
     @args = args
     @parser = Name::Search::Parser.new(args)
-    @generator = Name::Search::SqlGeneratorFactory.new(@parser).build
+    if @parser.simple?
+      @search = Name::Search::Engines::Simple.new(args)
+    else
+      @search = Name::Search::Engines::Advanced.new(args)
+    end
   end
 
-  def count
-    @generator.count
+  def debug(s)
+    Rails.logger.debug("==============================================")
+    Rails.logger.debug("Name::Search::Base: #{s}")
+    Rails.logger.debug("==============================================")
   end
 
   def names
-    name_search_results = []
-    @generator.sql.each do |name|
-      name_search_results.push name
-    end
-    Name::Search::Merge.new(name_search_results).merge
+    Name::Search::Merge.new(@search.names).merge
+  end
+
+  def count
+    @search.count
+  end
+
+private
+
+  def base_query
+    Name.name_matches(@parser.search_term)
+        .has_an_instance
   end
 end
+

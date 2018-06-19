@@ -16,31 +16,70 @@ class Name::Search::Parser
   COMMON = 'Common'
   ALL = 'all'
 
-  # Fuzzy or exact
-  ADD_TRAILING_WILDCARD = 'add_trailing_wildcard'
-
   # List or list with details output
   DETAILS = 'details'
   LIST = 'list'
 
   # Limits
-  DEFAULT_LIST_LIMIT = 100
-  DEFAULT_DETAILS_LIMIT = 10
-  MAX_LIST_LIMIT = 500
-  MAX_DETAILS_LIMIT = 50
+  MAX_LIST = 500
+  MAX_DETAILS = 50
 
   SIMPLE_SEARCH = 'Search'
 
   def initialize(args)
     Rails.logger.debug('Search::Parser.initialize')
     @args = args
-    # resolve_sci_cult_or_common
-    resolve_fuzzy_or_exact
+    resolve_sci_cult_or_common
+  end
+
+  def debug(s)
+    Rails.logger.debug("==============================================")
+    Rails.logger.debug("Name::Search::Parser: #{s}")
+    Rails.logger.debug("==============================================")
   end
 
   def run_search?
     @args.keys.include?('search_term') ||
-      @args.keys.include?('author_abbrev')
+      author_arg?
+  end
+
+  def xauthor_arg?
+    @args.keys.include?('author_abbrev') && !@args['author_abbrev'].strip.blank?
+  end
+
+  def xex_author_arg?
+    @args.keys.include?('ex_author_abbrev') &&
+      !@args['ex_author_abbrev'].strip.blank?
+  end
+
+  def xex_base_author_arg?
+    @args.keys.include?('ex_base_author_abbrev') &&
+      !@args['ex_base_author_abbrev'].strip.blank?
+  end
+
+  def xbase_author_arg?
+    @args.keys.include?('base_author_abbrev') &&
+      !@args['base_author_abbrev'].strip.blank?
+  end
+
+  def xname_element_arg?
+    @args.keys.include?('name_element') && !@args['name_element'].strip.blank?
+  end
+
+  def xgenus_arg?
+    @args.keys.include?('genus') && !@args['genus'].strip.blank?
+  end
+
+  def xspecies_arg?
+    @args.keys.include?('species') && !@args['species'].strip.blank?
+  end
+
+  def text_arg?(arg_name)
+    @args.keys.include?(arg_name) && !@args[arg_name].strip.blank?
+  end
+
+  def search_term_arg?
+    @args.keys.include?('search_term') && !@args['search_term'].strip.blank?
   end
 
   def resolve_sci_cult_or_common
@@ -49,10 +88,8 @@ class Name::Search::Parser
     @sci_cult_or_common = @args['type_of_name']
   end
 
-  def resolve_fuzzy_or_exact
-    @fuzzy_or_exact = ADD_TRAILING_WILDCARD
-    return unless @args.keys.include?('fuzzy_or_exact')
-    @fuzzy_or_exact = @args['fuzzy_or_exact']
+  def simple?
+    false
   end
 
   def search_type
@@ -63,27 +100,16 @@ class Name::Search::Parser
     end
   end
 
-  def add_trailing_wildcard
-    return false unless @args.key?(:add_trailing_wildcard)
-    @args[:add_trailing_wildcard]
-  end
-
   def search_term
-    term = @args[:q].strip.tr('*', '%')
-    return term unless add_trailing_wildcard.start_with?('t')
-    term.sub(/$/, '%')
+    term = @args.search_term.strip.tr('*', '%')
   end
 
   def show_as
-    @args[:show_results_as] || @args[:default_show_results_as] || SHOW_LIST
+    @args[:show_results_as] || @args[:default_show_results_as] || LIST
   end
 
   def limit
-    if list?
-      DEFAULT_LIST_LIMIT
-    else
-      DEFAULT_DETAILS_LIMIT
-    end
+    [@args.limit.try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
   end
 
   def offset
@@ -91,7 +117,7 @@ class Name::Search::Parser
   end
 
   def list?
-    @show_as == SHOW_LIST
+    @show_as == LIST
   end
 
   def show_list?
@@ -132,10 +158,6 @@ class Name::Search::Parser
 
   def name_type_all?
     @sci_cult_or_common.strip.casecmp(ALL).zero?
-  end
-
-  def add_trailing_wildcard?
-    @fuzzy_or_exact.casecmp(ADD_TRAILING_WILDCARD).zero?
   end
 
   def type_note_text

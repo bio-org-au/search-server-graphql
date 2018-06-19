@@ -16,7 +16,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :genus, types.String
     argument :species, types.String
     argument :rank, types.String
-    argument :include_ranks_below, types.String
+    argument :include_ranks_below, types.Boolean
     argument :publication, types.String
     argument :publication_year, types.String
     argument :protologue, types.String
@@ -30,7 +30,6 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :common_name, types.Boolean
     argument :type_note_text, types.String
     argument :type_note_keys, types[types.String]
-    argument :fuzzy_or_exact, types.String
     argument :order_by_name, types.Boolean
     argument :limit, types.Int
     argument :offset, types.Int

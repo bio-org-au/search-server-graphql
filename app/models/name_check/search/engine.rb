@@ -27,9 +27,7 @@ class NameCheck::Search::Engine
       sql_query = Name.name_matches(search_term)
                       .has_an_instance
                       .joins(:name_status)
-                      .joins(name_tree_paths: [:apni_tree_arrangement])
                       .joins(:name_rank)
-                      .joins(:name_tree_paths)
                       .where(name_status: {nom_illeg: false})
                       .where(name_status: {nom_inval: false})
                       .where("name_status.name != 'isonym'")
@@ -83,7 +81,7 @@ class NameCheck::Search::Engine
       data.matched_name_id = name_record.id
       data.matched_name_full_name = name_record.full_name
       data.matched_name_family_name = name_record.family_name
-      data.matched_name_family_name_id = name_record.family_name_id
+      data.matched_name_family_name_id = name_record.family_id
       data.matched_name_accepted_taxonomy_accepted = name_record.accepted?
       data.matched_name_accepted_taxonomy_excluded = name_record.excluded?
     end

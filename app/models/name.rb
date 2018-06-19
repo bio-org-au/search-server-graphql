@@ -25,9 +25,9 @@ end
 class Name < ApplicationRecord
   using SearchableNameStrings
   SIMPLE_NAME_REGEX =
-    'lower(f_unaccent(simple_name)) ~ lower(f_unaccent(?)) '
+    'lower(f_unaccent(name.simple_name)) ~ lower(f_unaccent(?)) '
   FULL_NAME_REGEX =
-    'lower(f_unaccent(full_name)) ~ lower(f_unaccent(?))'
+    'lower(f_unaccent(name.full_name)) ~ lower(f_unaccent(?))'
   self.table_name = 'name'
   self.primary_key = 'id'
   belongs_to :name_type
@@ -42,6 +42,7 @@ class Name < ApplicationRecord
   belongs_to :ex_base_author, class_name: 'Author'
   belongs_to :sanctioning_author, class_name: 'Author'
   belongs_to :parent, class_name: 'Name', foreign_key: 'parent_id'
+  belongs_to :family, class_name: 'Name', foreign_key: 'family_id'
   has_many :children,
            class_name: 'Name',
            foreign_key: 'parent_id',
@@ -52,16 +53,12 @@ class Name < ApplicationRecord
            class_name: 'Name',
            foreign_key: 'second_parent_id',
            dependent: :restrict_with_exception
-  has_many :name_tree_paths
-  has_many :ntp_children, class_name: 'NameTreePath', foreign_key: 'family_id'
-  has_one  :name_tree_path_default
-  has_one  :taxonomy_name_tree_path, class_name: 'NameTreePath'
   has_many :instances
   has_many :instance_types, through: :instances
   has_many :instance_notes
   has_many :references, through: :instances
   has_many :reference_authors, through: :references, class_name: 'Author'
-  has_many :tree_nodes
+  has_many :tree_elements
   belongs_to :duplicate_of, class_name: 'Name', foreign_key: 'duplicate_of_id'
   has_many :duplicates,
            class_name: 'Name',
@@ -69,14 +66,8 @@ class Name < ApplicationRecord
            dependent: :restrict_with_exception # , order: 'name_element'
   has_one :accepted_name, foreign_key: 'id'
   scope :not_a_duplicate, -> { where(duplicate_of_id: nil) }
-  scope :ordered_scientifically, (lambda do
-                                    order("coalesce(trim( trailing '>'
-                                          from substring(substring(
-                                          name_tree_path.rank_path from
-                                          'Familia:[^>]*>') from 9)),
-                                          'A'||to_char(name_rank.sort_order,
-                                          '0009')), sort_name,
-                                          name_rank.sort_order")
+  scope :ordered_by_sort_name_and_rank, (lambda do
+                                    order("name.sort_name, name_rank.sort_order")
                                   end)
   scope :has_an_instance, (lambda do
     where(["exists (select null
@@ -137,17 +128,8 @@ class Name < ApplicationRecord
     Name::Search::Usages.new(id).name_usages
   end
 
-  # This generates one select per record and I cannot
-  # find a way to eliminate that select using an includes
-  # clause.  But name_tree_path will be eliminated in the
-  # forthcoming tree changes.
   def family_name
-    name_tree_paths.first.try('family').try('full_name')
-  end
-
-  # Expensive, see above.
-  def family_name_id
-    name_tree_paths.first.try('family').try('id')
+    family.full_name
   end
 
   def name_status_name
@@ -178,11 +160,13 @@ class Name < ApplicationRecord
   end
 
   def accepted?
-    accepted_name.present? && accepted_name.accepted_accepted?
+    tree_element = Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
+    tree_element.present? && tree_element.excluded == false
   end
 
   def excluded?
-    accepted_name.present? && accepted_name.accepted_excluded?
+    tree_element = Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
+    tree_element.present? && tree_element.excluded == true
   end
 
   def author_component_of_full_name
