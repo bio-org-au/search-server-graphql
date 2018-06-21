@@ -27,6 +27,7 @@ class Taxonomy::Search::Columns
     instance.cites_id cites_id, \
     reference.id reference_id, \
     tree_element.profile profile, \
+    tree_element.synonyms synonyms, \
     tree_version_element.name_path "
   end
 end

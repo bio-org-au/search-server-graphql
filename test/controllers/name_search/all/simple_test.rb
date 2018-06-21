@@ -32,7 +32,7 @@ class NameSearchAllSimpleTest < ActionController::TestCase
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.data.name_search.names.size > 20,
-           'Should find at least 20 records'
+           'Should find at least 21 records'
     assert :success, 'Search should run'
   end
 end

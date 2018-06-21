@@ -17,8 +17,8 @@ Types::TaxonType = GraphQL::ObjectType.define do
   field :is_misapplication, types.Boolean
   field :is_pro_parte, types.Boolean
   field :cites_instance_id, types.ID
-  field :accepted_taxon_comment, types.String
-  field :accepted_taxon_distribution, types.String
+  field :taxon_comment, types.String
+  field :taxon_distribution, types.String
   field :is_cross_reference, types.Boolean
   field :cross_reference_to, Types::Taxonomy::CrossReferenceToType
   field :synonyms, types[Types::TaxonSynonymType]

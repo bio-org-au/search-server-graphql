@@ -29,7 +29,6 @@ class NameSearchNoTypesSimpleTest < ActionController::TestCase
     post 'execute', params: { query: @query }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    puts obj.errors if obj.errors.present?
     assert_not obj.errors.present?, "Query shouldn't generate errors."
     assert obj.data.name_search.names.size > 20,
            'Should find at least 20 records'

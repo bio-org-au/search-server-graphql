@@ -2,6 +2,7 @@
 
 Types::Taxonomy::CrossReferenceToType = GraphQL::ObjectType.define do
   name 'taxon_cross_reference_to'
+  field :name_id, types.String
   field :full_name, types.String
   field :full_name_html, types.String
   field :is_doubtful, types.Boolean

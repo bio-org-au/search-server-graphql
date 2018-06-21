@@ -109,7 +109,8 @@ class Name::Search::Parser
   end
 
   def limit
-    [@args.limit.try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+    #[@args.limit.try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+    [(@args.limit || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
   end
 
   def offset

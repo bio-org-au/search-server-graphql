@@ -1196,7 +1196,7 @@ CREATE SEQUENCE public.nsl_global_seq
     START WITH 50000001
     INCREMENT BY 1
     MINVALUE 50000001
-    MAXVALUE 60000000
+    MAXVALUE 6000000000
     CACHE 1;
 
 
@@ -1228,6 +1228,37 @@ CREATE TABLE public.author (
 
 
 --
+-- Name: bulk_name_processed; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bulk_name_processed (
+    id bigint DEFAULT nextval('public.nsl_global_seq'::regclass) NOT NULL,
+    genus character varying,
+    species character varying,
+    subsp_var character varying,
+    authority character varying,
+    preferred_authority character varying,
+    page character varying,
+    act_page character varying,
+    nsw_page character varying,
+    nt_page character varying,
+    qld_page character varying,
+    sa_page character varying,
+    tas_page character varying,
+    vic_page character varying,
+    wa_page character varying,
+    ait_page character varying,
+    constructed_name character varying,
+    matched_name_id bigint,
+    matched_name_count bigint DEFAULT 0 NOT NULL,
+    inferred_rank character varying DEFAULT 'unknown'::character varying NOT NULL,
+    autonym boolean DEFAULT false NOT NULL,
+    phrase_name boolean DEFAULT false NOT NULL,
+    constructed_page character varying
+);
+
+
+--
 -- Name: bulk_name_raw; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1247,7 +1278,15 @@ CREATE TABLE public.bulk_name_raw (
     vic_page character varying,
     wa_page character varying,
     ait_page character varying,
-    nominated_id integer
+    rub1 character varying,
+    nominated_id integer,
+    rub2 character varying,
+    rub3 character varying,
+    rub4 character varying,
+    rub5 character varying,
+    rub6 character varying,
+    rub7 character varying,
+    rub8 character varying
 );
 
 
@@ -2404,6 +2443,14 @@ ALTER TABLE ONLY mapper.identifier
 
 ALTER TABLE ONLY public.author
     ADD CONSTRAINT author_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bulk_name_processed_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bulk_name_processed
+    ADD CONSTRAINT bulk_name_processed_pkey PRIMARY KEY (id);
 
 
 --

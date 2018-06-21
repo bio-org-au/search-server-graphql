@@ -19,6 +19,7 @@ class Taxonomy::Search::SqlGeneratorFactory::CrossReference
       .select("max(name_status.name) name_status_name_")
       .select("instance_type.misapplied")
       .select("true cross_reference")
+      .select("max(names_instance.id) cross_ref_name_id")
       .select("max(names_instance.full_name) cross_ref_full_name")
       .select("max(names_instance.full_name_html) cross_ref_full_name_html")
       .select("max(reference.citation) cited_ref_citation")
