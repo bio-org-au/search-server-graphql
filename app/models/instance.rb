@@ -37,7 +37,6 @@ class Instance < ActiveRecord::Base
 
   belongs_to :cited_by_instance, foreign_key: 'cited_by_id'
   belongs_to :namespace
-  has_one :instance_resource_vw
 
   scope :in_nested_instance_type_order, (lambda do
     order(

@@ -176,4 +176,24 @@ class Name < ApplicationRecord
   def check_name(name)
     Name.where(["lower(simple_name) like ? or lower(full_name) like ?", name, name])
   end
+
+
+  def self.ac
+    Name.where(["simple_name = ?",'Angophora costata'])
+  end
+
+  def self.bs
+    Name.where(["simple_name = ?",'Banksia spinulosa'])
+  end
+
+  def self.acbs
+    union_condition = ac.union(bs)
+    table_alias = arel_table.create_table_alias(union_condition, arel_table.name)
+    from(table_alias)
+  end
+
+  def self.run_union_search(union_condition, order_string = '1', limit = 500, offset = 0)
+    table_alias = arel_table.create_table_alias(union_condition, arel_table.name)
+    from(table_alias).order(order_string).limit(limit).offset(offset)
+  end
 end

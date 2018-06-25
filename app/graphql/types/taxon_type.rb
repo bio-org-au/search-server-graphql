@@ -9,6 +9,7 @@ Types::TaxonType = GraphQL::ObjectType.define do
   field :is_excluded, types.Boolean
   field :instance_id, types.ID
   field :name_status_name, types.String
+  field :name_status_is_displayed, types.Boolean
   field :reference_citation, types.String
   field :reference_id, types.ID
   field :taxon_details, Types::TaxonDetailsType

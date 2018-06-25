@@ -26,7 +26,6 @@ class NameSearchScientificFamilyTest < ActionController::TestCase
   end
 
   test 'scientific name search on family' do
-    skip 'waiting for new tree structure'
     post 'execute', params: { query: "#{@args}#{@fields}" }
     assert_response :success
     # We have no name_tree_path fixtures,so the query returns no records.

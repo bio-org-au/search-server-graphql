@@ -7,11 +7,11 @@ class Taxonomy::Search::SqlGeneratorFactory::Excluded
   end
 
   def search
-    @core_search.joins(:name_status)
-                .select(Taxonomy::Search::Columns.new(@parser).build)
-                .order("name_path")
-                .limit(@parser.limit)
-                .offset(@parser.offset)
+    core_search.joins(:name_status)
+               .select(Taxonomy::Search::Columns.new(@parser).build)
+               .order("name_path")
+               .limit(@parser.limit)
+               .offset(@parser.offset)
   end
 
   def count
@@ -19,7 +19,6 @@ class Taxonomy::Search::SqlGeneratorFactory::Excluded
   end
 
 private
-
   def core_search
     @core_search ||= Name.joins(tree_elements: [{tree_version_elements: {tree_version: :tree}}, {instance: [:instance_type, :reference]}])
                          .name_matches(@parser.search_term)

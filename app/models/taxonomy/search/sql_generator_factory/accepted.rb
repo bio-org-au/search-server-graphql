@@ -7,11 +7,11 @@ class Taxonomy::Search::SqlGeneratorFactory::Accepted
   end
 
   def search
-    @core_search.joins(:name_status)
-                .select(Taxonomy::Search::Columns.new(@parser).build)
-                .order("name_path")
-                .limit(@parser.limit)
-                .offset(@parser.offset)
+    core_search.joins(:name_status)
+               .select(Taxonomy::Search::Columns.new(@parser).build)
+               .order("name_path")
+               .limit(@parser.limit)
+               .offset(@parser.offset)
   end
 
   def count

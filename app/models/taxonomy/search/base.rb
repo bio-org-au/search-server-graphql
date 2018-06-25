@@ -13,6 +13,12 @@ class Taxonomy::Search::Base
     @generator.count
   end
 
+  def debug(s)
+    Rails.logger.debug("===================================================")
+    Rails.logger.debug("Taxonomy::Search::Base: #{s}")
+    Rails.logger.debug("===================================================")
+  end
+
   # The returned object must respond to the "taxa" message
   # I create a structure here so I can send the value of the booleans
   # correctly.
@@ -53,9 +59,11 @@ class Taxonomy::Search::Base
     struct[:is_pro_parte] =  name_tree_element.pro_parte == 't'
     #struct[:name_status_id] = name_tree_element.name_status_id
     struct[:name_status_name] = name_tree_element.name_status_name_
+    # The name_status.display boolean is not set up.
+    struct[:name_status_is_displayed] = !(name_tree_element.name_status.name == 'legitimate' || name_tree_element.name_status.name.match(/^\[/))
     struct[:order_string] = name_tree_element.name_path
     #struct[:reference_id] = name_tree_element.reference_id
-    #struct[:reference_citation] = name_tree_element.reference_citation
+    struct[:reference_citation] = name_tree_element.reference_citation
     struct[:simple_name] = name_tree_element.simple_name
     #struct[:source_object] = nil
     
@@ -69,7 +77,10 @@ class Taxonomy::Search::Base
       name = Name.where(id: syn["name_id"]).includes(:name_status).first
       instance = Instance.where(id: syn["instance_id"]).includes(:instance_type).first
       syn_struct[:full_name] = name.full_name
+      syn_struct[:full_name_html] = name.full_name_html
       syn_struct[:name_status] = name.name_status.name
+      # The name_status.display boolean is not set up.
+      syn_struct[:name_status_is_displayed] = !(name.name_status.name == 'legitimate' || name.name_status.name.match(/^\[/))
       syn_struct[:is_doubtful] = instance.instance_type.doubtful
       syn_struct[:is_misapplied] = instance.instance_type.misapplied
       syn_struct[:is_pro_parte] = instance.instance_type.pro_parte
@@ -90,8 +101,8 @@ class Taxonomy::Search::Base
     #struct[:cross_reference_misapplication_details] = nil
 
     cross_ref_to_struct = OpenStruct.new
-    cross_ref_to_struct[:name_id] = name_tree_element.cross_ref_name_id
-    cross_ref_to_struct[:full_name] = name_tree_element.cross_ref_full_name
+    cross_ref_to_struct[:name_id] = name_tree_element.cross_referenced_full_name_id
+    cross_ref_to_struct[:full_name] = name_tree_element.cross_referenced_full_name
     cross_ref_to_struct[:full_name_html] = name_tree_element.cross_ref_full_name_html
     cross_ref_to_struct[:is_pro_parte] = name_tree_element.pro_parte == 't'
     cross_ref_to_struct[:is_doubtful] = name_tree_element.doubtful == 't'
@@ -102,11 +113,11 @@ class Taxonomy::Search::Base
       as_misapplication_struct[:citing_instance_id] = -2
       as_misapplication_struct[:citing_reference_id] = -1
       as_misapplication_struct[:citing_reference_author_string_and_year] = -1
-      as_misapplication_struct[:misapplying_author_string_and_year] = name_tree_element.cited_ref_citation.sub(/\),.*/,')')
+      as_misapplication_struct[:misapplying_author_string_and_year] = name_tree_element.reference_citation.sub(/\),.*/,')')
       as_misapplication_struct[:name_author_string] = -1
       as_misapplication_struct[:cited_simple_name] = -1
       as_misapplication_struct[:cited_page] = -1
-      as_misapplication_struct[:cited_reference_author_string] = name_tree_element.cited_ref_citation.sub(/\),.*/,')')
+      as_misapplication_struct[:cited_reference_author_string] = name_tree_element.reference_citation.sub(/\),.*/,')')
       cross_ref_to_struct[:as_misapplication] = as_misapplication_struct
     end
     struct[:cross_reference_to] = cross_ref_to_struct
@@ -121,6 +132,7 @@ class Taxonomy::Search::Base
     struct[:is_pro_parte] =  name_tree_element.pro_parte == 't'
     #struct[:name_status_id] = name_tree_element.name_status_id
     struct[:name_status_name] = name_tree_element.name_status_name_
+    struct[:name_status_is_displayed] = !(name_tree_element.name_status.name == 'legitimate' || name_tree_element.name_status.name.match(/^\[/))
     struct[:order_string] = name_tree_element.name_path
     #struct[:reference_id] = name_tree_element.reference_id
     #struct[:reference_citation] = name_tree_element.reference_citation

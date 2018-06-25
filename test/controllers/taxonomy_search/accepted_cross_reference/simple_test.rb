@@ -23,10 +23,6 @@ class TaxonomySearchAcceptedCrossRefNameSimpleTest < ActionController::TestCase
   end
 
   test 'simple accepted cross reference name taxonomy query test' do
-    skip
-  end
-
-  def real_test
     post 'execute',
          params: { query: '{taxonomy_search(search_term:"angophora costata", accepted_name: true, cross_reference: true){count,taxa{id,full_name}}}' }
     assert_response :success
