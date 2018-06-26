@@ -92,7 +92,7 @@ class Name::Search::Merge
   end
 
   def merge
-    # explore
+    explore
     @names_array
   end
 end

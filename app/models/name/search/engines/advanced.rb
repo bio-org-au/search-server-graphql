@@ -26,7 +26,7 @@ class Name::Search::Engines::Advanced
              .select('name.name_status_id, families_name.full_name')
              .limit(@parser.limit)
              .offset(@parser.offset)
-             .ordered_by_sort_name_and_rank
+             .order(order_str)
     val
   end
 
@@ -70,5 +70,13 @@ class Name::Search::Engines::Advanced
     query = Filters::Species.new(query, @parser).sql
     query = Filters::Rank.new(query, @parser).sql
     query
+  end
+
+  def order_str
+    if @parser.family_order?
+      "families_name.full_name, name_rank.sort_order, name.sort_name"
+    else
+      "name.sort_name, name_rank.sort_order"
+    end
   end
 end

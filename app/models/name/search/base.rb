@@ -22,7 +22,11 @@ class Name::Search::Base
   end
 
   def names
-    Name::Search::Merge.new(@search.names).merge
+    if @parser.merge?
+      Name::Search::Merge.new(@search.names).merge
+    else
+      @search.names
+    end
   end
 
   def count

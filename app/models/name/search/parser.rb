@@ -43,37 +43,6 @@ class Name::Search::Parser
       author_arg?
   end
 
-  def xauthor_arg?
-    @args.keys.include?('author_abbrev') && !@args['author_abbrev'].strip.blank?
-  end
-
-  def xex_author_arg?
-    @args.keys.include?('ex_author_abbrev') &&
-      !@args['ex_author_abbrev'].strip.blank?
-  end
-
-  def xex_base_author_arg?
-    @args.keys.include?('ex_base_author_abbrev') &&
-      !@args['ex_base_author_abbrev'].strip.blank?
-  end
-
-  def xbase_author_arg?
-    @args.keys.include?('base_author_abbrev') &&
-      !@args['base_author_abbrev'].strip.blank?
-  end
-
-  def xname_element_arg?
-    @args.keys.include?('name_element') && !@args['name_element'].strip.blank?
-  end
-
-  def xgenus_arg?
-    @args.keys.include?('genus') && !@args['genus'].strip.blank?
-  end
-
-  def xspecies_arg?
-    @args.keys.include?('species') && !@args['species'].strip.blank?
-  end
-
   def text_arg?(arg_name)
     @args.keys.include?(arg_name) && !@args[arg_name].strip.blank?
   end
@@ -125,10 +94,14 @@ class Name::Search::Parser
   end
 
   def details?
-    show_as == SHOW_DETAILS
+    show_as == DETAILS
   end
 
   def show_details?
+    details?
+  end
+
+  def merge?
     details?
   end
 
@@ -191,6 +164,14 @@ class Name::Search::Parser
     return true if type_note_any?
     return true if @args[:type_note_keys].include?('type')
     false
+  end
+
+  def family_order?
+    order_by_name_within_family?
+  end
+
+  def order_by_name_within_family?
+    @args[:order_by_name_within_family] == true
   end
 
   def order_by_name?

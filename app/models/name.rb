@@ -136,6 +136,10 @@ class Name < ApplicationRecord
     name_status.name
   end
 
+  def name_status_is_displayed
+    name_status.show?
+  end
+
   def name_rank_name
     name_rank.name
   end

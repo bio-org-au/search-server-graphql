@@ -31,6 +31,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :type_note_text, types.String
     argument :type_note_keys, types[types.String]
     argument :order_by_name, types.Boolean
+    argument :order_by_name_within_family, types.Boolean
     argument :limit, types.Int
     argument :offset, types.Int
     argument :id, types.ID
