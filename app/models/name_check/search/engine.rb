@@ -32,7 +32,7 @@ class NameCheck::Search::Engine
                       .where(name_status: {nom_inval: false})
                       .where("name_status.name != 'isonym'")
                       .where.not(name_status: {name: 'orth. var.'})
-                      .ordered_scientifically
+                      .ordered_by_sort_name_and_rank
       if sql_query.size > 0
         @names_with_match_count += 1
         sql_query.each do |record|
