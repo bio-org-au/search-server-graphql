@@ -109,7 +109,6 @@ class Name::Search::Parser
   end
 
   def limit
-    #[@args.limit.try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
     [(@args.limit || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
   end
 
@@ -118,7 +117,7 @@ class Name::Search::Parser
   end
 
   def list?
-    @show_as == LIST
+    show_as == LIST
   end
 
   def show_list?
@@ -126,7 +125,7 @@ class Name::Search::Parser
   end
 
   def details?
-    @show_as == SHOW_DETAILS
+    show_as == SHOW_DETAILS
   end
 
   def show_details?

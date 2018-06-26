@@ -10,7 +10,9 @@ class Name::Search::Merge
   end
 
   def debug(s)
-    # Rails.logger.debug("======= Name::Search::Merge: #{s}")
+    # Rails.logger.debug('==============================================')
+    # Rails.logger.debug("Name::Search::Merge: #{s}")
+    # Rails.logger.debug('==============================================')
   end
 
   def explore
@@ -90,7 +92,7 @@ class Name::Search::Merge
   end
 
   def merge
-    explore
+    # explore
     @names_array
   end
 end

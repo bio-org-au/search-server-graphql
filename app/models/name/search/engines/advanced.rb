@@ -6,6 +6,7 @@
 # - count
 class Name::Search::Engines::Advanced
   def initialize(args)
+    debug('initialize')
     @args = args
     @parser = Name::Search::Parser.new(args)
   end
@@ -17,6 +18,7 @@ class Name::Search::Engines::Advanced
   end
 
   def names
+    debug("@parser.limit: #{@parser.limit}")
     val = base_query.joins(:family)
                     .includes(:name_status)
                     .includes(:family)
