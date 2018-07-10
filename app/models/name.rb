@@ -129,6 +129,7 @@ class Name < ApplicationRecord
   end
 
   def family_name
+    return nil if family.nil?
     family.full_name
   end
 

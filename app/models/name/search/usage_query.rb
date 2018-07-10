@@ -16,7 +16,7 @@ class Name::Search::UsageQuery
     build_query
   end
 
-  def build_query
+  def xbuild_query
     @results = Name.where(id: @id)
                    .joins(instances: [:instance_type, reference: :author])
                    .joins(TREE_NODE_JOIN)
@@ -26,7 +26,22 @@ class Name::Search::UsageQuery
                    .order(ordering)
   end
 
-  def columns
+
+  def build_query
+    @results = Name.where(id: @id)
+                   .joins(instances: [:instance_type, reference: :author])
+                   .left_outer_joins(tree_elements: [{tree_version_elements: {tree_version: :tree}}])
+                   .select(columns)
+                   .group(grouping)
+                   .order(ordering)
+  end
+
+      #@core_search ||= Name.joins(tree_elements: [{tree_version_elements: {tree_version: :tree}}, {instance: [:instance_type, :reference]}])
+                         #.name_matches(@parser.search_term)
+                         #.where("tree.accepted_tree = true and tree.current_tree_version_id = tree_version.id")
+                         #.where("tree_element.excluded = false")
+
+  def xcolumns
     "name.id name_id,name.full_name, name.full_name_html, \
     reference.id reference_id, reference.year reference_year, instance_type.id,\
     instance_type.name instance_type_name, instance_type.misapplied, author.id,\
@@ -42,13 +57,33 @@ class Name::Search::UsageQuery
     then tnode.type_uri_id_part else '' end) accepted_tree_status"
   end
 
+  def columns
+    "name.id name_id,name.full_name, name.full_name_html, \
+    reference.id reference_id, reference.year reference_year, instance_type.id,\
+    instance_type.name instance_type_name, instance_type.misapplied, author.id,\
+    reference.citation_html,coalesce(reference.year,9999), author.name,  \
+    primary_instance, instance.id instance_id, instance.page instance_page, \
+    instance.page_qualifier instance_page_qualifier, \
+    instance_type.has_label, instance_type.of_label, \
+    reference.citation reference_citation, \
+    reference.citation_html reference_citation_html, \
+    tree_element.id tree_element_id, \
+    tree_element.instance_id tree_element_instance_id, \
+    tree_element.excluded tree_element_excluded, \
+    tree_element.profile tree_element_profile, \
+    tree.config tree_config"
+  end
+
   def grouping
     "name.id, name.full_name, reference.id, reference.year, instance_type.id, \
     instance_type.name, instance_type.misapplied,
     author.id,reference.citation_html,coalesce(reference.year,9999),  \
     author.name, primary_instance, instance.id, instance.page, \
     instance_type.has_label, instance_type.of_label, \
-    instance.page_qualifier, reference.citation "
+    instance.page_qualifier, reference.citation, tree_element.id, \
+    tree_element.profile, \
+    tree.config, \
+    tree_element.excluded "
   end
 
   def ordering

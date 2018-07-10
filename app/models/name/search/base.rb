@@ -32,12 +32,4 @@ class Name::Search::Base
   def count
     @search.count
   end
-
-private
-
-  def base_query
-    Name.name_matches(@parser.search_term)
-        .has_an_instance
-  end
 end
-
