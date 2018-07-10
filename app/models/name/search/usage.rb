@@ -92,16 +92,17 @@ class Name::Search::Usage
     @name_usage_query_record.misapplied == 't'
   end
 
-  def misapplication_details
-    MisapplicationDetails.new(@name_usage_query_record).content
-  end
-
   def misapplication
     misapplication?
   end
 
   def misapplication?
     @name_usage_query_record.misapplied == 't'
+  end
+
+  def misapplication_details
+    return nil unless misapplication?
+    MisapplicationDetails.new(@name_usage_query_record).content
   end
 
   def xhas_label
