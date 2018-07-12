@@ -31,6 +31,7 @@ class Name::Search::UsageQuery
     @results = Name.where(id: @id)
                    .joins(instances: [:instance_type, reference: :author])
                    .left_outer_joins(tree_elements: [{tree_version_elements: {tree_version: :tree}}])
+                   .where(' tree.accepted_tree = true and tree_version.id = tree.current_tree_version_id')
                    .select(columns)
                    .group(grouping)
                    .order(ordering)
