@@ -4,59 +4,29 @@
 # instance results suitable for displaying the name usages.
 class Name::Search::UsageQuery
   attr_reader :results, :id
-  TREE_NODE_JOIN = 'left outer join tree_node tnode on name.id = tnode.name_id'
-  FOR_TNODE = ' on tnode.tree_arrangement_id = ta.id'
-  SHARD_TREE_LABEL = "select value from shard_config where name = 'tree label'"
-  FOR_TREE_LABEL = "and ta.label = (#{SHARD_TREE_LABEL})"
-  LEFT_OUTER_JOIN = 'left outer join tree_arrangement ta '
-  TREE_JOIN = "#{LEFT_OUTER_JOIN} #{FOR_TNODE} #{FOR_TREE_LABEL}"
-
   def initialize(name_id)
     @id = name_id
     build_query
   end
 
-  def xbuild_query
-    @results = Name.where(id: @id)
-                   .joins(instances: [:instance_type, reference: :author])
-                   .joins(TREE_NODE_JOIN)
-                   .joins(TREE_JOIN)
-                   .select(columns)
-                   .group(grouping)
-                   .order(ordering)
-  end
-
-
   def build_query
     @results = Name.where(id: @id)
                    .joins(instances: [:instance_type, reference: :author])
                    .left_outer_joins(tree_elements: [{tree_version_elements: {tree_version: :tree}}])
-                   .where(' tree.accepted_tree = true and tree_version.id = tree.current_tree_version_id')
+  .where(' tree_element.id is null or ( tree.accepted_tree = true and tree_version.id = tree.current_tree_version_id)')
                    .select(columns)
                    .group(grouping)
                    .order(ordering)
   end
 
-      #@core_search ||= Name.joins(tree_elements: [{tree_version_elements: {tree_version: :tree}}, {instance: [:instance_type, :reference]}])
-                         #.name_matches(@parser.search_term)
-                         #.where("tree.accepted_tree = true and tree.current_tree_version_id = tree_version.id")
-                         #.where("tree_element.excluded = false")
+  # no usage for non-apc e.g. hibbertia andrews sect. Hibbertia
+  #.where(' tree.accepted_tree = true and tree_version.id = tree.current_tree_version_id')
 
-  def xcolumns
-    "name.id name_id,name.full_name, name.full_name_html, \
-    reference.id reference_id, reference.year reference_year, instance_type.id,\
-    instance_type.name instance_type_name, instance_type.misapplied, author.id,\
-    reference.citation_html,coalesce(reference.year,9999), author.name,  \
-    primary_instance, instance.id instance_id, instance.page instance_page, \
-    instance.page_qualifier instance_page_qualifier, \
-    instance_type.has_label, instance_type.of_label, \
-    reference.citation reference_citation, \
-    reference.citation_html reference_citation_html, \
-    max(case when instance.id = \
-    tnode.instance_id and tnode.next_node_id is null and \
-    tnode.checked_in_at_id is not null and instance_id = tnode.instance_id \
-    then tnode.type_uri_id_part else '' end) accepted_tree_status"
-  end
+  # adds usage for non-apc names e.g. hibbertia andrews sect. Hibbertia
+  # does not show apc comment/dist. for OLD (non-current) tree elements e.g. Hibbertia Andrews, CHAH(2011)
+  #.where(' tree_element.id is null or ( tree.accepted_tree = true and tree_version.id = tree.current_tree_version_id)')
+
+  #.where(' tree_element.id is null or (tree.accepted_tree = true and instance.id = tree_element.instance_id) ')
 
   def columns
     "name.id name_id,name.full_name, name.full_name_html, \

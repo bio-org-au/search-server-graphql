@@ -37,6 +37,9 @@ class Instance < ActiveRecord::Base
 
   belongs_to :cited_by_instance, foreign_key: 'cited_by_id'
   belongs_to :namespace
+  has_many :instance_resources
+  has_many :resources,  through: :instance_resources
+  has_many :sites,  through: :resources
 
   scope :in_nested_instance_type_order, (lambda do
     order(
@@ -93,7 +96,12 @@ class Instance < ActiveRecord::Base
   end
 
   def has_protologue?
-    instance_resource_vw.present?
+    sites.where(name: "Protologues").size > 0
+  end
+
+  def protologue_link
+    record = sites.where(site: {name: 'Protologues'}).select('site.url, resource.path').first
+    "#{record["url"]}#{record["path"]}"
   end
 
   def synonyms_for_display_just_commons

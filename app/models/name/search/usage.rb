@@ -64,6 +64,11 @@ class Name::Search::Usage
     @name_usage_query_record.primary_instance == 't'
   end
 
+  def protologue_link
+    return nil unless @instance.has_protologue?
+    @instance.protologue_link
+  end
+
   def name_id
     @name_usage_query_record.name_id
   end
@@ -124,6 +129,20 @@ class Name::Search::Usage
   def accepted_tree_details
     return nil unless tree_element_found_for_this_instance?
     AcceptedTree.new(@name_usage_query_record).details
+  end
+
+  def non_current_accepted_tree_details
+    return nil if tree_element_found_for_this_instance?
+    return nil unless non_current_tree_element_for_instance?
+    NonCurrentAcceptedTree.new(@name_usage_query_record).details
+  end
+
+  def non_current_tree_element_for_instance?
+    TreeElement.where(instance_id: @name_usage_query_record.instance_id)
+               .joins(tree_version_elements: {tree_version: :tree})
+               .where('tree.accepted_tree = true')
+               .where('tree_version.id != tree.current_tree_version_id')
+               .size > 0
   end
 
   def notes

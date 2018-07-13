@@ -21,6 +21,7 @@ class Name::Search::Usage::AcceptedTree
     atd.is_excluded = excluded_from_accepted_tree?
     atd.comment = Comment.new(@parsed_components).content
     atd.distribution = Distribution.new(@parsed_components).content
+    #atd.distribution = { "key": "APC Dist.", "value": "xzyxyz" }
     atd
   end
 
