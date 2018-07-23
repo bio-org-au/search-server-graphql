@@ -9,8 +9,10 @@ class Name::Search::Base
     @args = args
     @parser = Name::Search::Parser.new(args)
     if @parser.simple?
+      debug('simple')
       @search = Name::Search::Engines::Simple.new(args)
     else
+      debug('advanced')
       @search = Name::Search::Engines::Advanced.new(args)
     end
   end

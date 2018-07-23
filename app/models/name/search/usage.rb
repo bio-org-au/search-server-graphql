@@ -9,26 +9,24 @@ class Name::Search::Usage
               :misapplied_by_reference_id, :merged
 
   def initialize(name_usage_query_record, synonym_bunch, merged = false)
+    debug('start')
     @merged = merged
     @name_usage_query_record = name_usage_query_record
     @synonym_bunch = synonym_bunch
     @instance = Instance.find(@name_usage_query_record.instance_id)
-    debug("@instance.id: #{@instance.id};
-                       cites_id: #{@instance.cites_id}; \
-                       cited_by_id: #{@instance.cited_by_id}; \
-                       standalone: #{@instance.standalone?}")
+    debug("@instance.id: #{@instance.id}; cites_id: #{@instance.cites_id}; cited_by_id: #{@instance.cited_by_id}; standalone: #{@instance.standalone?}")
     @instance_type_name = @name_usage_query_record.instance_type_name
     @primary_instance = @name_usage_query_record.primary_instance == 't'
   end
 
   def debug(s)
+    Rails.logger.debug("==============================================")
     Rails.logger.debug("Name::Search::Usage: #{s}")
+    Rails.logger.debug("==============================================")
   end
 
   def append(name_usage_query_record)
-    debug("append")
-    debug("misapplication_details.class: #{self.misapplication_details.class}")
-    debug("misapplication_details.misapplied_in_references.class: #{self.misapplication_details.misapplied_in_references.class}")
+    debug("append method")
     instance = Instance.find(name_usage_query_record.instance_id)
     unless instance.cites_id.blank?
       cites = Instance.find(instance.cites_id)
@@ -43,12 +41,26 @@ class Name::Search::Usage
   end
 
   def reference_details
+    debug('reference_details method')
     record = OpenStruct.new
-    record.id = @name_usage_query_record.reference_id
-    record.citation = @name_usage_query_record.reference_citation
-    record.citation_html = @name_usage_query_record.reference_citation_html
-    record.page = @name_usage_query_record.instance_page
-    record.year = @name_usage_query_record.reference_year
+    if @name_usage_query_record.cited_by_id.blank?
+      record.id = @name_usage_query_record.reference_id
+      record.citation = @name_usage_query_record.reference_citation
+      record.citation_html = @name_usage_query_record.reference_citation_html
+      record.page = @name_usage_query_record.instance_page
+      record.year = @name_usage_query_record.reference_year
+    else
+      record.id = @name_usage_query_record.reference_id
+      record.citation = @name_usage_query_record.reference_citation
+      record.citation_html = @name_usage_query_record.reference_citation_html
+      if @name_usage_query_record.instance_page.blank?
+        citer = Instance.find(@name_usage_query_record.cited_by_id)
+        record.page = "~ #{citer.page}" unless citer.page.blank?
+      else
+        record.page = @name_usage_query_record.instance_page
+      end
+      record.year = @name_usage_query_record.reference_year
+    end
     record
   end
 

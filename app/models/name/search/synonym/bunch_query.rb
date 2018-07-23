@@ -9,6 +9,7 @@
 class Name::Search::Synonym::BunchQuery
   attr_reader :query, :array_of_ids, :results
   def initialize(array_of_instance_ids)
+    debug('start')
     @array_of_ids = array_of_instance_ids
     @results = []
     @query = run_query unless @array_of_ids.blank?
@@ -25,6 +26,7 @@ class Name::Search::Synonym::BunchQuery
   # 2. name-sort order within
   # 3. year of the reference withing name-sort order
   def bunch_query
+    debug('bunch_query')
     Instance.where("cited_by_id in (#{ids}) or cites_id in (#{ids})")
             .joins(:instance_type)
             .joins(name: :name_status)
@@ -47,5 +49,11 @@ class Name::Search::Synonym::BunchQuery
     instance.cited_by_id, instance.cites_id, name_status.name name_status_name,\
     name_id, instance_type.misapplied, reference.year, \
     reference.id reference_id, reference.citation reference_citation"
+  end
+
+  def debug(s)
+    Rails.logger.debug("==============================================")
+    Rails.logger.debug("Name::Search::Synonym::BunchQuery: #{s}")
+    Rails.logger.debug("==============================================")
   end
 end

@@ -91,6 +91,7 @@ class Name < ApplicationRecord
   end
 
   def self.search_for_id(id)
+    debug("search_for_id: #{id}")
     results = Name.where(id: id)
     if results.blank?
       empty_record_object
@@ -125,6 +126,7 @@ class Name < ApplicationRecord
   end
 
   def name_usages
+    debug('name_usages')
     Name::Search::Usages.new(id).name_usages
   end
 
@@ -182,23 +184,22 @@ class Name < ApplicationRecord
     Name.where(["lower(simple_name) like ? or lower(full_name) like ?", name, name])
   end
 
-
-  def self.ac
-    Name.where(["simple_name = ?",'Angophora costata'])
-  end
-
-  def self.bs
-    Name.where(["simple_name = ?",'Banksia spinulosa'])
-  end
-
-  def self.acbs
-    union_condition = ac.union(bs)
-    table_alias = arel_table.create_table_alias(union_condition, arel_table.name)
-    from(table_alias)
-  end
-
   def self.run_union_search(union_condition, order_string = '1', limit = 500, offset = 0)
     table_alias = arel_table.create_table_alias(union_condition, arel_table.name)
     from(table_alias).order(order_string).limit(limit).offset(offset)
+  end
+
+  private
+
+  def self.debug(s)
+    Rails.logger.debug("==============================================")
+    Rails.logger.debug("Model Name: #{s}")
+    Rails.logger.debug("==============================================")
+  end
+
+  def debug(s)
+    Rails.logger.debug("==============================================")
+    Rails.logger.debug("Model Name: #{s}")
+    Rails.logger.debug("==============================================")
   end
 end

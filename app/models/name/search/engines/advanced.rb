@@ -19,11 +19,12 @@ class Name::Search::Engines::Advanced
 
   def names
     debug("@parser.limit: #{@parser.limit}")
-    val = base_query.joins(:family)
+    val = base_query.left_outer_joins(:family)
                     .includes(:name_status)
                     .includes(:family)
-    val = val.select('name.simple_name, name.full_name, name.family_id')
-             .select('name.name_status_id, families_name.full_name')
+    val = val.select('name.id, name.simple_name, name.full_name, name.family_id')
+             .select('name.name_status_id, families_name.full_name family_full_name')
+             .select('name.full_name_html')
              .limit(@parser.limit)
              .offset(@parser.offset)
              .order(order_str)
@@ -38,7 +39,7 @@ class Name::Search::Engines::Advanced
 
   def base_query
     query = Name.has_an_instance
-                .joins(:name_rank)
+                .left_outer_joins(:name_rank)
                 .joins(:name_type)
     query = filter_on_name_and_name_element(query)
     query = filter_on_authors(query)
