@@ -189,6 +189,11 @@ class Name < ApplicationRecord
     from(table_alias).order(order_string).limit(limit).offset(offset)
   end
 
+  def images
+    # TODO: use self not id - self did not contain name_rank_id
+    Name::Images.new(id).results
+  end
+
   private
 
   def self.debug(s)

@@ -72,3 +72,5 @@ group :development, :test do
   # gem "webmock"
   # gem "schema_plus"
 end
+
+gem "rest-client"
