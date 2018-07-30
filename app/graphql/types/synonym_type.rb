@@ -15,6 +15,7 @@ Types::SynonymType = GraphQL::ObjectType.define do
   field :of_type_synonym, types.Boolean
   field :reference_citation, types.String
   field :reference_page, types.String
+  field :year, types.Int
   field :misapplied, types.Boolean
   field :misapplication_citation_details, Types::Name::Usages::Synonym::MisapplicationCitationDetailsType
 end

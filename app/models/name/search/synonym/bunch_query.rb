@@ -15,7 +15,7 @@ class Name::Search::Synonym::BunchQuery
     @query = run_query unless @array_of_ids.blank?
   end
 
-  def ids
+  def comma_separated_ids
     array_of_ids.join(',').to_s
   end
 
@@ -25,14 +25,41 @@ class Name::Search::Synonym::BunchQuery
   # 1. non-misapps first, followed by misapps
   # 2. name-sort order within
   # 3. year of the reference withing name-sort order
-  def bunch_query
-    debug('bunch_query')
-    Instance.where("cited_by_id in (#{ids}) or cites_id in (#{ids})")
+  def xbunch_query
+    Instance.where("instance.cited_by_id in (#{comma_separated_ids}) or instance.cites_id in (#{comma_separated_ids})")
             .joins(:instance_type)
             .joins(name: :name_status)
             .joins(:reference)
+            .left_outer_joins(:cited_reference)
             .select(select_list)
-      .order('instance_type.misapplied, name.sort_name, reference.year')
+      .order('reference.year, instance_type.misapplied, name.sort_name')
+  end
+
+  def bunch_query
+    Instance.find_by_sql(%(SELECT instance.id instance_id, instance_type.name instance_type_name,
+       instance.page, instance.page_qualifier,
+       instance_type.has_label instance_type_has_label,
+       instance_type.of_label instance_type_of_label,
+       name.full_name name_full_name, name.full_name_html name_full_name_html,
+       instance.cited_by_id, instance.cites_id,
+       name_status.name name_status_name, instance.name_id, instance_type.misapplied,
+       reference.year, reference.id reference_id,
+       reference.citation reference_citation
+  FROM "instance"
+ INNER JOIN "instance_type"
+    ON "instance_type"."id" = "instance"."instance_type_id"
+ INNER JOIN "name"
+    ON "name"."id" = "instance"."name_id"
+ INNER JOIN "name_status"
+    ON "name_status"."id" = "name"."name_status_id"
+ INNER JOIN "reference"
+    ON "reference"."id" = "instance"."reference_id"
+ left outer join "instance" cited_instance
+    on instance.cites_id = cited_instance.id
+ left outer join reference cited_reference
+    on cited_instance.reference_id = cited_reference.id
+  where (instance.cited_by_id in (#{comma_separated_ids}) or instance.cites_id in (#{comma_separated_ids}))
+ ORDER BY instance_type.nomenclatural desc, cited_reference.year, instance_type.misapplied, name.sort_name))
   end
 
   def run_query
@@ -47,7 +74,7 @@ class Name::Search::Synonym::BunchQuery
     instance_type_has_label, instance_type.of_label instance_type_of_label, \
     name.full_name name_full_name, name.full_name_html name_full_name_html, \
     instance.cited_by_id, instance.cites_id, name_status.name name_status_name,\
-    name_id, instance_type.misapplied, reference.year, \
+    instance.name_id, instance_type.misapplied, reference.year, \
     reference.id reference_id, reference.citation reference_citation"
   end
 

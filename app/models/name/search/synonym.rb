@@ -5,7 +5,7 @@ class Name::Search::Synonym
   attr_reader :id, :full_name, :full_name_html, :instance_type, :page, :label,
               :page_qualifier, :name_status_name, :has_type_synonym,
               :of_type_synonym, :name_id, :reference_citation, :reference_page,
-              :misapplied, :misapplication_citation_details
+              :misapplied, :misapplication_citation_details, :year
 
   def initialize(instance, has_or_of_label = 'has', misapp_name_repeated = false)
     @id = instance[:instance_id]
@@ -25,6 +25,14 @@ class Name::Search::Synonym
     @page = instance[:page]
     @page_qualifier = instance[:page_qualifier]
     @name_status_name = instance[:name_status_name]
+    # Send the cited instance reference year
+    # Used for quickly verifying order is correct
+    # if instance[:cites_id].blank?
+    #   @year = nil
+    # else
+    #   cited_instance = Instance.find(instance[:cites_id]) 
+    #   @year = cited_instance.reference.year
+    # end
     @has_type_synonym = has_or_of_label == 'has'
     @of_type_synonym = !@has_type_synonym
     @misapplied = instance[:misapplied] == 't'
