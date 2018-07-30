@@ -61,6 +61,7 @@ class Name::Search::Usage
       end
       record.year = @name_usage_query_record.reference_year
     end
+    record.bhl_url = @name_usage_query_record.bhl_url
     record
   end
 

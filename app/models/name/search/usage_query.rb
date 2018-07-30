@@ -27,7 +27,7 @@ class Name::Search::UsageQuery
     instance_type.name instance_type_name, instance_type.misapplied, author.id,\
     reference.citation_html,coalesce(reference.year,9999), author.name,  \
     primary_instance, instance.id instance_id, instance.page instance_page, \
-    instance.cited_by_id, \
+    instance.cited_by_id, instance.bhl_url, \
     instance.page_qualifier instance_page_qualifier, \
     instance_type.has_label, instance_type.of_label, \
     reference.citation reference_citation, \

@@ -9,4 +9,5 @@ Types::Name::Usages::ReferenceDetailsType = GraphQL::ObjectType.define do
   field :page_qualifier, types.String
   field :year, types.String
   field :full_citation_with_page, types.String
+  field :bhl_url, types.String
 end
