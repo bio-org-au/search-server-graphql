@@ -44,16 +44,19 @@ class Name::Search::Usage
     debug('reference_details method')
     record = OpenStruct.new
     if @name_usage_query_record.cited_by_id.blank?
+      debug('Standalone')
       record.id = @name_usage_query_record.reference_id
       record.citation = @name_usage_query_record.reference_citation
       record.citation_html = @name_usage_query_record.reference_citation_html
       record.page = @name_usage_query_record.instance_page
       record.year = @name_usage_query_record.reference_year
     else
+      debug('Relationship')
       record.id = @name_usage_query_record.reference_id
       record.citation = @name_usage_query_record.reference_citation
       record.citation_html = @name_usage_query_record.reference_citation_html
       if @name_usage_query_record.instance_page.blank?
+        debug('No instance page, so looking in the citer instance')
         citer = Instance.find(@name_usage_query_record.cited_by_id)
         record.page = "~ #{citer.page}" unless citer.page.blank?
       else
@@ -62,63 +65,78 @@ class Name::Search::Usage
       record.year = @name_usage_query_record.reference_year
     end
     record.bhl_url = @name_usage_query_record.bhl_url
+    debug('end reference_details method')
     record
   end
 
   def instance_id
+    debug('instance_id method')
     @name_usage_query_record.instance_id
   end
 
   def instance_type_name
+    debug('instance_type_name method')
     @name_usage_query_record.instance_type_name
   end
 
   def primary_instance
+    debug('primary_instance method')
     @name_usage_query_record.primary_instance == 't'
   end
 
   def protologue_link
+    debug('protologue_link method')
     return nil unless @instance.has_protologue?
     @instance.protologue_link
   end
 
   def name_id
+    debug('name_id method')
     @name_usage_query_record.name_id
   end
 
   def reference_id
+    debug('reference_id method')
     @name_usage_query_record.reference_id
   end
 
   def citation
+    debug('citation method')
     @name_usage_query_record.reference_citation
   end
 
   def page
+    debug('page method')
     @name_usage_query_record.instance_page
   end
 
   def page_qualifier
+    debug('page qualifier method')
     @name_usage_query_record.instance_page_qualifier
   end
 
   def year
+    debug('year method')
     @name_usage_query_record.reference_year
   end
 
   def misapplied
+    debug('misapplied method')
     @name_usage_query_record.misapplied == 't'
   end
 
   def misapplication
+    debug('misapplication method')
     misapplication?
   end
 
   def misapplication?
+    debug('misapplication? method')
     @name_usage_query_record.misapplied == 't'
   end
 
   def misapplication_details
+    debug('misapplication_details method')
     return nil unless misapplication?
     MisapplicationDetails.new(@name_usage_query_record).content
   end
@@ -132,25 +150,30 @@ class Name::Search::Usage
   end
 
   def standalone
+    debug('standalone method')
     @instance.standalone?
   end
 
   def synonyms
-    Name::Search::Synonym::Pick.new(@instance.id, @synonym_bunch).results
+    debug('synonyms method')
+    Name::Search::Synonym::Pick.new(@name_usage_query_record.instance_id, @synonym_bunch).results
   end
 
   def accepted_tree_details
+    debug('accepted_tree_details method')
     return nil unless tree_element_found_for_this_instance?
     AcceptedTree.new(@name_usage_query_record).details
   end
 
   def non_current_accepted_tree_details
+    debug('non_current_accepted_tree_details method')
     return nil if tree_element_found_for_this_instance?
     return nil unless non_current_tree_element_for_instance?
     NonCurrentAcceptedTree.new(@name_usage_query_record).details
   end
 
   def non_current_tree_element_for_instance?
+    debug('non_current_tree_element_for_instance? method')
     TreeElement.where(instance_id: @name_usage_query_record.instance_id)
                .joins(tree_version_elements: {tree_version: :tree})
                .where('tree.accepted_tree = true')
@@ -159,6 +182,7 @@ class Name::Search::Usage
   end
 
   def notes
+    debug('notes method')
     notes = []
     InstanceNote.where(instance_id: @name_usage_query_record.instance_id)
                 .without_epbc_notes
@@ -172,7 +196,8 @@ class Name::Search::Usage
   private
 
   def tree_element_found_for_this_instance?
+    debug('tree_element_found_for_this_instance method')
     @name_usage_query_record.tree_element_id.to_i.positive? &&
-      @name_usage_query_record.tree_element_instance_id == @instance.id
+      @name_usage_query_record.tree_element_instance_id == @name_usage_query_record.instance_id
   end
 end
