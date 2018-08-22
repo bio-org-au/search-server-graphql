@@ -22,7 +22,8 @@ class TaxonomySearchCrossReferenceNameSimpleTest < ActionController::TestCase
   setup do
   end
 
-  test 'simple cross reference name taxonomy query test' do
+  # unknown OID 705: failed to recognize type of 'cross_referenced_full_name'. It will be treated as String.
+  test 'simple cross reference name taxonomy query' do
     post 'execute',
          params: { query: '{taxonomy_search(search_term:"angophora costata", cross_reference: true){count,taxa{id,full_name}}}' }
     assert_response :success

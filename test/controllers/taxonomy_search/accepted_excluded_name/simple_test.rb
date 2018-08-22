@@ -22,7 +22,8 @@ class TaxonomySearchAcceptedExcludedNameSimpleTest < ActionController::TestCase
   setup do
   end
 
-  test 'simple accepted and excluded name taxonomy query test' do
+  # unknown OID 705: failed to recognize type of 'cross_referenced_full_name'. It will be treated as String.
+  test 'simple accepted and excluded name taxonomy query' do
     post 'execute',
          params: { query: '{taxonomy_search(search_term:"angophora costata", accepted_name: true, excluded_name: true){count,taxa{id,full_name}}}' }
     assert_response :success
@@ -34,4 +35,3 @@ class TaxonomySearchAcceptedExcludedNameSimpleTest < ActionController::TestCase
     #              "Taxon name should match 'Angophora'"
   end
 end
-

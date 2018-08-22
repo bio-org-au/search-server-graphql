@@ -22,7 +22,7 @@ class RuntimeEnvironmentTest < ActionController::TestCase
   setup do
   end
 
-  test 'query test' do
+  test 'runtime environment test' do
     post 'execute', params: { query: '{ runtime_environment {ruby_platform, ruby_version, rails_version, database} }' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)

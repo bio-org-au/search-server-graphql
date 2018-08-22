@@ -22,7 +22,7 @@ class TaxonomySearchExcludedCrossRefNameSimpleTest < ActionController::TestCase
   setup do
   end
 
-  test 'simple excluded cross reference name taxonomy query test' do
+  test 'simple excluded cross reference name taxonomy query' do
     post 'execute',
          params: { query: '{taxonomy_search(search_term:"angophora costata", excluded_name: true, cross_reference: true){count,taxa{id,full_name}}}' }
     assert_response :success

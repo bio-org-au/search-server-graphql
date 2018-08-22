@@ -25,8 +25,7 @@ class AdvNameSearchArgsScNamedHybridTest < ActionController::TestCase
     @query += '{reference_details{citation,page,page_qualifier,year}}}}}'
   end
 
-  test 'simple all name search test' do
-    # post 'execute', query: @query
+  test 'adv name search args sc named hybrid test' do
     post 'execute', params: { query: @query }
     assert_response :success,
                     'Should allow for scientific_named_hybrid_name arg'

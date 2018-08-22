@@ -27,7 +27,7 @@ class GraphqlControllerTest < ActionController::TestCase
   end
 
   # unknown OID 705: failed to recognize type of 'cross_referenced_full_name'. It will be treated as String.
-  test 'simple taxonomy query test' do
+  test 'simple taxonomy query' do
     post 'execute',
          params: { query: '{taxonomy_search(search_term:"angophora"){taxa{id,full_name,name_status_name}}}' }
     assert_response :success

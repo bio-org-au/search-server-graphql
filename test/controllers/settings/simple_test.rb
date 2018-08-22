@@ -22,7 +22,7 @@ class SettingsSimpleTest < ActionController::TestCase
   setup do
   end
 
-  test 'settings query test' do
+  test 'settings query' do
     post 'execute', params: { query: '{setting(search_term:"name label")}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)

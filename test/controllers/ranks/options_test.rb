@@ -22,7 +22,7 @@ class RanksOptionsTest < ActionController::TestCase
   setup do
   end
 
-  test 'ranks query test' do
+  test 'ranks query' do
     post 'execute', params: { query: '{ranks{options}}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)

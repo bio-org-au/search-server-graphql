@@ -25,13 +25,20 @@ class Taxonomy::Search::Base
   # I use the select clause column names to avoid long, involved additional
   # queries e.g. from name to tree_element (but which tree element - there 
   # can be many, and the search query knows which one)
+  #
+  # Recently this was emitting an error in testing:
+  # unknown OID 705: failed to recognize type of 'cross_referenced_full_name'. It will be treated as String.
+  # The if statement for coun > 0 stops this test error.
   def taxa
     taxonomy_search_results = Taxonomy::Search::Results.new
-    @generator.search.each do |name_tree_element|
-      if name_tree_element.try('cross_reference') == 't'
-        taxonomy_search_results.push(cross_reference_struct(name_tree_element))
-      else
-        taxonomy_search_results.push(direct_reference_struct(name_tree_element))
+    gs = @generator.search
+    if @generator.count > 0
+      gs.each do |name_tree_element|
+        if name_tree_element.try('cross_reference') == 't'
+          taxonomy_search_results.push(cross_reference_struct(name_tree_element))
+        else
+          taxonomy_search_results.push(direct_reference_struct(name_tree_element))
+        end
       end
     end
     taxonomy_search_results
