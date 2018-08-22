@@ -14,10 +14,10 @@ class Name::Search::Usage::AcceptedTree::ParsedComponents
 
   def profile
     return nil if @name_usage_query_record.tree_element_profile.blank?
-    @profile ||= JSON.parse(@name_usage_query_record.tree_element_profile)
+    @name_usage_query_record.tree_element_profile
   end
 
   def tree_config
-    @tree_config ||= JSON.parse(@name_usage_query_record.tree_config)
+    @tree_config ||= @name_usage_query_record.tree_config
   end
 end
