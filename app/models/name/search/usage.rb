@@ -16,7 +16,6 @@ class Name::Search::Usage
     @instance = Instance.find(@name_usage_query_record.instance_id)
     debug("@instance.id: #{@instance.id}; cites_id: #{@instance.cites_id}; cited_by_id: #{@instance.cited_by_id}; standalone: #{@instance.standalone?}")
     @instance_type_name = @name_usage_query_record.instance_type_name
-    @primary_instance = @name_usage_query_record.primary_instance == 't'
   end
 
   def debug(s)
@@ -80,8 +79,7 @@ class Name::Search::Usage
   end
 
   def primary_instance
-    debug('primary_instance method')
-    @name_usage_query_record.primary_instance == 't'
+    @name_usage_query_record.primary_instance == true
   end
 
   def protologue_link
@@ -121,8 +119,7 @@ class Name::Search::Usage
   end
 
   def misapplied
-    debug('misapplied method')
-    @name_usage_query_record.misapplied == 't'
+    @name_usage_query_record.misapplied == true
   end
 
   def misapplication
@@ -132,7 +129,7 @@ class Name::Search::Usage
 
   def misapplication?
     debug('misapplication? method')
-    @name_usage_query_record.misapplied == 't'
+    @name_usage_query_record.misapplied == true
   end
 
   def misapplication_details

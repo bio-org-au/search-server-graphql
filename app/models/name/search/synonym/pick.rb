@@ -23,7 +23,7 @@ class Name::Search::Synonym::Pick
     prev_ref_id = 0
     prev_type_name = ''
     @synonym_bunch.results.each do |instance|
-      if instance.misapplied == 't'
+      if instance.misapplied == true
         debug("misapplied")
         debug("instance.name_id: #{instance.name_id}")
         debug("instance.full_name: #{instance.name.full_name}")
@@ -45,7 +45,7 @@ class Name::Search::Synonym::Pick
         @results.push(Name::Search::Synonym.new(instance, 'has', misapp_name_repeated))
       end
       if instance[:instance_id] == @instance_id
-        if instance.misapplied == 'f'
+        if instance.misapplied == false
           @results.push(Name::Search::Synonym.new(instance, 'of'))
         end
       end

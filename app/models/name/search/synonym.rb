@@ -35,7 +35,7 @@ class Name::Search::Synonym
     # end
     @has_type_synonym = has_or_of_label == 'has'
     @of_type_synonym = !@has_type_synonym
-    @misapplied = instance[:misapplied] == 't'
+    @misapplied = instance[:misapplied] == true
     unless instance[:cites_id].blank?
       cited_instance = Instance.find(instance[:cites_id]) 
       if @misapplied
