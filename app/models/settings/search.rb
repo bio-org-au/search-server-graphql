@@ -8,7 +8,7 @@ class Settings::Search
   end
 
   def value
-    return '0.7.1' if @search_term == 'version'
+    return '0.7.1.1' if @search_term == 'version'
     ShardConfig.where(['name = ? ', @search_term]).first.value
   rescue
     'Unknown'

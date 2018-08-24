@@ -35,7 +35,7 @@ class Name::Search::Usage
       mir.page = cites.page
       mir.page_qualifier = cites.page_qualifier
       mir.display_entry = 'display entry'
-      misapplication_details.try('misapplied_in_references').try('push') mir
+      misapplication_details.misapplied_in_references.push mir unless misapplication_details.nil?
     end
   end
 
