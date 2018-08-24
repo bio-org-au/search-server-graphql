@@ -79,7 +79,8 @@ class Name::Search::Usage
   end
 
   def primary_instance
-    @name_usage_query_record.primary_instance == true
+    @name_usage_query_record.primary_instance == true ||
+    @name_usage_query_record.primary_instance == 't'
   end
 
   def protologue_link

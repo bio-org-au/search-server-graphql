@@ -12,7 +12,7 @@ class Name::Search::Synonym::Pick
   end
 
   def debug(s)
-    # Rails.logger.debug("Name::Search::Synonym::Pick: #{s}")
+    Rails.logger.debug("Name::Search::Synonym::Pick: #{s}")
   end
 
   def build_results
