@@ -45,7 +45,7 @@ class Name::Search::Synonym::Pick
         @results.push(Name::Search::Synonym.new(instance, 'has', misapp_name_repeated))
       end
       if instance[:instance_id] == @instance_id
-        if instance.misapplied == false
+        if instance.misapplied == false || instance.misapplied == 'f' # false works in dev, 'f' works in test!
           @results.push(Name::Search::Synonym.new(instance, 'of'))
         end
       end
