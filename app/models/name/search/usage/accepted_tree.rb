@@ -26,10 +26,12 @@ class Name::Search::Usage::AcceptedTree
   end
 
   def accepted_in_accepted_tree?
-    @name_usage_query_record.tree_element_excluded == false
+    @name_usage_query_record.tree_element_excluded == false ||
+      @name_usage_query_record.tree_element_excluded == 'f'
   end
 
   def excluded_from_accepted_tree?
-    @name_usage_query_record.tree_element_excluded == true
+    @name_usage_query_record.tree_element_excluded == true ||
+      @name_usage_query_record.tree_element_excluded == 't'
   end
 end
