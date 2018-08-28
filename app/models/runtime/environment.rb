@@ -11,7 +11,10 @@ class Runtime::Environment
     obj.ruby_platform = RUBY_PLATFORM
     obj.ruby_version  = RUBY_VERSION
     obj.rails_version = Rails::VERSION::STRING
-    obj.database = Rails.configuration.database_configuration[Rails.env]['database']
+    obj.database = Author.find_by_sql('select current_database() as name')
+                         .first
+                         .name 
+    obj.rails_env = Rails.env
     obj
   end
 end

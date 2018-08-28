@@ -6,4 +6,5 @@ Types::Runtime::EnvironmentType = GraphQL::ObjectType.define do
   field :ruby_version, types.String
   field :rails_version, types.String
   field :database, types.String
+  field :rails_env, types.String
 end
