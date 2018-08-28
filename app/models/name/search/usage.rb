@@ -130,11 +130,11 @@ class Name::Search::Usage
 
   def misapplication?
     debug('misapplication? method')
-    @name_usage_query_record.misapplied == true
+    @name_usage_query_record.misapplied == true ||
+      @name_usage_query_record.misapplied == 't'
   end
 
   def misapplication_details
-    debug('misapplication_details method')
     return nil unless misapplication?
     MisapplicationDetails.new(@name_usage_query_record).content
   end

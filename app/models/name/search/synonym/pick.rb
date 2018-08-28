@@ -23,9 +23,7 @@ class Name::Search::Synonym::Pick
     prev_ref_id = 0
     prev_type_name = ''
     @synonym_bunch.results.each do |instance|
-      # true works in dev, 't' works in test!
-      # if instance.misapplied == true || instance.misapplied == 't'
-      if instance.misapplied == 't'
+      if instance.misapplied == true
         debug("misapplied")
         debug("instance.name_id: #{instance.name_id}")
         debug("instance.full_name: #{instance.name.full_name}")
