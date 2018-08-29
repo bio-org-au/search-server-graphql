@@ -19,7 +19,13 @@ class Name::Search::Usage::AcceptedTree::ParsedComponents
     return nil if @name_usage_query_record.tree_element_profile.blank?
     debug('profile continuing, so found tree_element_profile')
     debug(@name_usage_query_record.tree_element_profile.inspect)
-    @name_usage_query_record.tree_element_profile
+    debug("class: @name_usage_query_record.tree_element_profile.class")
+    if @name_usage_query_record.tree_element_profile.class == 'String'
+      debug('JSON.parse')
+      JSON.parse(@name_usage_query_record.tree_element_profile)
+    else
+      @name_usage_query_record.tree_element_profile
+    end
   end
 
   def tree_config
