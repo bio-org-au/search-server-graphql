@@ -20,7 +20,7 @@ class Name::Search::Usage
 
   def debug(s)
     Rails.logger.debug("==============================================")
-    Rails.logger.debug("Name::Search::Usage: #{s}")
+    Rails.logger.debug("Name::Search::Usage for instance id #{@instance.try('id')}:#{s}")
     Rails.logger.debug("==============================================")
   end
 
@@ -158,8 +158,9 @@ class Name::Search::Usage
   end
 
   def accepted_tree_details
-    debug('accepted_tree_details method')
+    debug('accepted_tree_details method start')
     return nil unless tree_element_found_for_this_instance?
+    debug('accepted_tree_details method found tree element, so proceeding')
     AcceptedTree.new(@name_usage_query_record).details
   end
 

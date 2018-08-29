@@ -12,16 +12,17 @@ class Name::Search::Usage::AcceptedTree
   end
 
   def debug(s)
-    Rails.logger.debug("Name::Search::Usage::AcceptedTreeDetails: #{s}")
+    Rails.logger.debug("Name::Search::Usage::AcceptedTree: for instance id #{@name_usage_query_record.try('instance_id')}: #{s}")
   end
 
   def details
+    debug('details')
     atd = OpenStruct.new
     atd.is_accepted = accepted_in_accepted_tree?
     atd.is_excluded = excluded_from_accepted_tree?
     atd.comment = Comment.new(@parsed_components).content
     atd.distribution = Distribution.new(@parsed_components).content
-    #atd.distribution = { "key": "APC Dist.", "value": "xzyxyz" }
+    debug(atd.inspect)
     atd
   end
 
