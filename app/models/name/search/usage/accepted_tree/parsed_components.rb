@@ -29,6 +29,10 @@ class Name::Search::Usage::AcceptedTree::ParsedComponents
   end
 
   def tree_config
-    @tree_config ||= @name_usage_query_record.tree_config
+    if @name_usage_query_record.tree_config.class == String
+      JSON.parse(@name_usage_query_record.tree_config)
+    else
+      @name_usage_query_record.tree_config
+    end
   end
 end

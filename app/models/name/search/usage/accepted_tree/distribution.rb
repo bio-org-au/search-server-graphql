@@ -20,7 +20,7 @@ class Name::Search::Usage::AcceptedTree::Distribution
     return nil unless accepted_tree_distribution?
     debug('content start continuing')
     struct = OpenStruct.new
-    struct.key = accepted_tree_distribution_label
+    struct.key = accepted_tree_distribution_key
     struct.value = accepted_tree_distribution
     debug(struct.inspect)
     struct
@@ -29,23 +29,23 @@ class Name::Search::Usage::AcceptedTree::Distribution
   def accepted_tree_distribution
     debug('accepted_tree_distribution start')
     profile = @parsed_components.profile
-    label = accepted_tree_distribution_label
-    debug("label: #{label}")
+    dist_key = accepted_tree_distribution_key
+    debug("dist_key: #{dist_key}")
     return nil if profile.blank?
     debug('accepted_tree_distribution continuing 1 - profile is not blank')
     debug("profile.inspect: #{profile.inspect}")
     debug("class: #{profile.class}")
-    if profile[label].blank?
-      debug("profile[#{label}] is blank!")
+    if profile[dist_key].blank?
+      debug("profile[#{dist_key}] is blank!")
     end
-    return nil if profile[label].blank?
-    debug("accepted_tree_distribution continuing 2 - profile[#{label}] is NOT blank")
-    debug(profile[label])
-    debug("accepted_tree_distribution continuing 3: #{profile[label]['value']}.inspect")
-    profile[label]['value']
+    return nil if profile[dist_key].blank?
+    debug("accepted_tree_distribution continuing 2 - profile[#{dist_key}] is NOT blank")
+    debug(profile[dist_key])
+    debug("accepted_tree_distribution continuing 3: #{profile[dist_key]['value']}.inspect")
+    profile[dist_key]['value']
   end
 
-  def accepted_tree_distribution_label
+  def accepted_tree_distribution_key
     @parsed_components.tree_config['distribution_key']
   end
 
