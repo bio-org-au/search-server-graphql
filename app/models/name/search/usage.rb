@@ -20,7 +20,7 @@ class Name::Search::Usage
 
   def debug(s)
     Rails.logger.debug("==============================================")
-    Rails.logger.debug("Name::Search::Usage for instance id #{@instance.try('id')}:#{s}")
+    Rails.logger.debug("Name::Search::Usage for instance id #{@instance.try('id')}: #{s}")
     Rails.logger.debug("==============================================")
   end
 

@@ -9,7 +9,8 @@ class Name::Search::Usage::AcceptedTree::ParsedComponents
 
   def debug(message)
     prefix = 'Name::Search::Usage::AcceptedTree::ParsedComponents'
-    Rails.logger.debug("#{prefix}: #{message}")
+    for_instance = "for instance id #{@name_usage_query_record.try('instance_id')}"
+    Rails.logger.debug("#{prefix} #{for_instance}: #{message}")
   end
 
   def profile
