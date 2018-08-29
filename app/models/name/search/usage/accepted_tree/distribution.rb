@@ -30,11 +30,16 @@ class Name::Search::Usage::AcceptedTree::Distribution
     debug('accepted_tree_distribution start')
     profile = @parsed_components.profile
     label = accepted_tree_distribution_label
+    debug("label: #{label}")
     return nil if profile.blank?
-    debug(profile.inspect)
     debug('accepted_tree_distribution continuing 1 - profile is not blank')
+    debug("profile.inspect: #{profile.inspect}")
+    debug("class: #{profile.class}")
+    if profile[label].blank?
+      debug("profile[#{label}] is blank!")
+    end
     return nil if profile[label].blank?
-    debug("accepted_tree_distribution continuing 2 - profile[#{label}] is not blank")
+    debug("accepted_tree_distribution continuing 2 - profile[#{label}] is NOT blank")
     debug(profile[label])
     debug("accepted_tree_distribution continuing 3: #{profile[label]['value']}.inspect")
     profile[label]['value']
