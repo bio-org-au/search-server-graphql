@@ -27,13 +27,18 @@ class Name::Search::Usages
 
     debug('loop through the ref citations (instances for the name)')
     @name_usages = usage_query_results.collect do |ref_citation|
-      debug('top of loop')
+
+      debug("                                                                             --")
+      debug("                                                                             --")
+      debug("                                                                             --")
+      debug("top of loop ===========                                              ref_citation.instance_id: #{ref_citation.instance_id}")
       append_misapp = false
-      if ref_citation.misapplied == 't'
-        debug("                                                                         --")
+      debug("ref_citation.misapplied: #{ref_citation.misapplied}")
+      review_flag(ref_citation.misapplied)
+      if ref_citation.misapplied == true || ref_citation.misapplied == 't'
+        debug("                        [Misapplied!]                                                 --")
         debug("New ref citation")
         debug("misapplied!")
-        debug("ref_citation.instance_id: #{ref_citation.instance_id}")
         debug("ref_citation.instance_type_name: #{ref_citation.instance_type_name}")
         debug("ref_citation.name_id: #{ref_citation.name_id}")
         debug("ref_citation.reference_id: #{ref_citation.reference_id}")
@@ -42,7 +47,8 @@ class Name::Search::Usages
         same_ref = prev_ref_id == ref_citation.reference_id
         same_type = prev_type == ref_citation.instance_type_name
         same_page = prev_page == ref_citation.instance_page
-        append_misapp = same_name & same_ref & same_type & same_page
+        # merging is off because not working properly
+        # append_misapp = same_name & same_ref & same_type & same_page
         prev_name_id = ref_citation.name_id
         prev_ref_id = ref_citation.reference_id
         prev_type = ref_citation.instance_type_name
@@ -73,6 +79,24 @@ class Name::Search::Usages
     Rails.logger.debug("==============================================")
     Rails.logger.debug("Name::Search::Usages: #{s}")
     Rails.logger.debug("==============================================")
+  end
+
+  def review_flag(misapplied)
+    if misapplied == true
+      debug('misapplied == true')
+    else
+      debug('misapplied != true')
+    end
+    if misapplied == 't'
+      debug("misapplied == 't'")
+    else
+      debug("misapplied != 't'")
+    end
+    if misapplied == 't' || misapplied == true
+      debug("misapplied == 't' || misapplied == true")
+    else
+      debug("misapplied != 't' && misapplied != true")
+    end
   end
 end
 
