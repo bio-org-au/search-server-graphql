@@ -5,6 +5,7 @@
 # Assumes a tree element has been found.
 class Name::Search::Usage::AcceptedTree::Distribution
   def initialize(parsed_components)
+    debug('initialize')
     @parsed_components = parsed_components
   end
 

@@ -4,6 +4,7 @@
 # Assumes a tree element has been found.
 class Name::Search::Usage::AcceptedTree::ParsedComponents
   def initialize(name_usage_query_record)
+    debug('initialize')
     @name_usage_query_record = name_usage_query_record
   end
 
@@ -14,7 +15,10 @@ class Name::Search::Usage::AcceptedTree::ParsedComponents
   end
 
   def profile
+    debug('profile start')
     return nil if @name_usage_query_record.tree_element_profile.blank?
+    debug('profile continuing, so found tree_element_profile')
+    debug(@name_usage_query_record.tree_element_profile.inspect)
     @name_usage_query_record.tree_element_profile
   end
 

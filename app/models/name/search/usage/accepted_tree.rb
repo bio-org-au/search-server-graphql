@@ -21,6 +21,7 @@ class Name::Search::Usage::AcceptedTree
     atd.is_accepted = accepted_in_accepted_tree?
     atd.is_excluded = excluded_from_accepted_tree?
     atd.comment = Comment.new(@parsed_components).content
+    debug('details about to look for distribution')
     atd.distribution = Distribution.new(@parsed_components).content
     debug(atd.inspect)
     atd
