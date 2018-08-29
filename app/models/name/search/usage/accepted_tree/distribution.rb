@@ -27,13 +27,17 @@ class Name::Search::Usage::AcceptedTree::Distribution
   end
 
   def accepted_tree_distribution
-    debug('accepted_tree_distribution')
-    return nil if @parsed_components.profile.blank?
+    debug('accepted_tree_distribution start')
+    profile = @parsed_components.profile
+    label = accepted_tree_distribution_label
+    return nil if profile.blank?
+    debug(profile.inspect)
     debug('accepted_tree_distribution continuing 1 - profile is not blank')
-    return nil if @parsed_components.profile['APC Dist.'].blank?
-    debug("accepted_tree_distribution continuing 2 - profile['APC Dist.'] is not blank")
-    debug("accepted_tree_distribution continuing 3: #{@parsed_components.profile['APC Dist.']['value']}")
-    @parsed_components.profile['APC Dist.']['value']
+    return nil if profile[label].blank?
+    debug("accepted_tree_distribution continuing 2 - profile[#{label}] is not blank")
+    debug(profile[label])
+    debug("accepted_tree_distribution continuing 3: #{profile[label]['value']}.inspect")
+    profile[label]['value']
   end
 
   def accepted_tree_distribution_label

@@ -23,7 +23,6 @@ class Name::Search::Usage::AcceptedTree
     atd.comment = Comment.new(@parsed_components).content
     debug('details about to look for distribution')
     atd.distribution = Distribution.new(@parsed_components).content
-    debug(atd.inspect)
     atd
   end
 
