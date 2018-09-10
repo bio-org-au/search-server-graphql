@@ -47,12 +47,22 @@ class Taxonomy::Search::Base
   def direct_reference_struct(name_tree_element)
     struct = OpenStruct.new
 
-    profile = JSON.parse(name_tree_element.profile)
-    unless profile["APC Dist."].blank?
-      struct[:taxon_distribution] = profile["APC Dist."]["value"]
+    if name_tree_element.profile.class == String
+      profile = JSON.parse(name_tree_element.profile)
+    else
+      profile = name_tree_element.profile
     end
-    unless profile["APC Comment"].blank?
-      struct[:taxon_comment] = profile["APC Comment"]["value"]
+
+    if profile.nil?
+      struct[:taxon_distribution] = ''
+      struct[:taxon_comment] = ''
+    else
+      unless profile["APC Dist."].blank?
+        struct[:taxon_distribution] = profile["APC Dist."]["value"]
+      end
+      unless profile["APC Comment"].blank?
+        struct[:taxon_comment] = profile["APC Comment"]["value"]
+      end
     end
 
     #struct[:cites_instance_id] = name_tree_element.cites_id
@@ -75,7 +85,12 @@ class Taxonomy::Search::Base
     #struct[:source_object] = nil
     
     syn_array = []
-    synonyms = JSON.parse(name_tree_element.synonyms)
+    synonyms = if name_tree_element.synonyms.class == String
+                 JSON.parse(name_tree_element.synonyms)
+               else
+                 name_tree_element.synonyms
+               end
+    unless synonyms.nil? || synonyms["list"].nil?
     synonyms["list"].sort {|x,y| x["simple_name"] <=> y["simple_name"] }.each do | syn |
       syn_struct = OpenStruct.new
       syn_struct[:id] = syn["instance_id"]
@@ -93,6 +108,7 @@ class Taxonomy::Search::Base
       syn_struct[:is_pro_parte] = instance.instance_type.pro_parte
 
       syn_array.push(syn_struct)
+    end
     end
 
     #name_tree_element.synonyms.class
