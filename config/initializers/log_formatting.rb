@@ -37,6 +37,6 @@ class ActiveSupport::Logger::SimpleFormatter
     color = SEVERITY_TO_COLOR_MAP[severity]
 
     "\033[0;37m#{formatted_time} SSG \033[0m [\033[#{color}m#{formatted_severity}\
-\033[0m] #{msg.strip} (pid:#{$PROCESS_ID})\n"
+\033[0m] search-server #{msg.strip} (pid:#{$PROCESS_ID})\n"
   end
 end
