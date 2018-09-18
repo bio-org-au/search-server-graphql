@@ -24,7 +24,9 @@ class Name::Search::Synonym
     end
     @page = instance[:page]
     @page_qualifier = instance[:page_qualifier]
-    @name_status_name = instance[:name_status_name]
+    unless instance[:name_status_name] == '[n/a]'
+      @name_status_name = instance[:name_status_name]
+    end
     # Send the cited instance reference year
     # Used for quickly verifying order is correct
     # if instance[:cites_id].blank?
