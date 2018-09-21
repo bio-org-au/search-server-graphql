@@ -18,7 +18,12 @@ class Name::Search::Usage::NonCurrentAcceptedTree::ParsedComponents
     @tree_element_profile
   end
 
-  def tree_config
-    @tree_config ||= JSON.parse(@name_usage_query_record.tree_config)
+ def tree_config
+    if @name_usage_query_record.tree_config.class == String
+      debug('JSON.parse')
+      JSON.parse(@name_usage_query_record.tree_config)
+    else
+      @name_usage_query_record.tree_config
+    end
   end
 end
