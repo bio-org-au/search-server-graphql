@@ -15,18 +15,21 @@ class Name::Search::Synonym
       @full_name = instance[:name_full_name]
       @full_name_html = instance[:name_full_name_html]
       @name_id = instance[:name_id]
+      unless instance[:name_status_name] == '[n/a]'
+        @name_status_name = instance[:name_status_name]
+      end
     else
       @label = instance[:instance_type_of_label]
       cited_by_name = Instance.find(Instance.find(@id).cited_by_id).name
       @full_name = cited_by_name.full_name
       @full_name_html = cited_by_name.full_name_html
       @name_id = cited_by_name.id
+      unless cited_by_name.name_status_name == '[n/a]'
+        @name_status_name = cited_by_name.name_status_name
+      end
     end
     @page = instance[:page]
     @page_qualifier = instance[:page_qualifier]
-    unless instance[:name_status_name] == '[n/a]'
-      @name_status_name = instance[:name_status_name]
-    end
     # Send the cited instance reference year
     # Used for quickly verifying order is correct
     # if instance[:cites_id].blank?
