@@ -80,7 +80,7 @@ class Name::Search::Usage
 
   def primary_instance
     @name_usage_query_record.primary_instance == true ||
-    @name_usage_query_record.primary_instance == 't'
+      @name_usage_query_record.primary_instance == 't'
   end
 
   def protologue_link

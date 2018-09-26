@@ -18,7 +18,8 @@ class Reference::Search::Usage
     @misapplied_to_name = ''
     @misapplied_by_id = nil
     @misapplied_on_page = ''
-    return unless @name_usage.misapplied == 't'
+    return unless @name_usage.misapplied == true ||
+                  @name_usage.misapplied == 't'
     prepare_misapplied
   end
 
@@ -54,7 +55,8 @@ class Reference::Search::Usage
   end
 
   def primary_instance
-    @name_usage.primary_instance == 't'
+    @name_usage.primary_instance == true ||
+      @name_usage.primary_instance == 't'
   end
 
   def name_id
@@ -82,7 +84,7 @@ class Reference::Search::Usage
   end
 
   def misapplied
-    @name_usage.misapplied == 't'
+    @name_usage.misapplied == true || @name_usage.misapplied == 't'
   end
 
   def standalone

@@ -34,7 +34,8 @@ class Taxonomy::Search::Base
     gs = @generator.search
     if @generator.count > 0
       gs.each do |name_tree_element|
-        if name_tree_element.try('cross_reference') == 't'
+        if name_tree_element.try('cross_reference') == true ||
+             name_tree_element.try('cross_reference') == 't'
           taxonomy_search_results.push(cross_reference_struct(name_tree_element))
         else
           taxonomy_search_results.push(direct_reference_struct(name_tree_element))
@@ -65,15 +66,18 @@ class Taxonomy::Search::Base
       end
     end
 
-    #struct[:cites_instance_id] = name_tree_element.cites_id
     struct[:full_name] = name_tree_element.full_name
     struct[:full_name_html] = name_tree_element.full_name_html
     struct[:id] = name_tree_element[:id]
     struct[:instance_id] = name_tree_element.instance_id
-    struct[:is_excluded] = name_tree_element.excluded == 't'
-    struct[:is_cross_reference] = name_tree_element.try('cross_reference') == 't'
-    struct[:is_misapplication] = name_tree_element.misapplied == 't'
-    struct[:is_pro_parte] =  name_tree_element.pro_parte == 't'
+    struct[:is_excluded] = name_tree_element.excluded == true ||
+                           name_tree_element.excluded == 't'
+    struct[:is_cross_reference] = name_tree_element.try('cross_reference') == true ||
+                                  name_tree_element.try('cross_reference') == 't'
+    struct[:is_misapplication] = name_tree_element.misapplied == true ||
+                                 name_tree_element.misapplied == 't'
+    struct[:is_pro_parte] = name_tree_element.pro_parte == true ||
+                            name_tree_element.pro_parte == 't'
     #struct[:name_status_id] = name_tree_element.name_status_id
     struct[:name_status_name] = name_tree_element.name_status_name_
     # The name_status.display boolean is not set up.
@@ -149,19 +153,17 @@ class Taxonomy::Search::Base
     struct[:full_name_html] = name_tree_element.full_name_html
     struct[:id] = name_tree_element[:id]
     struct[:instance_id] = name_tree_element.instance_id
-    struct[:is_excluded] = name_tree_element.excluded == 't'
-    struct[:is_cross_reference] = name_tree_element.cross_reference == 't'
-    struct[:is_misapplication] = name_tree_element.misapplied == 't'
+    struct[:is_excluded] = name_tree_element.excluded == true ||
+                           name_tree_element.excluded == 't'
+    struct[:is_cross_reference] = name_tree_element.cross_reference == true ||
+                                  name_tree_element.cross_reference == 't'
+    struct[:is_misapplication] = name_tree_element.misapplied == true ||
+                                 name_tree_element.misapplied == 't'
     struct[:is_pro_parte] =  name_tree_element.pro_parte == 't'
-    #struct[:name_status_id] = name_tree_element.name_status_id
     struct[:name_status_name] = name_tree_element.name_status_name_
     struct[:name_status_is_displayed] = !(name_tree_element.name_status.name == 'legitimate' || name_tree_element.name_status.name.match(/^\[/))
     struct[:order_string] = name_tree_element.name_path
-    #struct[:reference_id] = name_tree_element.reference_id
-    #struct[:reference_citation] = name_tree_element.reference_citation
     struct[:simple_name] = name_tree_element.simple_name
-    #struct[:source_object] = nil
-    #struct[:synonyms] = nil
     struct
   end
 end
