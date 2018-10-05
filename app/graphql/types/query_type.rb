@@ -74,7 +74,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :offset, types.Int
     argument :id, types.ID
     resolve ->(_obj, args, _ctx) {
-      Taxonomy::Search::Base.new(args)
+      Taxonomy::Search::Base.build(args)
     }
   end
   field :publication_search do
