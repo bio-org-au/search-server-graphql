@@ -1,1 +1,1 @@
-Rails.configuration.version = '0.5.0'
+See config/initializers/version.rb
