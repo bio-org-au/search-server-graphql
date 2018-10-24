@@ -45,6 +45,7 @@ class Name::Search::Engines::Advanced
     query = filter_on_authors(query)
     query = filter_on_publication(query)
     query = filter_on_genus_species_rank(query)
+    query = filter_on_family(query)
     query = Filters::InstanceTypeNote.new(query, @parser).sql
     query.where(Name::Search::NameTypeClause.new(@parser).clause)
   end
@@ -71,6 +72,10 @@ class Name::Search::Engines::Advanced
     query = Filters::Species.new(query, @parser).sql
     query = Filters::Rank.new(query, @parser).sql
     query
+  end
+
+  def filter_on_family(query)
+    query = Filters::Family.new(query, @parser).sql
   end
 
   def order_str

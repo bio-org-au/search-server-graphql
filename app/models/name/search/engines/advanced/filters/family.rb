@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # Add a filter to the sql to answer a request.
-class Name::Search::Engines::Advanced::Filters::NameElement
-  PARAMETER = 'name_element'
-  CLAUSE = '(lower(f_unaccent(name.name_element)) like lower(f_unaccent(?)))'
+class Name::Search::Engines::Advanced::Filters::Family
+  PARAMETER = 'family'
+  CLAUSE = 'name.family_id in (select id from name family where (lower(f_unaccent(name.simple_name)) like lower(f_unaccent(?))))'
 
   def initialize(incoming_sql, parser)
     @incoming_sql = incoming_sql
@@ -17,6 +17,6 @@ class Name::Search::Engines::Advanced::Filters::NameElement
 
   def parameter
     return nil unless @parser.text_arg?(PARAMETER)
-    @parser.args[PARAMETER].strip.tr('*', '%').gsub(/×/, 'x')
+    "#{@parser.args[PARAMETER].strip.tr('*', '%')}%"
   end
 end
