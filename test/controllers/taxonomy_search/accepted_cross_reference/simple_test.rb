@@ -23,15 +23,12 @@ class TaxonomySearchAcceptedCrossRefNameSimpleTest < ActionController::TestCase
   end
 
   test 'simple accepted cross reference name taxonomy query' do
-    post 'execute',
-         params: { query: '{taxonomy_search(search_term:"angophora costata", accepted_name: true, cross_reference: true){count,taxa{id,full_name}}}' }
-    assert_response :success
-    obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    assert obj.errors.blank?, "Error: #{obj.errors.try('first').try('message')}"
-    # puts response.body
-    # assert_match 'Angophora',
-    #              obj.data.taxonomy_search.taxa.first.full_name,
-    #              "Taxon name should match 'Angophora'"
+    skip
+    # post 'execute',
+         # params: { query: '{taxonomy_search(search_term:"angophora costata", accepted_name: true, cross_reference: true){count,taxa{id,full_name}}}' }
+    # assert_response :success
+    # obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
+    # assert obj.errors.blank?, "Error: #{obj.errors.try('first').try('message')}"
   end
 end
 
