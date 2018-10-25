@@ -1,1 +1,1 @@
-Rails.configuration.app_version = '0.5.2'
+Rails.configuration.app_version = '0.5.3'
