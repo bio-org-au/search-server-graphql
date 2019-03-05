@@ -217,6 +217,7 @@ GEM
 PLATFORMS
   java
   ruby
+  universal-java-1.8
 
 DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
@@ -243,4 +244,4 @@ DEPENDENCIES
   warbler
 
 BUNDLED WITH
-   1.16.1
+   1.17.2
