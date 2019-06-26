@@ -53,7 +53,9 @@ class Name::Search::UsageQuery
   end
 
   def ordering
-    'coalesce(reference.year,9999), primary_instance desc, author.name'
+    "coalesce(reference.iso_publication_date,'9999'), \
+    primary_instance desc, \
+    author.name"
   end
 
   def debug(s)
