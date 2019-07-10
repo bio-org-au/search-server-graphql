@@ -9,7 +9,8 @@ module SearchableNameStrings
     # Add top and tail anchors.
     # Treat matching inverted commas as general quoting characters
     def regexified
-      gsub("*", ".*").gsub("%", ".*").sub(/$/, "$").sub(/^/, "^") 
+      gsub("*", ".*").gsub("%", ".*").sub(/^/, "^") 
+      #gsub("*", ".*").gsub("%", ".*").sub(/$/, "$").sub(/^/, "^") 
       #.gsub(/[‘’]/,%q(["‘''’])) # only works the first time after "compiling"
       # a change!
     end
@@ -24,8 +25,6 @@ end
 # Name model
 class Name < ApplicationRecord
   using SearchableNameStrings
-  SIMPLE_NAME_REGEX =
-    'lower(f_unaccent(name.simple_name)) ~ lower(f_unaccent(?)) '
   FULL_NAME_REGEX =
     'lower(f_unaccent(name.full_name)) ~ lower(f_unaccent(?))'
   self.table_name = 'name'
@@ -76,8 +75,7 @@ class Name < ApplicationRecord
   end)
 
   scope :name_matches, (lambda do |string|
-    where("#{SIMPLE_NAME_REGEX} or #{FULL_NAME_REGEX}",
-          string.hybridized.regexified.gsub(/[‘’]/,%q(["‘''’])),
+    where("#{FULL_NAME_REGEX}",
           string.hybridized.regexified.gsub(/[‘’]/,%q(["‘''’]))
          )
   end)
