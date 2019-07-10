@@ -1846,7 +1846,8 @@ CREATE TABLE public.reference (
     verbatim_citation character varying(2000),
     verbatim_reference character varying(1000),
     volume character varying(100),
-    year integer
+    year integer,
+    iso_publication_date character varying(10)
 );
 
 

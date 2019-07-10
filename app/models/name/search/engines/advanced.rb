@@ -64,7 +64,7 @@ class Name::Search::Engines::Advanced
 
   def filter_on_publication(query)
     query = Filters::Publication.new(query, @parser).sql
-    Filters::PublicationYear.new(query, @parser).sql
+    Filters::IsoPublicationDate.new(query, @parser).sql
   end
 
   def filter_on_genus_species_rank(query)

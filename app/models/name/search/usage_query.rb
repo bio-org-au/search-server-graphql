@@ -52,10 +52,13 @@ class Name::Search::UsageQuery
     tree_element.excluded "
   end
 
+  # if published in the same year, put primary instances first,
+  # so sort by year, primary instance, date, author name 
   def ordering
-    "coalesce(reference.iso_publication_date,'9999'), \
+    "coalesce(substr(reference.iso_publication_date,1,4),'9999'), \
     primary_instance desc, \
-    author.name"
+    coalesce(reference.iso_publication_date,'9999'), \
+    author.name, instance.id"
   end
 
   def debug(s)
