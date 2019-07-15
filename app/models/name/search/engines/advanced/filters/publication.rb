@@ -32,7 +32,7 @@ class Name::Search::Engines::Advanced::Filters::Publication
   end
 
   def text_search_version
-    "to_tsvector('english'::regconfig, f_unaccent(COALESCE(citation::text, ''::text))) @@ f_unaccent(?)::tsquery"
+    "to_tsvector('english'::regconfig, f_unaccent(COALESCE(citation::text, ''::text))) @@ plainto_tsquery(f_unaccent(?))"
   end
 
   def text_search_param(parameter)
