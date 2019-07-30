@@ -6,16 +6,29 @@
 #
 # Assumes a tree element has been found.
 class Name::Search::Usage::AcceptedTree
-  def initialize(name_usage_query_record)
-    @name_usage_query_record = name_usage_query_record
-    @parsed_components = ParsedComponents.new(name_usage_query_record)
+  def initialize(tree_info)
+    @tree_info = tree_info
+    debug("tree_info.inspect: #{tree_info.inspect}")
+    @parsed_components = ParsedComponents.new(@tree_info)
   end
 
   def debug(s)
-    Rails.logger.debug("Name::Search::Usage::AcceptedTree: for instance id #{@name_usage_query_record.try('instance_id')}: #{s}")
+    Rails.logger.debug("Name::Search::Usage::AcceptedTree: for instance id #{@tree_info[:tree_element_instance_id]}: #{s}")
   end
 
   def details
+    debug('details')
+    debug('details')
+    debug('details')
+    debug('details')
+    debug('details')
+    debug('details')
+    debug('details')
+    debug('details')
+    debug('details')
+    debug('details')
+    debug('details')
+    debug('details')
     debug('details')
     atd = OpenStruct.new
     atd.is_accepted = accepted_in_accepted_tree?
@@ -27,12 +40,10 @@ class Name::Search::Usage::AcceptedTree
   end
 
   def accepted_in_accepted_tree?
-    @name_usage_query_record.tree_element_excluded == false ||
-      @name_usage_query_record.tree_element_excluded == 'f'
+    @tree_info[:accepted]
   end
 
   def excluded_from_accepted_tree?
-    @name_usage_query_record.tree_element_excluded == true ||
-      @name_usage_query_record.tree_element_excluded == 't'
+    @tree_info[:excluded]
   end
 end

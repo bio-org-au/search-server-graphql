@@ -14,11 +14,16 @@ class Name::Search::Usage::NonCurrentAcceptedTree::ParsedComponents
   end
 
   def profile
-    return nil if @tree_element_profile.blank?
-    @tree_element_profile
+    nil
+    #return nil if @tree_element_profile.blank?
+    #@tree_element_profile
   end
 
- def tree_config
+  def tree_config
+    nil
+  end
+
+  def xxx
     if @name_usage_query_record.tree_config.class == String
       debug('JSON.parse')
       JSON.parse(@name_usage_query_record.tree_config)

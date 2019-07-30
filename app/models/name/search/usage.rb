@@ -8,12 +8,13 @@ class Name::Search::Usage
               :misapplied_to_name, :misapplied_to_id, :misapplication_label,
               :misapplied_by_reference_id, :merged
 
-  def initialize(name_usage_query_record, synonym_bunch, merged = false)
+  def initialize(name_usage_query_record, synonym_bunch, merged = false, tree_info)
     @merged = merged
     @name_usage_query_record = name_usage_query_record
     @synonym_bunch = synonym_bunch
     @instance = Instance.find(@name_usage_query_record.instance_id)
     @instance_type_name = @name_usage_query_record.instance_type_name
+    @tree_info = tree_info
   end
 
   def debug(s)
@@ -42,17 +43,20 @@ class Name::Search::Usage
       record.id = @name_usage_query_record.reference_id
       record.citation = @name_usage_query_record.reference_citation
       record.citation_html = @name_usage_query_record.reference_citation_html
-      record.page = @name_usage_query_record.instance_page
-      record.year = @name_usage_query_record.reference_year
+      if @name_usage_query_record.instance_page.blank?
+        record.page = '-'
+      else
+        record.page = @name_usage_query_record.instance_page.gsub(/<NR>/,'–')
+      end
     else
       record.id = @name_usage_query_record.reference_id
       record.citation = @name_usage_query_record.reference_citation
       record.citation_html = @name_usage_query_record.reference_citation_html
       if @name_usage_query_record.instance_page.blank?
         citer = Instance.find(@name_usage_query_record.cited_by_id)
-        record.page = "~ #{citer.page}" unless citer.page.blank?
+        record.page = "~ #{citer.page.gsub(/<NR>/,'–')}" unless citer.page.blank?
       else
-        record.page = @name_usage_query_record.instance_page
+        record.page = @name_usage_query_record.instance_page.gsub(/<NR>/,'–')
       end
       record.year = @name_usage_query_record.reference_year
     end
@@ -91,7 +95,11 @@ class Name::Search::Usage
   end
 
   def page
-    @name_usage_query_record.instance_page
+    if @name_usage_query_record.instance_page.blank?
+      @name_usage_query_record.instance_page
+    else
+      @name_usage_query_record.instance_page.gsub(/<NR>/,'–')
+    end
   end
 
   def page_qualifier
@@ -137,8 +145,7 @@ class Name::Search::Usage
   end
 
   def accepted_tree_details
-    return nil unless tree_element_found_for_this_instance?
-    AcceptedTree.new(@name_usage_query_record).details
+    AcceptedTree.new(@tree_info).details
   end
 
   def non_current_accepted_tree_details
@@ -169,7 +176,8 @@ class Name::Search::Usage
   private
 
   def tree_element_found_for_this_instance?
-    @name_usage_query_record.tree_element_id.to_i.positive? &&
-      @name_usage_query_record.tree_element_instance_id == @name_usage_query_record.instance_id
+    false
+    #@name_usage_query_record.tree_element_id.to_i.positive? &&
+    #  @name_usage_query_record.tree_element_instance_id == @name_usage_query_record.instance_id
   end
 end

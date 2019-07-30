@@ -28,7 +28,7 @@ class Name::Search::Usage::NonCurrentAcceptedTree::Distribution
   end
 
   def accepted_tree_distribution_label
-    @parsed_components.tree_config['distribution_key']
+    '' #@parsed_components.tree_config['distribution_key']
   end
 
   def accepted_tree_distribution?

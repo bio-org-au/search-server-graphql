@@ -165,13 +165,33 @@ class Name < ApplicationRecord
   end
 
   def accepted?
-    tree_element = Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
-    tree_element.present? && tree_element.excluded == false
+    current_accepted_tree_element = Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
+    current_accepted_tree_element.present? &&  current_accepted_tree_element.excluded == false
   end
 
   def excluded?
-    tree_element = Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
-    tree_element.present? && tree_element.excluded == true
+    current_accepted_tree_element = Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
+    current_accepted_tree_element.present? && current_accepted_tree_element.excluded == true
+  end
+
+  def accepted_instance
+    return nil unless accepted?
+    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first.instance
+  end
+
+  def accepted_tree_element
+    return nil unless accepted?
+    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
+  end
+
+  def excluded_instance
+    return nil unless excluded?
+    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first.instance
+  end
+
+  def excluded_tree_element
+    return nil unless excluded?
+    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
   end
 
   def author_component_of_full_name

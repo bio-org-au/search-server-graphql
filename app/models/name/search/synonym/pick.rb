@@ -33,7 +33,16 @@ class Name::Search::Synonym::Pick
         if prev_name_id == instance.name_id &&
             prev_ref_id == instance.reference_id &&
             prev_type_name == instance.instance_type_name
-          misapp_name_repeated = true
+          debug("Setting misapp_name_repeated true")
+          debug("Setting misapp_name_repeated true")
+          debug("Setting misapp_name_repeated true")
+          debug("Setting misapp_name_repeated true")
+          debug("Setting misapp_name_repeated true")
+          debug("Setting misapp_name_repeated true")
+          debug("Setting misapp_name_repeated true")
+          debug("Setting misapp_name_repeated true")
+          debug("Setting misapp_name_repeated true")
+          misapp_name_repeated = false
         else
           misapp_name_repeated = false
         end

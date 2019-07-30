@@ -6,6 +6,7 @@
 # - count
 class Name::Search::Base
   def initialize(args)
+    debug('base')
     @args = args
     @parser = Name::Search::Parser.new(args)
     if @parser.simple?

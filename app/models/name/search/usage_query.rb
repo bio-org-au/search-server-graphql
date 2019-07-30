@@ -14,11 +14,20 @@ class Name::Search::UsageQuery
     debug('build_query: join the name to instance, then to instance type, reference, then to author, left outer join to tree')
     @results = Name.where(id: @id)
                    .joins(instances: [:instance_type, reference: :author])
-                   .left_outer_joins(tree_elements: [{tree_version_elements: {tree_version: :tree}}])
-  .where(' tree_element.id is null or ( tree.accepted_tree = true and tree_version.id = tree.current_tree_version_id)')
                    .select(columns)
                    .group(grouping)
                    .order(ordering)
+  end
+  #                .left_outer_joins(tree_elements: [{tree_version_elements: {tree_version: :tree}}])
+  #                .where("#{not_on_any_tree} or #{on_the_current_accepted_tree}")
+  #                .where(' tree_element.id is null or ( tree.accepted_tree = true and tree_version.id = tree.current_tree_version_id)')
+
+  def not_on_any_tree
+    ' tree_element.id is null '
+  end
+
+  def on_the_current_accepted_tree
+    ' ( tree.accepted_tree = true and tree_version.id = tree.current_tree_version_id)'
   end
 
   def columns
@@ -31,12 +40,7 @@ class Name::Search::UsageQuery
     instance.page_qualifier instance_page_qualifier, \
     instance_type.has_label, instance_type.of_label, \
     reference.citation reference_citation, \
-    reference.citation_html reference_citation_html, \
-    tree_element.id tree_element_id, \
-    tree_element.instance_id tree_element_instance_id, \
-    tree_element.excluded tree_element_excluded, \
-    tree_element.profile tree_element_profile, \
-    tree.config tree_config"
+    reference.citation_html reference_citation_html"
   end
 
   def grouping
@@ -46,10 +50,11 @@ class Name::Search::UsageQuery
     author.name, primary_instance, instance.id, instance.page, \
     instance.cited_by_id, \
     instance_type.has_label, instance_type.of_label, \
-    instance.page_qualifier, reference.citation, tree_element.id, \
-    tree_element.profile, \
-    tree.config, \
-    tree_element.excluded "
+    instance.page_qualifier, reference.citation "
+    # , tree_element.id, \
+    # tree_element.profile, \
+    # tree.config, \
+    # tree_element.excluded "
   end
 
   # if published in the same year, put primary instances first,
