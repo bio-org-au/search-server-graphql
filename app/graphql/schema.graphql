@@ -1,0 +1,379 @@
+"""
+Root level queries.
+"""
+type Query {
+  author(id: String): author
+  authors(page: Int, size: Int): authors
+  name(id: ID!): name
+  nameCategory(id: Int!): nameCategory
+  nameGroup(id: Int): nameGroup
+  nameRank(id: Int): nameRank
+  nameStatus(id: Int): nameStatus
+  nameType(id: Int): nameType
+  name_check(limit: Int, names: [String], offset: Int): name_check_result
+  name_search(author_abbrev: String, base_author_abbrev: String, common_name: Boolean, cultivar_name: Boolean, ex_author_abbrev: String, ex_base_author_abbrev: String, family: String, genus: String, id: ID, include_ranks_below: Boolean, iso_publication_date: String, limit: Int, name_element: String, offset: Int, order_by_name: Boolean, order_by_name_within_family: Boolean, protologue: String, publication: String, rank: String, scientific_autonym_name: Boolean, scientific_hybrid_formula_name: Boolean, scientific_name: Boolean, scientific_named_hybrid_name: Boolean, search_term: String, species: String, type_note_keys: [String], type_note_text: String, type_of_name: String): name_search_result
+  publication_search(limit: Int, publication: String): publication_search
+  ranks: name_rank_option
+  refAuthorRole(id: Int!): refAuthorRoleType
+  refType(id: Int!): refType
+  reference(id: Int!): reference
+  runtime_environment: runtime_environment
+  setting(search_term: String): String
+  taxonomicName(id: String): taxonomic_name
+  taxonomy_search(accepted_name: Boolean, author_abbrev: String, cross_reference: Boolean, excluded_name: Boolean, fuzzy_or_exact: String, id: ID, limit: Int, offset: Int, search_term: String): taxonomy_search
+}
+
+type accepted_tree_details {
+  comment: instance_note
+  distribution: instance_note
+  is_accepted: Boolean
+  is_excluded: Boolean
+}
+
+type as_misapplication {
+  cited_page: String
+  cited_reference_author_string: String
+  cited_simple_name: String
+  citing_instance_id: String
+  citing_reference_author_string_and_year: String
+  citing_reference_id: String
+  misapplying_author_string_and_year: String
+  name_author_string: String
+}
+
+type author {
+  extraInformation: String
+  fullName: String
+  id: ID
+  ipniId: String
+  name: String
+  standardForm: String
+}
+
+type authors {
+  authors: [author]
+}
+
+type earlier_accepted_tree_details {
+  comment: instance_note
+  distribution: instance_note
+}
+
+type instance_note {
+  key: String
+  value: String
+}
+
+type misapplication_citation_details {
+  misapplied_in_reference_citation: String
+  misapplied_in_reference_citation_html: String
+  misapplied_in_reference_id: ID
+  misapplied_in_reference_year: Int
+  misapplied_on_page: String
+  misapplied_on_page_qualifier: String
+  name_is_repeated: Boolean
+}
+
+type misapplication_details {
+  direction: String
+  misapplication_type_label: String
+  misapplied_in_references: [misapplied_in_reference]
+  misapplied_to_full_name: String
+  misapplied_to_name_id: ID
+}
+
+type misapplied_in_reference {
+  citation: String
+  display_entry: String
+  id: ID
+  page: String
+  page_qualifier: String
+}
+
+type name {
+  family_name: String
+  full_name: String
+  full_name_html: String
+  id: ID
+  images: name_images
+  name_rank_name: String
+  name_status_is_displayed: Boolean
+  name_status_name: String
+  name_usages: [name_usage]
+  simple_name: String
+}
+
+type nameCategory {
+  id: ID!
+  maxParentsAllowed: Int!
+  minParentsRequired: Int!
+  name: String!
+  sortOrder: Int!
+}
+
+type nameGroup {
+  id: ID!
+  name: String!
+}
+
+type nameRank {
+  hasParent: Boolean!
+  id: ID!
+  name: String!
+  nameGroup: nameGroup!
+  parentRank: nameRank
+}
+
+type nameStatus {
+  display: Boolean!
+  id: ID!
+  name: String!
+  nameGroup: nameGroup!
+  nomIlleg: Boolean!
+  nomInval: Boolean!
+}
+
+type nameType {
+  cultivar: Boolean!
+  formula: Boolean!
+  hybrid: Boolean!
+  id: ID!
+  name: String!
+  nameGroup: nameGroup!
+  scientific: Boolean!
+}
+
+type name_check {
+  found: Boolean
+  index: ID
+  matched_name_accepted_taxonomy_accepted: Boolean
+  matched_name_accepted_taxonomy_excluded: Boolean
+  matched_name_family_name: String
+  matched_name_family_name_id: ID
+  matched_name_full_name: String
+  matched_name_id: ID
+  search_term: String
+}
+
+type name_check_result {
+  names_checked_count: Int
+  names_checked_limited: Boolean
+  names_found_count: Int
+  names_to_check_count: Int
+  names_with_match_count: Int
+  results: [name_check]
+  results_count: Int
+  results_limited: Boolean
+}
+
+type name_images {
+  count: Int
+  link: String
+}
+
+type name_rank_option {
+  options: [String]
+}
+
+type name_search_result {
+  count: Int
+  names: [name]
+}
+
+type name_usage {
+  accepted_tree_details: accepted_tree_details
+  instance_id: ID
+  instance_type_name: String
+  misapplication: Boolean
+  misapplication_details: misapplication_details
+  non_current_accepted_tree_details: earlier_accepted_tree_details
+  notes: [instance_note]
+  primary_instance: Boolean
+  protologue_link: String
+  reference_details: reference_details
+  standalone: Boolean
+  synonyms: [synonym]
+}
+
+type publication {
+  citation: String
+  citation_html: String
+  id: ID
+}
+
+type publication_search {
+  count: Int
+  publications: [publication]
+}
+
+type refAuthorRoleType {
+  id: ID!
+  name: String!
+}
+
+type refType {
+  id: ID!
+  name: String!
+  parent: refType
+  parentOptional: Boolean!
+}
+
+type reference {
+  author: author!
+  citation: String
+  doi: String
+  edition: String
+  id: ID!
+  isbn: String
+  issn: String
+  pages: String
+  parent: reference
+  publicationDate: String
+  published: Boolean!
+  publishedLocation: String
+  publisher: String
+  refAuthorRole: refAuthorRoleType!
+  refType: refType!
+  title: String!
+  tl2: String
+  uri: String
+  verbatimAuthor: String
+  volume: String
+  year: Int
+}
+
+type reference_details {
+  bhl_url: String
+  citation: String
+  citation_html: String
+  full_citation_with_page: String
+  id: ID
+  iso_publication_date: String
+  page: String
+  page_qualifier: String
+  year: String
+}
+
+type runtime_environment {
+  app_version: String
+  database: String
+  jruby_version: String
+  rails_env: String
+  rails_version: String
+  ruby_platform: String
+  ruby_version: String
+}
+
+type synonym {
+  full_name: String
+  full_name_html: String
+  has_type_synonym: Boolean
+  id: ID
+  instance_type: String
+  label: String
+  misapplication_citation_details: misapplication_citation_details
+  misapplied: Boolean
+  name_id: ID
+  name_status_name: String
+  of_type_synonym: Boolean
+  page: String
+  page_qualifier: String
+  reference_citation: String
+  reference_page: String
+  year: Int
+}
+
+type taxon {
+  cites_instance_id: ID
+  cross_reference_to: taxon_cross_reference_to
+  cross_referenced_full_name: String
+  cross_referenced_full_name_id: String
+  full_name: String
+  full_name_html: String
+  id: ID
+  instance_id: ID
+  is_cross_reference: Boolean
+  is_excluded: Boolean
+  is_misapplication: Boolean
+  is_pro_parte: Boolean
+  name_status_is_displayed: Boolean
+  name_status_name: String
+  order_string: String
+  reference_citation: String
+  reference_id: ID
+  simple_name: String
+  source_object: String
+  synonyms: [taxon_synonym]
+  taxon_comment: String
+  taxon_details: taxon_details
+  taxon_distribution: String
+}
+
+type taxon_cross_reference_to {
+  as_misapplication: as_misapplication
+  full_name: String
+  full_name_html: String
+  is_doubtful: Boolean
+  is_misapplication: Boolean
+  is_pro_parte: Boolean
+  name_id: String
+}
+
+type taxon_details {
+  instance_id: String
+  taxon_comment: String
+  taxon_distribution: String
+  taxon_synonyms: [taxon_synonym]
+}
+
+type taxon_misapplied_details {
+  cites_reference_author_string: String
+  cites_reference_citation: String
+  cites_reference_citation_html: String
+  cites_simple_name: String
+  name_author_string: String
+  page: String
+}
+
+type taxon_synonym {
+  full_name: String
+  full_name_html: String
+  id: ID
+  is_doubtful: Boolean
+  is_misapplied: Boolean
+  is_pro_parte: Boolean
+  misapplication_details: taxon_misapplied_details
+  name_id: ID
+  name_status: String
+  name_status_is_displayed: Boolean
+  page: String
+  page_qualifier: String
+  simple_name: String
+}
+
+type taxonomic_name {
+  author: author
+  authorship: String
+  basionymAuthor: author
+  basionymExAuthor: author
+  cultivarEpithet: String
+  exAuthor: author
+  fullName: String
+  fullNameWithAuthorship: String
+  genericName: String
+  id: ID!
+  infragenericEpithet: String
+  infraspecificEpithet: String
+  namePublishedIn: String
+  nomenclaturalCode: String
+  nomenclaturalStatus: String
+  publishedYear: Int
+  rank: nameRank!
+  specificEpithet: String
+  verbatimRank: String
+}
+
+type taxonomy_search {
+  count: Int
+  taxa: [taxon]
+}

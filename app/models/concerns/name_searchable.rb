@@ -9,10 +9,12 @@ module NameSearchable
   module SearchableNameStrings
     refine String do
       def regexified
+        throw 'regexified'
         gsub('*', '.*').gsub('%', '.*').sub(/$/, '$').sub(/^/, '^')
       end
 
       def hybridized
+        throw 'hybridized'
         strip.gsub(/  */, ' (x )?').sub(/^ */, '(x )?').tr('×', 'x')
       end
     end
@@ -22,11 +24,12 @@ module NameSearchable
   module ClassMethods
     using SearchableNameStrings
     SIMPLE_NAME_REGEX =
-      'lower(f_unaccent(simple_name)) ~ lower(f_unaccent(?)) '
+      'xlower(f_unaccent(simple_name)) ~ lower(f_unaccent(?)) '
     FULL_NAME_REGEX =
-      'lower(f_unaccent(full_name)) ~ lower(f_unaccent(?))'
+      'xlower(f_unaccent(full_name)) ~ lower(f_unaccent(?))'
 
-    def search_for(string)
+    def xsearch_for(string)
+      throw 'search_for'
       where("#{SIMPLE_NAME_REGEX} or #{FULL_NAME_REGEX}",
             string.hybridized.regexified,
             string.hybridized.regexified)

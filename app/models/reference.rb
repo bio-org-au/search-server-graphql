@@ -5,12 +5,6 @@ class Reference < ActiveRecord::Base
   include PgSearch
   self.table_name = 'reference'
   self.primary_key = 'id'
-  # has_many :instances
-  # has_many :synonyms
-  # has_many :cites
-  # has_many :name_or_synonyms
-  # has_many :accepted_names
-  # has_many :name_references
   belongs_to :author
   belongs_to :language
   belongs_to :namespace
@@ -54,5 +48,9 @@ class Reference < ActiveRecord::Base
                   }
   def author_string_and_year
     citation.sub(/\),.*/,')')
+  end
+
+  def uri
+    "uri-string constructed on the fly for reference #{id}"
   end
 end

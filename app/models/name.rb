@@ -212,6 +212,10 @@ class Name < ApplicationRecord
     Name::Images.new(id).results
   end
 
+  def name_type_name_group_name
+    name_type.name_group.name
+  end
+
   private
 
   def self.debug(s)

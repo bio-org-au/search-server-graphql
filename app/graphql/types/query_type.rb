@@ -106,4 +106,82 @@ Types::QueryType = GraphQL::ObjectType.define do
       Runtime::Environment.new(args).value
     }
   end
+  field :author do
+    type Types::AuthorType
+    argument :id, types.String
+    resolve ->(_obj, args, _ctx) {
+      Author::Find.new(args)
+    }
+  end
+  field :authors do
+    argument :page, types.Int
+    argument :size, types.Int
+    type Types::AuthorsQueryType
+    resolve ->(_obj, args, _ctx) {
+      Authors::Find.new(args)
+    }
+  end
+  field :taxonomicName do
+    type Types::TaxonomicNameType
+    argument :id, types.String
+    resolve ->(_obj, args, _ctx) {
+      TaxonomicName::Find.new(args)
+    }
+  end
+  field :nameRank do
+    type Types::NameRankType
+    argument :id, types.Int
+    resolve ->(_obj, args, _ctx) {
+      NameRank::Find.new(args)
+    }
+  end
+  field :nameGroup do
+    type Types::NameGroupType
+    argument :id, types.Int
+    resolve ->(_obj, args, _ctx) {
+      NameGroup::Find.new(args)
+    }
+  end
+  field :nameStatus do
+    type Types::NameStatusType
+    argument :id, types.Int
+    resolve ->(_obj, args, _ctx) {
+      NameStatus::Find.new(args)
+    }
+  end
+  field :nameType do
+    type Types::NameTypeType
+    argument :id, types.Int
+    resolve ->(_obj, args, _ctx) {
+      NameType::Find.new(args)
+    }
+  end
+  field :nameCategory do
+    type Types::NameCategoryType
+    argument :id, !types.Int
+    resolve ->(_obj, args, _ctx) {
+      NameCategory::Find.new(args)
+    }
+  end
+  field :reference do
+    type Types::ReferenceTypeForNewSchema
+    argument :id, !types.Int
+    resolve ->(_obj, args, _ctx) {
+      Reference::Find.new(args)
+    }
+  end
+  field :refType do
+    type Types::RefTypeType
+    argument :id, !types.Int
+    resolve ->(_obj, args, _ctx) {
+      RefType::Find.new(args)
+    }
+  end
+  field :refAuthorRole do
+    type Types::RefAuthorRoleType
+    argument :id, !types.Int
+    resolve ->(_obj, args, _ctx) {
+      RefAuthorRole::Find.new(args)
+    }
+  end
 end

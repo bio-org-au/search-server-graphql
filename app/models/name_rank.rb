@@ -7,6 +7,8 @@ class NameRank < ActiveRecord::Base
   has_many :names
   has_many :name_or_synonyms
   belongs_to :name_group
+  has_many :children, class_name: "NameRank", foreign_key: :parent_rank_id
+  belongs_to :parent_rank, class_name: "NameRank"
 
   def self.species
     find_by(name: 'Species')
@@ -42,5 +44,9 @@ class NameRank < ActiveRecord::Base
 
   def options
     NameRank.all.order(:sort_order).where('not deprecated').map(&:name)
+  end
+
+  def parent?
+    !parent_rank_id.nil?
   end
 end

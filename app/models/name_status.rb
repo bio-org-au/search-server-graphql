@@ -6,6 +6,7 @@ class NameStatus < ActiveRecord::Base
   self.primary_key = 'id'
   has_many :names
   has_many :accepted_synonyms
+  belongs_to :name_group
 
   def show?
     name != 'legitimate' &&
