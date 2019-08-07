@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Types::NameRankType = GraphQL::ObjectType.define do
-  name 'nameRank'
+  name 'NameRank'
   field :id, !types.ID
   field :name, !types.String
   field :hasParent, !types.Boolean, property: :parent?

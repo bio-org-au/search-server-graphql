@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Types::RefAuthorRoleType = GraphQL::ObjectType.define do
-  name 'refAuthorRoleType'
+  name 'RefAuthorRoleType'
   field :id, !types.ID
   field :name, !types.String
 end

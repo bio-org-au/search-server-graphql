@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Types::TaxonomicNameType = GraphQL::ObjectType.define do
-  name 'taxonomic_name'
+  name 'TaxonomicName'
   field :id, !types.ID, property: :uri
   # "Name string without authors" - Niels schema
   field :fullName, types.String, property: :simple_name

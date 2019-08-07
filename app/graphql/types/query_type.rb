@@ -114,9 +114,10 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
   field :authors do
+    argument :count, types.Int
     argument :page, types.Int
     argument :size, types.Int
-    type Types::AuthorsQueryType
+    type Types::AuthorPaginatorType
     resolve ->(_obj, args, _ctx) {
       Authors::Find.new(args)
     }
@@ -182,6 +183,15 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :id, !types.Int
     resolve ->(_obj, args, _ctx) {
       RefAuthorRole::Find.new(args)
+    }
+  end
+  field :references do
+    argument :count, types.Int
+    argument :page, types.Int
+    argument :size, types.Int
+    type Types::ReferencePaginatorType
+    resolve ->(_obj, args, _ctx) {
+      References::Find.new(args)
     }
   end
 end

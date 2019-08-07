@@ -1,25 +1,22 @@
 # frozen_string_literal: true
 
-# Class that find an Author matching a URI
+# Class that finds References
 # The instance object must respond to these methods:
-# - id (uri)
-# - fullName: String
-# - standardForm: String
-# - ipniId: String
-# - name: String
-class Authors::Find
+# - paginator_info
+# - data
+class References::Find
   def initialize(args)
     @count = args['count'] || 1
     page = args['page'] || 1
     size = args['size'] || 10
     offset = (page - 1) * size
     limit = size
-    #@authors = Author.all.order(:name).offset(offset).limit(limit)
-    @authors = Author.all.order(:name).limit(@count)
+    #@references = Reference.all.order(:citation).offset(offset).limit(limit)
+    @references = Reference.all.order(:citation).limit(@count)
   end
 
   def data
-    @authors
+    @references
   end
 
   def paginator_info
@@ -31,7 +28,7 @@ class Authors::Find
 
   def debug(msg)
     Rails.logger.debug('==============================================')
-    Rails.logger.debug("Authors::Find: #{msg}")
+    Rails.logger.debug("References::Find: #{msg}")
     Rails.logger.debug('==============================================')
   end
 end

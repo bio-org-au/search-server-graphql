@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Types::AuthorType = GraphQL::ObjectType.define do
-  name 'author'
+  name 'Author'
   field :id, types.ID, property: :uri
   field :fullName, types.String, property: :name
   field :standardForm, types.String, property: :abbrev

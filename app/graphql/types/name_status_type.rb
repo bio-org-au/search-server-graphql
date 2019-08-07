@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Types::NameStatusType = GraphQL::ObjectType.define do
-  name 'nameStatus'
+  name 'NameStatus'
   field :id, !types.ID
   field :name, !types.String
   field :display, !types.Boolean, property: :display?

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Types::ReferenceTypeForNewSchema = GraphQL::ObjectType.define do
-  name 'reference'
+  name 'Reference'
   field :id, !types.ID, property: :uri
   field :author, !Types::AuthorType, property: :author
   field :citation, types.String

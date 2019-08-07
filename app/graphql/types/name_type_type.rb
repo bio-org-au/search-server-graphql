@@ -3,7 +3,7 @@
 # Created while working on Niels schema.
 # Need to reconcile with name_type.rb - whose name doesn't fit the pattern
 Types::NameTypeType = GraphQL::ObjectType.define do
-  name 'nameType'
+  name 'NameType'
   field :id, !types.ID
   field :name, !types.String
   field :cultivar, !types.Boolean, property: :cultivar?
