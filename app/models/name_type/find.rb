@@ -14,11 +14,11 @@ class NameType::Find
     raise 'no matching name type' if @name_type.nil?
   end
 
+  private
+
   def method_missing(name, *args, &block)
     @name_type.send(name)
   end
-
-  private
 
   def debug(msg)
     Rails.logger.debug('==============================================')

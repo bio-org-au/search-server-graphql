@@ -14,27 +14,11 @@ class Author::Find
     raise 'no matching author' if @author.nil?
   end
 
-  def uri
-    @author.uri
-  end
-
-  def name
-    @author.name
-  end
-
-  def abbrev
-    @author.abbrev
-  end
-
-  def ipni_id
-    @author.ipni_id
-  end
-
-  def full_name
-    @author.full_name
-  end
-
   private
+
+  def method_missing(name, *args, &block)
+    @author.send(name)
+  end
 
   def debug(msg)
     Rails.logger.debug('==============================================')

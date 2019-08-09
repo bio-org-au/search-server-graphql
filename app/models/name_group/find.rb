@@ -14,11 +14,11 @@ class NameGroup::Find
     raise 'no matching name group' if @name_group.nil?
   end
 
+  private
+
   def method_missing(name, *args, &block)
     @name_group.send(name)
   end
-
-  private
 
   def debug(msg)
     Rails.logger.debug('==============================================')

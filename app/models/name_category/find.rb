@@ -11,11 +11,11 @@ class NameCategory::Find
     raise 'no matching name category' if @name_category.nil?
   end
 
+  private
+
   def method_missing(name, *args, &block)
     @name_category.send(name)
   end
-
-  private
 
   def debug(msg)
     Rails.logger.debug('==============================================')

@@ -42,6 +42,9 @@ class Instance < ActiveRecord::Base
   has_many :resources,  through: :instance_resources
   has_many :sites,  through: :resources
 
+  belongs_to :parent, class_name: 'Instance', foreign_key: 'parent_id'
+  has_many :children, class_name: 'Instance', foreign_key: 'parent_id'
+
   scope :in_nested_instance_type_order, (lambda do
     order(
       '          case instance_type.name ' \
@@ -143,5 +146,9 @@ class Instance < ActiveRecord::Base
         constructed_entry_html: constructed_entry_html,
         for_misapplied: for_misapplied }
     end
+  end
+
+  def taxonomic_name_usage_label
+    "#{name.full_name} sec. #{reference.author.name} #{reference.year}"
   end
 end

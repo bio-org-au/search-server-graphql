@@ -216,6 +216,49 @@ class Name < ApplicationRecord
     name_type.name_group.name
   end
 
+  # Added for the Graphql Schema Extension
+  #
+  def generic_name
+    return nil if name_rank.above_species?
+
+    parent.name_element
+  end
+
+  def infrageneric_epithet
+    'not implemented'
+  end
+
+  # but what about varieties, sub-species?
+  def specific_epithet
+    retun nil unless species_or_below?
+    name_element
+  end
+
+  def cultivar_epithet
+    'not implemented'
+  end
+
+  def infraspecific_epithet
+    'not implemented'
+  end
+
+  def authorship
+    'not stored as a separate component'
+  end
+
+  def primary_reference
+    'waiting for Reference object to be defined'
+  end
+
+  def name_rank_record
+    'waiting to be defined'
+  end
+
+  def name_status_record
+    'waiting to be defined'
+  end
+  # -- for the Graphql Schema Extension
+
   private
 
   def self.debug(s)

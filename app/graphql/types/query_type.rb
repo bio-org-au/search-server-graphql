@@ -194,4 +194,25 @@ Types::QueryType = GraphQL::ObjectType.define do
       References::Find.new(args)
     }
   end
+  field :taxonomicNameUsage do
+    argument :id, types.ID
+    type Types::TaxonomicNameUsageType
+    resolve ->(_obj, args, _ctx) {
+      TaxonomicNameUsage::Find.new(args)
+    }
+  end
+  field :taxonomicNameUsageNote do
+    argument :id, types.ID
+    type Types::TaxonomicNameUsageNoteType
+    resolve ->(_obj, args, _ctx) {
+      TaxonomicNameUsageNote::Find.new(args)
+    }
+  end
+  field :taxonomicNameUsages do
+    argument :filter, Types::TaxonomicNameUsageFilterType
+    type Types::TaxonomicNameUsagePaginatorType
+    resolve ->(_obj, args, _ctx) {
+      TaxonomicNameUsages::Find.new(args)
+    }
+  end
 end
