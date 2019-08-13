@@ -7,7 +7,7 @@ Types::TaxonomicNameType = GraphQL::ObjectType.define do
   field :fullName, types.String, property: :simple_name
   field :genericName, types.String, property: :generic_name
   field :infragenericEpithet, types.String, property: :infrageneric_epithet
-  field :specificEpithet, types.String, property: :name_element
+  field :specificEpithet, types.String, property: :specific_epithet
   field :infraspecificEpithet, types.String, property: :infraspecific_epithet
   field :cultivarEpithet, types.String, property: :cultivar_epithet
   field :authorship, types.String, property: :authorship

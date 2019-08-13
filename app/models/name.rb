@@ -3,14 +3,14 @@
 # String methods
 module SearchableNameStrings
   refine String do
-    # Convert 
+    # Convert
     # - star to regex wildcard
     # - percent to regex wildcard
     # Add top and tail anchors.
     # Treat matching inverted commas as general quoting characters
     def regexified
-      gsub("*", ".*").gsub("%", ".*").sub(/^/, "^") 
-      #gsub("*", ".*").gsub("%", ".*").sub(/$/, "$").sub(/^/, "^") 
+      gsub("*", ".*").gsub("%", ".*").sub(/^/, "^")
+      #gsub("*", ".*").gsub("%", ".*").sub(/$/, "$").sub(/^/, "^")
       #.gsub(/[‘’]/,%q(["‘''’])) # only works the first time after "compiling"
       # a change!
     end
@@ -223,28 +223,38 @@ class Name < ApplicationRecord
   # Added for the Graphql Schema Extension
   #
   def generic_name
-    return nil if name_rank.above_species?
-    return nil if parent.nil?
-
-    parent.name_element
+    return if name_rank.genus_or_above?
+    return if parent.nil?
+    return parent.parent.name_element if name_rank.below_species?
+    return parent.name_element if name_rank.species?
+    return parent.name_element if name_rank.above_species?
   end
 
   def infrageneric_epithet
-    'not implemented'
+    return unless name_rank.infra_generic?
+
+    name_element
   end
 
   # but what about varieties, sub-species?
   def specific_epithet
-    retun nil unless species_or_below?
-    name_element
+    return unless name_rank.species_or_below?
+    
+    return name_element if name_rank.species?
+
+    return parent.try('name_element')
   end
 
   def cultivar_epithet
-    'not implemented'
+    return unless name_type.cultivar?
+ 
+    name_element
   end
 
   def infraspecific_epithet
-    'not implemented'
+    return nil unless name_rank.below_species?
+
+    name_element
   end
 
   def authorship
@@ -257,15 +267,15 @@ class Name < ApplicationRecord
 
   private
 
-  def self.debug(s)
-    Rails.logger.debug("==============================================")
-    Rails.logger.debug("Model Name: #{s}")
-    Rails.logger.debug("==============================================")
+  def self.debug(msg)
+    Rails.logger.debug('==============================================')
+    Rails.logger.debug("Model Name: #{msg}")
+    Rails.logger.debug('==============================================')
   end
 
-  def debug(s)
-    Rails.logger.debug("==============================================")
-    Rails.logger.debug("Model Name: #{s}")
-    Rails.logger.debug("==============================================")
+  def debug(msg)
+    Rails.logger.debug('==============================================')
+    Rails.logger.debug("Model Name: #{msg}")
+    Rails.logger.debug('==============================================')
   end
 end

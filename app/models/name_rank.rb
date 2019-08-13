@@ -14,6 +14,10 @@ class NameRank < ActiveRecord::Base
     find_by(name: 'Species')
   end
 
+  def self.genus
+    find_by(name: 'Genus')
+  end
+
   def self.family
     find_by(name: 'Familia')
   end
@@ -46,7 +50,27 @@ class NameRank < ActiveRecord::Base
     NameRank.all.order(:sort_order).where('not deprecated').map(&:name)
   end
 
+  def species?
+    sort_order == NameRank.species.sort_order
+  end
+
   def parent?
     !parent_rank_id.nil?
+  end
+
+  def below_species?
+    sort_order > NameRank.species.sort_order
+  end
+
+  def below_genus?
+    sort_order > NameRank.genus.sort_order
+  end
+
+  def genus_or_above?
+    !below_genus?
+  end
+
+  def infra_generic?
+    above_species? && below_genus?
   end
 end
