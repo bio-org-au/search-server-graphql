@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
-# Class that find an Author matching a URI
-# The instance object must respond to these methods:
-# - id (uri)
-# - fullName: String
-# - standardForm: String
-# - ipniId: String
-# - name: String
+# Class that finds a Reference record matching a URI (id).
+# The instance object must respond to attribute methdods 
+# on the retrieved object/record.
 class Reference::Find
   def initialize(args)
     id = args['id']

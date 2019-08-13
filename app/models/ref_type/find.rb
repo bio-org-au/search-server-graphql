@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-# Class that find an Author matching a URI
-# The instance object must respond to these methods:
-# - id (uri)
-# - name: String
+# Class that finds a Ref Type matching a URI
+# The instance object must respond to attribute methods
+# for the retrieved record.
 class RefType::Find
   def initialize(args)
     id = args['id']
@@ -12,7 +11,7 @@ class RefType::Find
   end
 
   def method_missing(name, *args, &block)
-    @ref_type.send(name)
+    @ref_type.send(name, *args, &block)
   end
 
   private

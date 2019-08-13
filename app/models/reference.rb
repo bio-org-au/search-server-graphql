@@ -51,6 +51,6 @@ class Reference < ActiveRecord::Base
   end
 
   def uri
-    "uri-string constructed on the fly for reference #{id}"
+    "#{Cache::MAPPER_HOST}reference/#{Cache::NAME_SPACE.downcase}/#{id}"
   end
 end

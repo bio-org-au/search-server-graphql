@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # Class that finds a TaxonomicName matching a URI
-# The instance object must respond to these methods:
-# - uri
+# The instance object must respond to attribute methods
+# on the retrieved record.
 class TaxonomicName::Find
   def initialize(args)
     uri = args['id']

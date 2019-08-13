@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Class that finds an Taxonomic Name Usage (aka standalone instance) matching
-# an ID (uri?) 
-# The instance object must respond to these methods:
-# - id (uri)
+# Class that finds a Taxonomic Name Usage (aka standalone instance) matching
+# an ID.
+# The instance object must respond to attribute methods as if on the
+# retrieved record/object.
 class TaxonomicNameUsage::Find
   def initialize(args)
     id = args['id']
@@ -14,7 +14,7 @@ class TaxonomicNameUsage::Find
   private
 
   def method_missing(name, *args, &block)
-    @tn_usage.send(name)
+    @tn_usage.send(name, *args, &block)
   end
 
   def debug(msg)
@@ -23,4 +23,3 @@ class TaxonomicNameUsage::Find
     Rails.logger.debug('==============================================')
   end
 end
-

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # Class that find a TaxonomicNameUsageNote matching an ID
-# The instance note object must respond to these methods:
-# - id
+# The instance note object must respond to attribute methods
+# as if called on the retrieved object/record.
 class TaxonomicNameUsageNote::Find
   def initialize(args)
     id = args['id']
@@ -13,7 +13,7 @@ class TaxonomicNameUsageNote::Find
   private
 
   def method_missing(name, *args, &block)
-    @instance_note.send(name)
+    @instance_note.send(name, *args, &block)
   end
 
   def debug(msg)

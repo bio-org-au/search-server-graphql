@@ -210,9 +210,20 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
   field :taxonomicNameUsages do
     argument :filter, Types::TaxonomicNameUsageFilterType
+    argument :count, types.Int
+    argument :page, types.Int
     type Types::TaxonomicNameUsagePaginatorType
     resolve ->(_obj, args, _ctx) {
       TaxonomicNameUsages::Find.new(args)
+    }
+  end
+  field :taxonomicNames do
+    argument :fullName, types.String
+    argument :count, types.Int
+    argument :page, types.Int
+    type Types::TaxonomicNamePaginatorType
+    resolve ->(_obj, args, _ctx) {
+      TaxonomicNames::Find.new(args)
     }
   end
 end

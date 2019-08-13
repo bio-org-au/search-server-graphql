@@ -10,7 +10,7 @@
 class Author::Find
   def initialize(args)
     uri = args['id']
-    @author = Author.find_by(uri: uri)
+    @author = Author.find_by(id: uri.split('/').last)
     raise 'no matching author' if @author.nil?
   end
 

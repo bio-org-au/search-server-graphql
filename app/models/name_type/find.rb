@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
-# Class that find an Author matching a URI
-# The instance object must respond to these methods:
-# - id (uri)
-# - fullName: String
-# - standardForm: String
-# - ipniId: String
-# - name: String
+# Class that finds a Name Type matching a URI (id)
+# The instance object must respond to attribute methods of 
+# the retrieved record.
 class NameType::Find
   def initialize(args)
     id = args['id']
@@ -17,7 +13,7 @@ class NameType::Find
   private
 
   def method_missing(name, *args, &block)
-    @name_type.send(name)
+    @name_type.send(name, *args, &block)
   end
 
   def debug(msg)

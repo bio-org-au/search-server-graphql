@@ -3,7 +3,7 @@
 Types::TaxonomicNameType = GraphQL::ObjectType.define do
   name 'TaxonomicName'
   field :id, !types.ID, property: :uri
-  # "Name string without authors" - Niels schema
+  # fullName is "name string without authors" - Niels schema
   field :fullName, types.String, property: :simple_name
   field :genericName, types.String, property: :generic_name
   field :infragenericEpithet, types.String, property: :infrageneric_epithet
@@ -16,8 +16,7 @@ Types::TaxonomicNameType = GraphQL::ObjectType.define do
   field :exAuthor, Types::AuthorType, property: :ex_author
   field :basionymAuthor, Types::AuthorType, property: :base_author
   field :basionymExAuthor, Types::AuthorType, property: :ex_base_author
-  #field :namePublishedIn, Reference, property: :primary_reference
-  field :namePublishedIn, types.String, property: :primary_reference
+  field :namePublishedIn, Types::ReferenceTypeForNewSchema, property: :primary_reference
   field :publishedYear, types.Int, property: :published_year  # name.published_year values are all null
   field :rank, !Types::NameRankType, property: :name_rank
   field :verbatimRank, types.String, property: :verbatim_rank
@@ -25,7 +24,7 @@ Types::TaxonomicNameType = GraphQL::ObjectType.define do
   ## Status under the nomenclatural code that applies to the group of organisms
   ## being named.
   #field :nomenclaturalStatus, NameStatus!
-  field :nomenclaturalStatus, types.String, property: :name_status_record
+  field :nomenclaturalStatus, Types::NameStatusType, property: :name_status
   ## List of all Taxonomic Name Usages with this Taxonomic Name
   # field :taxonomicNameUsages, [TaxonomicNameUsage!]
   # field :basionym, TaxonomicName

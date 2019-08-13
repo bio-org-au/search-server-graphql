@@ -216,10 +216,15 @@ class Name < ApplicationRecord
     name_type.name_group.name
   end
 
+  def uri
+    "#{ShardConfig.mapper_host}name/#{ShardConfig.name_space.downcase}/#{id}"
+  end
+
   # Added for the Graphql Schema Extension
   #
   def generic_name
     return nil if name_rank.above_species?
+    return nil if parent.nil?
 
     parent.name_element
   end
@@ -247,17 +252,8 @@ class Name < ApplicationRecord
   end
 
   def primary_reference
-    'waiting for Reference object to be defined'
+    instances.where(" instance_type_id in (select id from instance_type where primary_instance)").try('first').try('reference')
   end
-
-  def name_rank_record
-    'waiting to be defined'
-  end
-
-  def name_status_record
-    'waiting to be defined'
-  end
-  # -- for the Graphql Schema Extension
 
   private
 

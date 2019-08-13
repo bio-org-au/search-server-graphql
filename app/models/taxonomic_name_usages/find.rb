@@ -5,14 +5,16 @@
 # - data
 # - paginator_info
 class TaxonomicNameUsages::Find
+  STANDALONE = 'cited_by_id is null'
+  SUB_QUERY = ' (select id from name where lower(full_name) like lower(?))'
   def initialize(args)
     @filter = args['filter']
     debug("@filter['name']: #{@filter['name']}")
-    @count = args['count'] || 1
-    page = args['page'] || 1
-    size = args['size'] || 10
-    offset = (page - 1) * size
-    limit = size
+    @per_page = args['count'] || 10
+    @page = args['page'] || 1
+    @offset = (@page - 1) * @per_page
+    @limit = @per_page
+    @total = count_total
     @usages = search
   end
 
@@ -22,17 +24,30 @@ class TaxonomicNameUsages::Find
   end
 
   def paginator_info
-    ostruct = OpenStruct.new
-    ostruct.count = @count
-    ostruct.page = nil
-    ostruct
+    PaginatorInfo.new(@per_page, @page, @total, @offset).build
   end
 
   private
 
+  def count_total
+    if @filter.nil?
+      Instance.where([STANDALONE]).count
+    else
+      Instance.where(["#{STANDALONE} and name_id in #{SUB_QUERY}",
+                      @filter['name'].strip + '%'])
+              .count
+    end
+  end
+
   def search
-    debug('search')
-    @usages = Instance.where(["name_id in (select id from name where lower(full_name) like lower(?))", (@filter['name'].strip)+'%']).limit(10)
+    if @filter.nil?
+      Instance.where([STANDALONE]).offset(@offset).limit(@limit)
+    else
+      Instance.where(["#{STANDALONE} and name_id in #{SUB_QUERY}",
+                      @filter['name'].strip + '%'])
+              .offset(@offset)
+              .limit(@limit)
+    end
   end
 
   def debug(msg)

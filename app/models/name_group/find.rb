@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
-# Class that find an Author matching a URI
-# The instance object must respond to these methods:
-# - id (uri)
-# - fullName: String
-# - standardForm: String
-# - ipniId: String
-# - name: String
+# Class that find a Name Group matching a URI (id)
+# The instance object must respond to attribute methods of 
+# the name group record.
 class NameGroup::Find
   def initialize(args)
     id = args['id']
@@ -17,7 +13,7 @@ class NameGroup::Find
   private
 
   def method_missing(name, *args, &block)
-    @name_group.send(name)
+    @name_group.send(name, *args, &block)
   end
 
   def debug(msg)

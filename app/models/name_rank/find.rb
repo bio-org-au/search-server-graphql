@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
-# Class that find an Author matching a URI
-# The instance object must respond to these methods:
-# - id (uri)
-# - fullName: String
-# - standardForm: String
-# - ipniId: String
-# - name: String
+# Class that find a Name Rank matching a URI (id)
+# The instance object must respond to attribute methods
+# on the retrieved record.
 class NameRank::Find
   def initialize(args)
     id = args['id']
@@ -15,7 +11,7 @@ class NameRank::Find
   end
 
   def method_missing(name, *args, &block)
-    @name_rank.send(name)
+    @name_rank.send(name, *args, &block)
   end
 
   private
