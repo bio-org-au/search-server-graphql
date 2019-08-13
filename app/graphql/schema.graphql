@@ -1,26 +1,374 @@
+type Author {
+  extraInformation: String
+  fullName: String
+  id: ID
+  ipniId: String
+  name: String
+  standardForm: String
+}
+
+type AuthorPaginator {
+  data: [Author!]!
+  paginatorInfo: PaginatorInfo!
+}
+
+type NameCategory {
+  id: ID!
+  maxParentsAllowed: Int!
+  minParentsRequired: Int!
+  name: String!
+  sortOrder: Int!
+}
+
+type NameGroup {
+  id: ID!
+  name: String!
+}
+
+type NameRank {
+  hasParent: Boolean!
+  id: ID!
+  name: String!
+  nameGroup: NameGroup!
+  parentRank: NameRank
+}
+
+type NameStatus {
+  display: Boolean!
+  id: ID!
+  name: String!
+  nameGroup: NameGroup!
+  nomIlleg: Boolean!
+  nomInval: Boolean!
+}
+
+type NameType {
+  cultivar: Boolean!
+  formula: Boolean!
+  hybrid: Boolean!
+  id: ID!
+  name: String!
+  nameGroup: NameGroup!
+  scientific: Boolean!
+}
+
+enum NomenclaturalStatusEnum {
+  """
+  Isonym
+  """
+  ISONYM
+
+  """
+  Legitimate
+  """
+  LEGITIMATE
+
+  """
+  manuscript
+  """
+  MANUSCRIPT
+
+  """
+  nomina utique rejicienda
+  """
+  NOMINA_UTIQUE_REJICIENDA
+
+  """
+  nom. alt.
+  """
+  NOM_ALT
+
+  """
+  nom. alt., nom. illeg
+  """
+  NOM_ALT_NOM_ILLEG
+
+  """
+  nom. cons.
+  """
+  NOM_CONS
+
+  """
+  nom. cons., nom. alt.
+  """
+  NOM_CONS_NOM_ALT
+
+  """
+  nom. cons., orth. cons.
+  """
+  NOM_CONS_ORTH_CONS
+
+  """
+  nom. cult.
+  """
+  NOM_CULT
+
+  """
+  nom. cult., nom. alt.
+  """
+  NOM_CULT_NOM_ALT
+
+  """
+  nom. et orth. cons.
+  """
+  NOM_ET_ORTH_CONS
+
+  """
+  nom. et typ. cons.
+  """
+  NOM_ET_TYP_CONS
+
+  """
+  nom. illeg.
+  """
+  NOM_ILLEG
+
+  """
+  nom. illeg., nom. rej.
+  """
+  NOM_ILLEG_NOM_REJ
+
+  """
+  nom. illeg., nom. superfl.
+  """
+  NOM_ILLEG_NOM_SUPERFL
+
+  """
+  nom. inval.
+  """
+  NOM_INVAL
+
+  """
+  nom. inval., nom. alt.
+  """
+  NOM_INVAL_NOM_ALT
+
+  """
+  nom. inval., nom. ambig.
+  """
+  NOM_INVAL_NOM_AMBIG
+
+  """
+  nom. inval., nom. confus.
+  """
+  NOM_INVAL_NOM_CONFUS
+
+  """
+  nom. inval., nom. nud.
+  """
+  NOM_INVAL_NOM_NUD
+
+  """
+  nom. inval., nom. prov.
+  """
+  NOM_INVAL_NOM_PROV
+
+  """
+  nom. inval., nom. subnud.
+  """
+  NOM_INVAL_NOM_SUBNUD
+
+  """
+  nom. inval., opera utique oppressa
+  """
+  NOM_INVAL_OPERA_UTIQUE_OPPRESSA
+
+  """
+  nom. inval., pro syn.
+  """
+  NOM_INVAL_PRO_SYN
+
+  """
+  nom. inval., tautonym
+  """
+  NOM_INVAL_TAUTONYM
+
+  """
+  nom. rej.
+  """
+  NOM_REJ
+
+  """
+  nom. superfl.
+  """
+  NOM_SUPERFL
+
+  """
+  orth. cons.
+  """
+  ORTH_CONS
+
+  """
+  orth. var.
+  """
+  ORTH_VAR
+
+  """
+  typ. cons.
+  """
+  TYP_CONS
+}
+
+type PaginatorInfo {
+  count: Int!
+  currentPage: Int
+  firstItem: Int
+  hasMorePages: Boolean
+  lastItem: Int
+  lastPage: Int
+  perPage: Int
+  total: Int
+}
+
 """
 Root level queries.
 """
 type Query {
-  author(id: String): author
-  authors(page: Int, size: Int): authors
+  author(id: String): Author
+  authors(count: Int, page: Int, size: Int): AuthorPaginator
   name(id: ID!): name
-  nameCategory(id: Int!): nameCategory
-  nameGroup(id: Int): nameGroup
-  nameRank(id: Int): nameRank
-  nameStatus(id: Int): nameStatus
-  nameType(id: Int): nameType
+  nameCategory(id: Int!): NameCategory
+  nameGroup(id: Int): NameGroup
+  nameRank(id: Int): NameRank
+  nameStatus(id: Int): NameStatus
+  nameType(id: Int): NameType
   name_check(limit: Int, names: [String], offset: Int): name_check_result
   name_search(author_abbrev: String, base_author_abbrev: String, common_name: Boolean, cultivar_name: Boolean, ex_author_abbrev: String, ex_base_author_abbrev: String, family: String, genus: String, id: ID, include_ranks_below: Boolean, iso_publication_date: String, limit: Int, name_element: String, offset: Int, order_by_name: Boolean, order_by_name_within_family: Boolean, protologue: String, publication: String, rank: String, scientific_autonym_name: Boolean, scientific_hybrid_formula_name: Boolean, scientific_name: Boolean, scientific_named_hybrid_name: Boolean, search_term: String, species: String, type_note_keys: [String], type_note_text: String, type_of_name: String): name_search_result
   publication_search(limit: Int, publication: String): publication_search
   ranks: name_rank_option
-  refAuthorRole(id: Int!): refAuthorRoleType
-  refType(id: Int!): refType
-  reference(id: Int!): reference
+  refAuthorRole(id: Int!): RefAuthorRoleType
+  refType(id: Int!): RefType
+  reference(id: Int!): Reference
+  references(count: Int, page: Int, size: Int): ReferencePaginator
   runtime_environment: runtime_environment
   setting(search_term: String): String
-  taxonomicName(id: String): taxonomic_name
+  taxonomicName(id: String): TaxonomicName
+  taxonomicNameUsage(id: ID): TaxonomicNameUsage
+  taxonomicNameUsageNote(id: ID): TaxonomicNameUsageNote
+  taxonomicNameUsages(count: Int, filter: TaxonomicNameUsageFilter, page: Int): TaxonomicNameUsagePaginator
+  taxonomicNames(count: Int, fullName: String, page: Int): TaxonomicNamePaginator
   taxonomy_search(accepted_name: Boolean, author_abbrev: String, cross_reference: Boolean, excluded_name: Boolean, fuzzy_or_exact: String, id: ID, limit: Int, offset: Int, search_term: String): taxonomy_search
+}
+
+type RefAuthorRoleType {
+  id: ID!
+  name: String!
+}
+
+type RefType {
+  id: ID!
+  name: String!
+  parent: RefType
+  parentOptional: Boolean!
+  useParentDetails: Boolean!
+}
+
+type Reference {
+  author: Author!
+  citation: String
+  doi: String
+  edition: String
+  id: ID!
+  isbn: String
+  issn: String
+  pages: String
+  parent: Reference
+  publicationDate: String
+  published: Boolean!
+  publishedLocation: String
+  publisher: String
+  refAuthorRole: RefAuthorRoleType!
+  refType: RefType!
+  title: String!
+  tl2: String
+  uri: String
+  verbatimAuthor: String
+  volume: String
+  year: Int
+}
+
+type ReferencePaginator {
+  data: [Reference!]!
+  paginatorInfo: PaginatorInfo!
+}
+
+type TaxonomicName {
+  author: Author
+  authorship: String
+  basionymAuthor: Author
+  basionymExAuthor: Author
+  cultivarEpithet: String
+  exAuthor: Author
+  fullName: String
+  fullNameWithAuthorship: String
+  genericName: String
+  id: ID!
+  infragenericEpithet: String
+  infraspecificEpithet: String
+  namePublishedIn: Reference
+  nomenclaturalCode: String
+  nomenclaturalStatus: NameStatus
+  publishedYear: Int
+  rank: NameRank!
+  specificEpithet: String
+  verbatimRank: String
+}
+
+type TaxonomicNamePaginator {
+  data: [TaxonomicName!]!
+  paginatorInfo: PaginatorInfo!
+}
+
+type TaxonomicNameUsage {
+  accordingTo: Reference
+  children: [TaxonomicNameUsage]
+  id: ID
+  microReference: String
+  notes: [TaxonomicNameUsageNote]
+  parent: TaxonomicNameUsage
+  taxonomicName: TaxonomicName
+  taxonomicNameUsageLabel: String
+  verbatimNameString: String
+}
+
+"""
+TaxonomicNameUsageFilterType
+"""
+input TaxonomicNameUsageFilter {
+  autonym: Boolean
+  name: String!
+  newCombination: Boolean
+  newName: Boolean
+  newStatus: Boolean
+  newTaxon: Boolean
+  nomenclaturalStatus: NomenclaturalStatusEnum
+  primary: Boolean
+  protonym: Boolean
+  taxonomicNameUsageType: TaxonomicStatusEnum
+  taxonomicStatus: String
+}
+
+type TaxonomicNameUsageNote {
+  id: ID
+  kindOfNote: String
+  value: String
+}
+
+type TaxonomicNameUsagePaginator {
+  data: [TaxonomicNameUsage!]!
+  paginatorInfo: PaginatorInfo!
+}
+
+enum TaxonomicStatusEnum {
+  """
+  Accepted
+  """
+  ACCEPTED
+
+  """
+  Excluded
+  """
+  EXCLUDED
 }
 
 type accepted_tree_details {
@@ -39,19 +387,6 @@ type as_misapplication {
   citing_reference_id: String
   misapplying_author_string_and_year: String
   name_author_string: String
-}
-
-type author {
-  extraInformation: String
-  fullName: String
-  id: ID
-  ipniId: String
-  name: String
-  standardForm: String
-}
-
-type authors {
-  authors: [author]
 }
 
 type earlier_accepted_tree_details {
@@ -101,46 +436,6 @@ type name {
   name_status_name: String
   name_usages: [name_usage]
   simple_name: String
-}
-
-type nameCategory {
-  id: ID!
-  maxParentsAllowed: Int!
-  minParentsRequired: Int!
-  name: String!
-  sortOrder: Int!
-}
-
-type nameGroup {
-  id: ID!
-  name: String!
-}
-
-type nameRank {
-  hasParent: Boolean!
-  id: ID!
-  name: String!
-  nameGroup: nameGroup!
-  parentRank: nameRank
-}
-
-type nameStatus {
-  display: Boolean!
-  id: ID!
-  name: String!
-  nameGroup: nameGroup!
-  nomIlleg: Boolean!
-  nomInval: Boolean!
-}
-
-type nameType {
-  cultivar: Boolean!
-  formula: Boolean!
-  hybrid: Boolean!
-  id: ID!
-  name: String!
-  nameGroup: nameGroup!
-  scientific: Boolean!
 }
 
 type name_check {
@@ -204,42 +499,6 @@ type publication {
 type publication_search {
   count: Int
   publications: [publication]
-}
-
-type refAuthorRoleType {
-  id: ID!
-  name: String!
-}
-
-type refType {
-  id: ID!
-  name: String!
-  parent: refType
-  parentOptional: Boolean!
-}
-
-type reference {
-  author: author!
-  citation: String
-  doi: String
-  edition: String
-  id: ID!
-  isbn: String
-  issn: String
-  pages: String
-  parent: reference
-  publicationDate: String
-  published: Boolean!
-  publishedLocation: String
-  publisher: String
-  refAuthorRole: refAuthorRoleType!
-  refType: refType!
-  title: String!
-  tl2: String
-  uri: String
-  verbatimAuthor: String
-  volume: String
-  year: Int
 }
 
 type reference_details {
@@ -349,28 +608,6 @@ type taxon_synonym {
   page: String
   page_qualifier: String
   simple_name: String
-}
-
-type taxonomic_name {
-  author: author
-  authorship: String
-  basionymAuthor: author
-  basionymExAuthor: author
-  cultivarEpithet: String
-  exAuthor: author
-  fullName: String
-  fullNameWithAuthorship: String
-  genericName: String
-  id: ID!
-  infragenericEpithet: String
-  infraspecificEpithet: String
-  namePublishedIn: String
-  nomenclaturalCode: String
-  nomenclaturalStatus: String
-  publishedYear: Int
-  rank: nameRank!
-  specificEpithet: String
-  verbatimRank: String
 }
 
 type taxonomy_search {
