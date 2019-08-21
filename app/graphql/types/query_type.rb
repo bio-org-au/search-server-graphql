@@ -39,6 +39,24 @@ Types::QueryType = GraphQL::ObjectType.define do
       Name::Search::Factory.build(args)
     }
   end
+  field :helloArgVars do
+    type types.String
+    argument :searchTerm, types.String
+    argument :authorAbbrev, types.String
+    resolve ->(_obj, args, _ctx) {
+      Hello.new(args).answer
+    }
+  end
+  field :filteredSearch do
+    argument :filter, Types::SearchFilterType
+    argument :count, types.Int
+    argument :page, types.Int
+    type types.String
+    type Types::FilteredSearchPaginatorType
+    resolve ->(_obj, args, _ctx) {
+      FilteredSearch.new(args).answer
+    }
+  end
   field :name do
     type Types::NameType
     argument :id, !types.ID
@@ -106,6 +124,9 @@ Types::QueryType = GraphQL::ObjectType.define do
       Runtime::Environment.new(args).value
     }
   end
+  # #######################################
+  # The revised-schema queries start below
+  # #######################################
   field :author do
     type Types::AuthorType
     argument :id, types.String
