@@ -12,15 +12,14 @@ class Name::Search::Usage
     @merged = merged
     @name_usage_query_record = name_usage_query_record
     @synonym_bunch = synonym_bunch
-    @instance = Instance.find(@name_usage_query_record.instance_id)
+    @instance_id = @name_usage_query_record.instance_id
     @instance_type_name = @name_usage_query_record.instance_type_name
     @tree_info = tree_info
   end
 
-  def debug(s)
-    Rails.logger.debug("==============================================")
-    Rails.logger.debug("Name::Search::Usage for instance id #{@instance.try('id')}: #{s}")
-    Rails.logger.debug("==============================================")
+  def debug(msg)
+    tag = 'Name::Search::Usage'
+    Rails.logger.debug("#{tag} for instance: #{@instance_id}: #{msg}")
   end
 
   def append(name_usage_query_record)
@@ -77,8 +76,11 @@ class Name::Search::Usage
       @name_usage_query_record.primary_instance == 't'
   end
 
+  # When I checked there were no protologue line resources.
   def protologue_link
-    return nil unless @instance.has_protologue?
+    return nil unless @name_usage_query_record.protologue_count > 0
+
+    @instance ||= Instance.find(@name_usage_query_record.instance_id)
     @instance.protologue_link
   end
 
@@ -137,7 +139,7 @@ class Name::Search::Usage
   end
 
   def standalone
-    @instance.standalone?
+    @name_usage_query_record.standalone?
   end
 
   def synonyms
@@ -149,8 +151,8 @@ class Name::Search::Usage
   end
 
   def non_current_accepted_tree_details
-    return nil if tree_element_found_for_this_instance?
     return nil unless non_current_tree_element_for_instance?
+
     NonCurrentAcceptedTree.new(@name_usage_query_record).details
   end
 
@@ -171,13 +173,5 @@ class Name::Search::Usage
       notes.push(note)
     end
     notes
-  end
-
-  private
-
-  def tree_element_found_for_this_instance?
-    false
-    #@name_usage_query_record.tree_element_id.to_i.positive? &&
-    #  @name_usage_query_record.tree_element_instance_id == @name_usage_query_record.instance_id
   end
 end

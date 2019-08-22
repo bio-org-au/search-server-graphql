@@ -18,17 +18,6 @@ class Name::Search::UsageQuery
                    .group(grouping)
                    .order(ordering)
   end
-  #                .left_outer_joins(tree_elements: [{tree_version_elements: {tree_version: :tree}}])
-  #                .where("#{not_on_any_tree} or #{on_the_current_accepted_tree}")
-  #                .where(' tree_element.id is null or ( tree.accepted_tree = true and tree_version.id = tree.current_tree_version_id)')
-
-  def not_on_any_tree
-    ' tree_element.id is null '
-  end
-
-  def on_the_current_accepted_tree
-    ' ( tree.accepted_tree = true and tree_version.id = tree.current_tree_version_id)'
-  end
 
   def columns
     "name.id name_id,name.full_name, name.full_name_html, \
@@ -40,7 +29,14 @@ class Name::Search::UsageQuery
     instance.page_qualifier instance_page_qualifier, \
     instance_type.has_label, instance_type.of_label, \
     reference.citation reference_citation, \
-    reference.citation_html reference_citation_html"
+    reference.citation_html reference_citation_html, instance_type.standalone, \
+    (#{protologue_count_sql}) protologue_count"
+  end
+
+  def protologue_count_sql
+    str = +"select count(*) from instance_resources ir join resource r on "
+    str << " ir.resource_id = r.id join site s on r.site_id = s.id "
+    str << " where s.name = 'Protologue' and ir.instance_id = instance.id"
   end
 
   def grouping
@@ -51,10 +47,6 @@ class Name::Search::UsageQuery
     instance.cited_by_id, \
     instance_type.has_label, instance_type.of_label, \
     instance.page_qualifier, reference.citation "
-    # , tree_element.id, \
-    # tree_element.profile, \
-    # tree.config, \
-    # tree_element.excluded "
   end
 
   # if published in the same year, put primary instances first,

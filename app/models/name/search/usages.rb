@@ -9,12 +9,6 @@ class Name::Search::Usages
     build
   end
 
-  def debug(s)
-    Rails.logger.debug("==============================================")
-    Rails.logger.debug("Name::Search::Usages: #{s}")
-    Rails.logger.debug("==============================================")
-  end
-
   def build
     debug("For name: #{@name_id}")
     prev_name_id = prev_ref_id = -1
@@ -143,6 +137,12 @@ class Name::Search::Usages
     else
       debug("misapplied != 't' && misapplied != true")
     end
+  end
+
+  private
+
+  def debug(msg)
+    Rails.logger.debug("Name::Search::Usages: #{msg}")
   end
 end
 
