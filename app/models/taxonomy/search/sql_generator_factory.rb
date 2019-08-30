@@ -6,10 +6,6 @@ class Taxonomy::Search::SqlGeneratorFactory
     @parser = parser
   end
 
-  def debug(s)
-    Rails.logger.debug("Taxonomy::Search::SqlGeneratorFactory: #{s}")
-  end
-
   def build
     debug("build")
     name = ""
@@ -20,5 +16,11 @@ class Taxonomy::Search::SqlGeneratorFactory
     debug("build....name: #{name}")
     debug("Taxonomy::Search::SqlGeneratorFactory::#{name}".constantize)
     "Taxonomy::Search::SqlGeneratorFactory::#{name}".constantize.new(@parser)
+  end
+
+  private
+
+  def debug(msg)
+    Rails.logger.debug("Taxonomy::Search::SqlGeneratorFactory: #{msg}")
   end
 end

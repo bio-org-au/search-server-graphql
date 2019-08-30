@@ -20,10 +20,10 @@ require 'test_helper'
 class NameSearchUsageDetailsPageXicsTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @query_string = '{name_search(search_term:"angophora costata*", '
-    @query_string += 'scientific_name: true, scientific_autonym_name: true, '
-    @query_string += 'scientific_named_hybrid_name: true)'
-    @query_string += '{count,names{id,full_name,name_usages{reference_details'
+    @query_string = '{filteredNames(filter: {searchTerm:"angophora costata*", '
+    @query_string += 'scientificName: true, scientificAutonymName: true, '
+    @query_string += 'scientificNamedHybridName: true})'
+    @query_string += '{data{id,full_name,name_usages{reference_details'
     @query_string += '{citation,page, page_qualifier,year}}}}}'
     @target = 'Britten, J., (1916) Journal of Botany, British and Foreign. 54'
   end
@@ -34,9 +34,9 @@ class NameSearchUsageDetailsPageXicsTest < ActionController::TestCase
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert_match(/^Angophora costata \(Gaertn.\) Britten$/,
-                 obj.data.name_search.names.first.full_name,
+                 obj.data.filteredNames.data.first.full_name,
                  "Expecting 'Angophora costata (Gaertn.) Britten'")
-    obj.data.name_search.names.first.name_usages.each do |usage|
+    obj.data.filteredNames.data.first.name_usages.each do |usage|
       next unless usage.reference_details.citation == @target
 
       assert_match(/^xx 15–18$/,

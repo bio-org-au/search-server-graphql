@@ -22,7 +22,7 @@ class Name::Search::Engines::Advanced::Filters::Publication
                                  .joins(instances: :reference)
                                  .where([text_search_version,
                                          text_search_param(parameter)])
-    @incoming_sql = @incoming_sql.where(PROTOLOGUE_CLAUSE) if @parser.args['protologue'] == '1'
+    @incoming_sql = @incoming_sql.where(PROTOLOGUE_CLAUSE) if @parser.args['protologue'] == true
     @incoming_sql
   end
 

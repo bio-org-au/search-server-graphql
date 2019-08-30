@@ -22,13 +22,16 @@ class TaxonomySearchAcceptedExcludedNameSimpleTest < ActionController::TestCase
   setup do
   end
 
-  # unknown OID 705: failed to recognize type of 'cross_referenced_full_name'. It will be treated as String.
+  # unknown OID 705: failed to recognize type of 'cross_referenced_full_name'.
+  # It will be treated as String.
   test 'simple accepted and excluded name taxonomy query' do
     skip
     # post 'execute',
-         # params: { query: '{taxonomy_search(search_term:"angophora costata", accepted_name: true, excluded_name: true){count,taxa{id,full_name}}}' }
+    # params: { query: '{taxonomy_search(search_term:"angophora costata",
+    # accepted_name: true, excluded_name: true){count,taxa{id,full_name}}}' }
     # assert_response :success
     # obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    # assert obj.errors.blank?, "Error: #{obj.errors.try('first').try('message')}"
+    # assert obj.errors.blank?,
+    # "Error: #{obj.errors.try('first').try('message')}"
   end
 end

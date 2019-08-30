@@ -16,6 +16,7 @@
 #
 require 'test_helper'
 
+# Mock for the test.
 class ScientificNoNamedHybridParserDummy
   def scientific?
     true
@@ -42,16 +43,18 @@ class ScientificNoNamedHybridParserDummy
   end
 end
 
-# Single controller test.
+# Single model test.
+# For the name type that should match the dummy request
 class NameSeachNameTypeClauseSciNoNamedHybridTest < ActionController::TestCase
   setup do
     @parser = ScientificNoNamedHybridParserDummy.new
+    @expected = +'(name_type.scientific and '
+    @expected << 'not (name_type.hybrid and not name_type.formula))'
   end
 
   test 'name search name type clause scientific' do
-    expected = '(name_type.scientific and not (name_type.hybrid and not name_type.formula))'
     actual = Name::Search::NameTypeClause.new(@parser).clause
-    assert_match expected, actual,
+    assert_match @expected, actual,
                  "Clause: #{actual} not as expected: #{expected}"
   end
 end

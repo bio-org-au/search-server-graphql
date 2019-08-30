@@ -72,19 +72,87 @@ class NameCheck::Search::Engine
   end
 
   def one_record(search_term, name_record)
-    Rails.logger.debug("one_record for search_term: #{search_term}")
+    debug("one_record for search_term: #{search_term}")
     data = OpenStruct.new
     data.search_term = search_term
     data.found = true
     if data.found
+      debug("data found")
       data.index = @per_search_term_index
+      debug("one")
       data.matched_name_id = name_record.id
+      debug("two")
       data.matched_name_full_name = name_record.full_name
+      debug("three")
       data.matched_name_family_name = name_record.family_name
+
+      # 1 query
+      # Name Load (1.2ms) 
+      # SELECT  "name".* FROM "name" WHERE "name"."id" = ? LIMIT ?
+      # [["id", 54484], ["LIMIT", 1]] (pid:10248)
+      
+      debug("four")
       data.matched_name_family_name_id = name_record.family_id
+      debug("five")
+      # 3 queries
       data.matched_name_accepted_taxonomy_accepted = name_record.accepted?
+
+
+      # CACHE (0.3ms)  
+      # SELECT  "tree".* FROM "tree" WHERE "tree"."accepted_tree" = ? ORDER BY "tree"."id" ASC LIMIT ?  [["accepted_tree", "t"], ["LIMIT", 1]] (pid:10248)
+      #
+      # search-server CACHE (0.0ms)  
+      # SELECT  "tree_version".* FROM "tree_version" WHERE "tree_version"."id" = ? LIMIT ?  [["id", 51316275], ["LIMIT", 1]] (pid:10248)
+      #
+      # TreeElement Load (5.8ms)
+      # SELECT  "tree_element".* 
+      # FROM "tree_element" INNER JOIN
+      #      "tree_version_element"
+      #       ON "tree_element"."id" = "tree_version_element"."tree_element_id"
+      # WHERE "tree_version_element"."tree_version_id" = ?
+      #   AND "tree_element"."name_id" = ?
+      # ORDER BY "tree_element"."id" ASC LIMIT ?
+      # [["tree_version_id", 51316275], ["name_id", 173919], ["LIMIT", 1]] (pid:10248)
+
+      debug("six")
+
+      # 3 queries
       data.matched_name_accepted_taxonomy_excluded = name_record.excluded?
+
+
+      # CACHE (0.1ms)  
+      # SELECT  "tree".*
+      # FROM "tree"
+      # WHERE "tree"."accepted_tree" = ?
+      # ORDER BY "tree"."id" ASC LIMIT ?  [["accepted_tree", "t"], ["LIMIT", 1]]
+      #
+      # CACHE (0.0ms)
+      # SELECT  "tree_version".*
+      #   FROM "tree_version"
+      #  WHERE "tree_version"."id" = ? LIMIT ?  [["id", 51316275], ["LIMIT", 1]]
+      #
+      # CACHE (0.0ms)
+      # SELECT  "tree_element".*
+      #   FROM "tree_element"
+      #        INNER JOIN "tree_version_element"
+      #        ON "tree_element"."id" = "tree_version_element"."tree_element_id"
+      #  WHERE "tree_version_element"."tree_version_id" = ?
+      #    AND "tree_element"."name_id" = ?
+      #  ORDER BY "tree_element"."id" ASC LIMIT ?
+      #  [["tree_version_id", 51316275],
+      #  ["name_id", 173919], ["LIMIT", 1]]
+      #
+
+
+      debug("seven")
     end
+    debug("one_record end")
     data
+  end
+
+  private
+
+  def debug(msg)
+    Rails.logger.debug("NameCheck::Search::Engine: #{msg}")
   end
 end

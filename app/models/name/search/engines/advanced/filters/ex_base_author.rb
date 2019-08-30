@@ -2,7 +2,7 @@
 
 # Add a filter to the sql to answer a request.
 class Name::Search::Engines::Advanced::Filters::ExBaseAuthor
-  PARAMETER = 'ex_base_author_abbrev'
+  PARAMETER = 'exBaseAuthorAbbrev'
   SFW = 'select id from author where '
   CLAUSE = "( name.ex_base_author_id in (#{SFW} lower(abbrev) like lower(?)))"
 

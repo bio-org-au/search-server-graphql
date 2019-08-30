@@ -24,11 +24,11 @@ class NameSearchScientificSimpleTest < ActionController::TestCase
 
   test 'simple scientific name search test' do
     post 'execute',
-         params: { query: '{name_search(search_term:"angophora*", scientific_name: true, scientific_autonym_name: true, scientific_named_hybrid_name: true){count,names{id,full_name,name_usages{reference_details{citation,page,page_qualifier,year}}}}}' }
+         params: { query: '{filteredNames(page:1, count:100, filter: {searchTerm:"angophora*", scientificName: true, scientificAutonymName: true, scientificNamedHybridName: true}){data{id,full_name,name_usages{reference_details{citation,page,page_qualifier,year}}}}}' }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert_match 'Angophora',
-                 obj.data.name_search.names.first.full_name,
+                 obj.data.filteredNames.data.first.full_name,
                  "Name should match 'Angophora'"
   end
 end

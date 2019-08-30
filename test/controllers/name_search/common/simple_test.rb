@@ -20,9 +20,12 @@ require 'test_helper'
 class NameSearchCommonSimpleTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @args = 'name_search(search_term:"a*", common_name: true)'
-    @fields = '{count,names{id,full_name,name_usages{reference_details'
-    @fields += '{citation,page,page_qualifier,year}}}}'
+    @args = +'filteredNames(count: 10, page: 1, filter: {searchTerm:"a*", '
+    @args << 'commonName: true})'
+    @fields = +'{paginatorInfo {count, currentPage, hasMorePages, firstItem,'
+    @fields << 'lastItem, lastPage, perPage, total}, data {id,full_name,'
+    @fields << 'name_usages{reference_details'
+    @fields << '{citation,page,page_qualifier,year}}}}'
   end
 
   test 'simple common name search test' do
@@ -30,7 +33,7 @@ class NameSearchCommonSimpleTest < ActionController::TestCase
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert_match 'argyle apple',
-                 obj.data.name_search.names.first.full_name,
+                 obj.data.filteredNames.data.first.full_name,
                  "Name should match 'argyle apple'"
   end
 end

@@ -23,10 +23,22 @@ class Taxonomy::Search::Parser
 
   SIMPLE_SEARCH = 'Search'
 
+  # Limits
+  MAX_LIST = 500
+  MAX_DETAILS = 50
+
   def initialize(args)
-    Rails.logger.debug('Search::Parser.initialize')
-    @args = args
-    Rails.logger.debug("@args: #{@args.inspect}")
+    debug('initialize')
+    if args.key?('filter')
+      @have_filter = true
+      @args = args['filter']
+      @per_page = args['count'] || 10
+      @page = args['page'] || 1
+    else
+      @have_filter = false
+      @args = args
+    end
+    debug("@args: #{@args.inspect}")
     resolve_sci_cult_or_common
     resolve_fuzzy_or_exact
   end
@@ -61,8 +73,17 @@ class Taxonomy::Search::Parser
     @args[:show_results_as] || @args[:default_show_results_as] || LIST
   end
 
-  def limit
+  def xlimit
     @args['limit'].blank? ? default_limit : [@args['limit'].to_i, 1].max
+  end
+
+  def limit
+    if @have_filter
+      debug("@per_page: #{@per_page}")
+      [(@per_page || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+    else
+      [(@args.limit || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+    end
   end
 
   def default_limit
@@ -70,7 +91,14 @@ class Taxonomy::Search::Parser
   end
 
   def offset
-    [@args['offset'].to_i, 0].max
+    if @have_filter
+      debug("@per_page: #{@per_page}")
+      debug("@page: #{@page}")
+      @offset = (@page - 1) * @per_page
+      [@offset.to_i, 0].max
+    else
+      [@args[:offset].to_i, 0].max
+    end
   end
 
   def list?
@@ -115,5 +143,11 @@ class Taxonomy::Search::Parser
 
   def cross_reference?
     @args.key?(:cross_reference) && @args[:cross_reference] == true
+  end
+
+  private
+
+  def debug(msg)
+    Rails.logger.debug("Taxonomy::Search::Parser: #{msg}")
   end
 end

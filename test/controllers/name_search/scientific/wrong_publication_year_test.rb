@@ -20,15 +20,21 @@ require 'test_helper'
 class NameSearchScientificWrongPublicationYearTest < ActionController::TestCase
   tests GraphqlController
   setup do
+    filter = +'{searchTerm:"angophora costata", isoPublicationDate: "1917"'
+    filter << ', typeOfName:"scientific"}'
+    ref_details = +'{citation,page,page_qualifier,year}'
+    data = +"{id,full_name,name_usages{reference_details#{ref_details}}}"
+    @query = "{filteredNames(filter: #{filter}){data#{data}}}"
   end
 
   test 'scientific name search on wrong iso publication date' do
     post 'execute',
-         params: { query: '{name_search(search_term:"angophora costata", iso_publication_date: "1917", type_of_name:"scientific"){count,names{id,full_name,name_usages{reference_details{citation,page,page_qualifier,year}}}}}' }
+         params: { query: @query }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.errors.nil?, "Not expecting any errors but got: #{obj.errors}."
-    assert obj.data.name_search.names.blank?, 'Should be no names returned.'
-    assert_equal 0, obj.data.name_search.count, 'Should be no names counted.'
+    assert obj.data.filteredNames.data.blank?, 'Should be no names returned.'
+    assert_equal 0, obj.data.filteredNames.data.size,
+                 'Should be no names counted.'
   end
 end

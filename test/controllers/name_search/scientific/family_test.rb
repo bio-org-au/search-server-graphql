@@ -20,9 +20,9 @@ require 'test_helper'
 class NameSearchScientificFamilyTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @args = '{name_search(search_term:"myrtaceae", type_of_name: "scientific")'
-    @fields = '{count,names{id,full_name,name_usages'
-    @fields += '{reference_details{citation,page,page_qualifier,year}}}}}'
+    @args = '{filteredNames(page:1, count:100, filter: {searchTerm:"myrtaceae", typeOfName: "scientific")'
+    @fields = '{count,names{id,fullName,nameUsages'
+    @fields += '{referenceDetails{citation,page,pageQualifier,year}}}}}}'
   end
 
   test 'scientific name search on family' do
@@ -32,7 +32,7 @@ class NameSearchScientificFamilyTest < ActionController::TestCase
     # obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     # assert obj.errors.nil?, "Not expecting any errors but got: #{obj.errors}."
     # expected = /\AAngophora lanceolata Cav.\z/
-    # actual = obj.data.name_search.names.first.full_name
+    # actual = obj.data.filteredNames.data.first.full_name
     # assert_match expected, actual,
     #              "Actual name #{actual} should match #{expected}"
   end

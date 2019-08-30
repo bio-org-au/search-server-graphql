@@ -2,7 +2,7 @@
 
 # Add a filter to the sql to answer a request.
 class Name::Search::Engines::Advanced::Filters::Author
-  PARAMETER = 'author_abbrev'
+  PARAMETER = :author_abbrev
   SELECT = 'select id from author where '
   CLAUSE = "( name.author_id in (#{SELECT} lower(abbrev) like lower(?)))"
 

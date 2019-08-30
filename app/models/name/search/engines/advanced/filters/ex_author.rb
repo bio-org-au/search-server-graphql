@@ -4,7 +4,7 @@
 class Name::Search::Engines::Advanced::Filters::ExAuthor
   SELECT = 'select id from author where '
   CLAUSE = "( name.ex_author_id in (#{SELECT} lower(abbrev) like lower(?)))"
-  PARAMETER = 'ex_author_abbrev'
+  PARAMETER = :ex_author_abbrev
 
   def initialize(incoming_sql, parser)
     @incoming_sql = incoming_sql

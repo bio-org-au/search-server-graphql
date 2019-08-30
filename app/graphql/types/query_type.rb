@@ -57,6 +57,24 @@ Types::QueryType = GraphQL::ObjectType.define do
       FilteredSearch.new(args).answer
     }
   end
+  field :filteredNames do
+    argument :filter, Types::NameSearchFilterType
+    argument :count, types.Int
+    argument :page, types.Int
+    type Types::FilteredNamesPaginatorType
+    resolve ->(_obj, args, _ctx) {
+      FilteredNames.new(args).answer
+    }
+  end
+  field :filteredTaxonomy do
+    argument :filter, Types::TaxonomySearchFilterType
+    argument :count, types.Int
+    argument :page, types.Int
+    type Types::FilteredTaxonomyPaginatorType
+    resolve ->(_obj, args, _ctx) {
+      FilteredTaxonomy.new(args).answer
+    }
+  end
   field :name do
     type Types::NameType
     argument :id, !types.ID

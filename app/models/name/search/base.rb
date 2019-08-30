@@ -18,12 +18,6 @@ class Name::Search::Base
     end
   end
 
-  def debug(s)
-    Rails.logger.debug("==============================================")
-    Rails.logger.debug("Name::Search::Base: #{s}")
-    Rails.logger.debug("==============================================")
-  end
-
   def names
     if @parser.merge?
       Name::Search::Merge.new(@search.names).merge
@@ -34,5 +28,15 @@ class Name::Search::Base
 
   def count
     @search.count
+  end
+
+  def total
+    @search.total
+  end
+
+  private
+
+  def debug(msg)
+    Rails.logger.debug("Name::Search::Base: #{msg}")
   end
 end

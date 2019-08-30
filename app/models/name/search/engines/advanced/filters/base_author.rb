@@ -2,7 +2,7 @@
 
 # Add a filter to the sql to answer a request.
 class Name::Search::Engines::Advanced::Filters::BaseAuthor
-  PARAMETER = 'base_author_abbrev'
+  PARAMETER = 'baseAuthorAbbrev'
   SELECT = 'select id from author where '
   CLAUSE = "( name.base_author_id in (#{SELECT} lower(abbrev) like lower(?)))"
 
@@ -13,11 +13,13 @@ class Name::Search::Engines::Advanced::Filters::BaseAuthor
 
   def sql
     return @incoming_sql if parameter.blank?
+
     @incoming_sql.where([CLAUSE, parameter])
   end
 
   def parameter
     return nil unless @parser.text_arg?(PARAMETER)
-    @parser.args[PARAMETER].strip.tr('*', '%').gsub(/×/, 'x')
+
+    @parser.args[PARAMETER].strip.tr('*', '%')
   end
 end

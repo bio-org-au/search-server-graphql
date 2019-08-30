@@ -2,7 +2,7 @@
 
 # Add a filter to the sql to answer a request.
 class Name::Search::Engines::Advanced::Filters::InstanceTypeNote
-  PARAMETER = 'type_note_text'
+  PARAMETER = 'typeNoteText'
   SELECT = 'select id from author where '
   CLAUSE = "( name.author_id in (#{SELECT} lower(abbrev) like lower(?)))"
 

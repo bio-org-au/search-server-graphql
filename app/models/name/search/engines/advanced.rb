@@ -11,14 +11,7 @@ class Name::Search::Engines::Advanced
     @parser = Name::Search::Parser.new(args)
   end
 
-  def debug(s)
-    Rails.logger.debug('==============================================')
-    Rails.logger.debug("Name::Search::Engines::Advanced: #{s}")
-    Rails.logger.debug('==============================================')
-  end
-
   def names
-    debug("@parser.limit: #{@parser.limit}")
     val = base_query.left_outer_joins(:family)
                     .includes(:name_status)
                     .includes(:family)
@@ -31,8 +24,8 @@ class Name::Search::Engines::Advanced
     val
   end
 
-  def count
-    base_query.size
+  def total
+    base_query.count
   end
 
   private
@@ -51,7 +44,6 @@ class Name::Search::Engines::Advanced
   end
 
   def filter_on_name_and_name_element(query)
-    query = Filters::NameElement.new(query, @parser).sql
     Filters::SearchTerm.new(query, @parser).sql
   end
 
@@ -84,5 +76,11 @@ class Name::Search::Engines::Advanced
     else
       "name.sort_name, name_rank.sort_order"
     end
+  end
+
+  private
+
+  def debug(msg)
+    Rails.logger.debug("Name::Search::Engines::Advanced: #{msg}")
   end
 end

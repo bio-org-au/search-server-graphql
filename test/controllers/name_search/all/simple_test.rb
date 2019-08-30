@@ -20,10 +20,11 @@ require 'test_helper'
 class NameSearchAllSimpleTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @args = 'name_search(search_term:"a*", scientific_name: true,'
-    @args += 'scientific_autonym_name: true,scientific_named_hybrid_name: true,'
-    @args += 'cultivar_name: true, common_name: true)'
-    @fields = '{count,names{id,full_name,name_usages{reference_details'
+    @args = +'filteredNames(count: 100, page: 1, filter: {searchTerm:"a*", '
+    @args << 'scientificName: true,'
+    @args += 'scientificAutonymName: true,scientificNamedHybridName: true,'
+    @args += 'cultivarName: true, commonName: true})'
+    @fields = +'{data{id,full_name,name_usages{reference_details'
     @fields += '{citation,page,page_qualifier,year}}}}'
   end
 
@@ -31,7 +32,7 @@ class NameSearchAllSimpleTest < ActionController::TestCase
     post 'execute', params: { query: "{#{@args}#{@fields}}" }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    assert obj.data.name_search.names.size > 20,
+    assert obj.data.filteredNames.data.size > 20,
            'Should find at least 21 records'
     assert :success, 'Search should run'
   end

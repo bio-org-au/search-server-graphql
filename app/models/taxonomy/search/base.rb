@@ -6,6 +6,7 @@ class Taxonomy::Search::Base
     @args = args
     @parser = Taxonomy::Search::Parser.new(@args)
     @generator = Taxonomy::Search::SqlGeneratorFactory.new(@parser).build
+    @search = run_search
   end
 
   # The returned object must respond to the "count" message
@@ -13,10 +14,8 @@ class Taxonomy::Search::Base
     @generator.count
   end
 
-  def debug(s)
-    Rails.logger.debug("===================================================")
-    Rails.logger.debug("Taxonomy::Search::Base: #{s}")
-    Rails.logger.debug("===================================================")
+  def total
+    @generator.count
   end
 
   # The returned object must respond to the "taxa" message
@@ -29,7 +28,7 @@ class Taxonomy::Search::Base
   # Recently this was emitting an error in testing:
   # unknown OID 705: failed to recognize type of 'cross_referenced_full_name'. It will be treated as String.
   # The if statement for coun > 0 stops this test error.
-  def taxa
+  def run_search
     taxonomy_search_results = Taxonomy::Search::Results.new
     gs = @generator.search
     if @generator.count > 0
@@ -43,6 +42,10 @@ class Taxonomy::Search::Base
       end
     end
     taxonomy_search_results
+  end
+
+  def taxa
+    @search
   end
 
   def direct_reference_struct(name_tree_element)
@@ -165,5 +168,11 @@ class Taxonomy::Search::Base
     struct[:order_string] = name_tree_element.name_path
     struct[:simple_name] = name_tree_element.simple_name
     struct
+  end
+
+  private
+
+  def debug(s)
+    Rails.logger.debug("Taxonomy::Search::Base: #{s}")
   end
 end

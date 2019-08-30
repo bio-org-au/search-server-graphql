@@ -20,8 +20,8 @@ require 'test_helper'
 class NameSearchNoTypesSimpleTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @query = '{name_search(search_term:"a*")'
-    @query += '{count,names{id,full_name,name_usages'
+    @query = '{filteredNames(count: 100, page: 1, filter: {searchTerm:"a*"})'
+    @query += '{data{id,full_name,name_usages'
     @query += '{reference_details{citation,page,page_qualifier,year}}}}}'
   end
 
@@ -30,7 +30,7 @@ class NameSearchNoTypesSimpleTest < ActionController::TestCase
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert_not obj.errors.present?, "Query shouldn't generate errors."
-    assert obj.data.name_search.names.size > 20,
+    assert obj.data.filteredNames.data.size > 20,
            'Should find at least 20 records'
     assert :success, 'Search should run'
   end

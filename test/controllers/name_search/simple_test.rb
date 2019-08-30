@@ -20,16 +20,18 @@ require 'test_helper'
 class NameSearchSimpleTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @args = 'name_search(search_term:"angophora*", scientific_name: true,'
-    @args += 'scientific_autonym_name: true,scientific_named_hybrid_name: true)'
-    @fields = '{count,names{full_name}}'
+    @args = +'filteredNames(page: 1, count: 100, filter: '
+    @args << '{searchTerm:"angophora*", scientificName: true,'
+    @args << 'scientificAutonymName: true,scientificNamedHybridName: true})'
+    @fields = '{data{full_name}}'
   end
 
   test 'simple name query' do
     post 'execute', params: { query: "{#{@args}#{@fields}}" }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    assert_match 'Angophora', obj.data.name_search.names.first.full_name
+    assert_match 'Angophora',
+                 obj.data.filteredNames.data.first.full_name,
                  "Name should match 'Angophora'"
   end
 end

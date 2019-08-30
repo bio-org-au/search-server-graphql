@@ -2,7 +2,7 @@
 
 # Add a filter to the sql to answer a request.
 class Name::Search::Engines::Advanced::Filters::IsoPublicationDate
-  PARAMETER = 'iso_publication_date'
+  PARAMETER = 'isoPublicationDate'
   PROTOLOGUE_CLAUSE = 'instance.instance_type_id in (select id from instance_type where protologue)'
 
   def initialize(incoming_sql, parser)

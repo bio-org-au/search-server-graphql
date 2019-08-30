@@ -16,6 +16,7 @@
 #
 require 'test_helper'
 
+# Mock for the test
 class ScientificNoAutonymParserDummy
   def scientific?
     true
@@ -43,7 +44,7 @@ class ScientificNoAutonymParserDummy
 end
 
 # Single controller test.
-class NameSearchNameTypeClauseScientificNoAutonymTest < ActionController::TestCase
+class NameSearchNameTypeClauseSciNoAutonymTest < ActionController::TestCase
   setup do
     @parser = ScientificNoAutonymParserDummy.new
   end

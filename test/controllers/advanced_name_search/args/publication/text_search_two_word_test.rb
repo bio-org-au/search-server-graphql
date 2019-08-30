@@ -20,8 +20,8 @@ require 'test_helper'
 class AdvNameSearchArgsPublicationTextTwoWords < ActionController::TestCase
   tests GraphqlController
   setup do
-    @query = '{name_search(publication:"queensland catalogue")'
-    @query += '{count,names{id,full_name,name_usages'
+    @query = '{filteredNames(filter: {publication:"queensland catalogue"})'
+    @query += '{data{id,full_name,name_usages'
     @query += '{reference_details{citation,page,page_qualifier,year}}}}}'
   end
 
@@ -30,7 +30,7 @@ class AdvNameSearchArgsPublicationTextTwoWords < ActionController::TestCase
     assert_response :success,
                     'Should be able to search on publication'
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    assert obj.data.name_search.names.size >= 1,
+    assert obj.data.filteredNames.data.size >= 1,
            'Should find at least 1 record'
   end
 end

@@ -28,14 +28,22 @@ class Name::Search::Parser
 
   def initialize(args)
     Rails.logger.debug('Search::Parser.initialize')
-    @args = args
+    if args.key?('filter')
+      @have_filter = true
+      @args = args['filter']
+      @per_page = args['count'] || 10
+      @page = args['page'] || 1
+    else
+      @have_filter = false
+      @args = args
+    end
+    debug("Keys:  #{@args.keys.join(',')}")
     resolve_sci_cult_or_common
   end
 
-  def debug(s)
-    Rails.logger.debug("==============================================")
-    Rails.logger.debug("Name::Search::Parser: #{s}")
-    Rails.logger.debug("==============================================")
+  def use_sym?
+    debug('use_sym?')
+    @have_filter
   end
 
   def run_search?
@@ -43,12 +51,18 @@ class Name::Search::Parser
       author_arg?
   end
 
-  def text_arg?(arg_name)
-    @args.keys.include?(arg_name) && !@args[arg_name].strip.blank?
+  # The @args object keys method returns the underscore versions of the keys,
+  # but @args itself provides a value for the camel_case version of the key.
+  def text_arg?(camel_case_arg_name_sym)
+    debug("text_arg? arg_name: #{camel_case_arg_name_sym}")
+    underscore_arg_name = camel_case_arg_name_sym.to_s.underscore.to_sym
+    @args.keys.include?(underscore_arg_name.to_sym) && !@args[camel_case_arg_name_sym].blank?
   end
 
   def search_term_arg?
-    @args.keys.include?('search_term') && !@args['search_term'].strip.blank?
+    throw 'search_term_arg'
+    #@args.keys.include?('search_term') && !@args['search_term'].strip.blank?
+    'angophora'
   end
 
   def resolve_sci_cult_or_common
@@ -70,7 +84,9 @@ class Name::Search::Parser
   end
 
   def search_term
-    term = @args.search_term.strip.tr('*', '%')
+    throw('search_term')
+    #term = @args.search_term.strip.tr('*', '%')
+    @args['filter']['search_term'].strip.tr('*', '%')
   end
 
   def show_as
@@ -78,11 +94,27 @@ class Name::Search::Parser
   end
 
   def limit
-    [(@args.limit || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+    if @have_filter
+      debug("@per_page: #{@per_page}")
+      [(@per_page || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+    else
+      [(@args.limit || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+    end
   end
 
   def offset
-    [@args[:offset].to_i, 0].max
+    debug('offset')
+    if @have_filter
+      debug('have filter')
+      debug("@per_page: #{@per_page}")
+      debug("@page: #{@page}")
+      @offset = (@page - 1) * @per_page
+      debug("@offset: #{@offset}")
+      debug("[@offset.to_i, 0].max: #{[@offset.to_i, 0].max}")
+      [@offset.to_i, 0].max
+    else
+      [@args[:offset].to_i, 0].max
+    end
   end
 
   def list?
@@ -180,5 +212,11 @@ class Name::Search::Parser
 
   def order_scientifically?
     !order_by_name?
+  end
+
+  private
+
+  def debug(msg)
+    Rails.logger.debug("Name::Search::Parser: #{msg}")
   end
 end

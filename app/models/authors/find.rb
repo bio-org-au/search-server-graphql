@@ -30,8 +30,6 @@ class Authors::Find
   private
 
   def debug(msg)
-    Rails.logger.debug('==============================================')
     Rails.logger.debug("Authors::Find: #{msg}")
-    Rails.logger.debug('==============================================')
   end
 end
