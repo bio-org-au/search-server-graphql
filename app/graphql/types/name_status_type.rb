@@ -9,4 +9,3 @@ Types::NameStatusType = GraphQL::ObjectType.define do
   field :nomInval, !types.Boolean, property: :nom_inval?
   field :nameGroup, !Types::NameGroupType, property: :name_group
 end
-

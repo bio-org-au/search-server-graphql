@@ -72,9 +72,9 @@ class Name::Search::Engines::Advanced
 
   def order_str
     if @parser.family_order?
-      "families_name.full_name, name_rank.sort_order, name.sort_name"
+      'families_name.full_name, name_rank.sort_order, name.sort_name'
     else
-      "name.sort_name, name_rank.sort_order"
+      'name.sort_name, name_rank.sort_order'
     end
   end
 

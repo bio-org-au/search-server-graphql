@@ -14,4 +14,3 @@ class Types::TaxonomicNameUsageFilterType < Types::BaseInputObject
   argument :newStatus, Boolean, required: false
   argument :autonym, Boolean, required: false
 end
-

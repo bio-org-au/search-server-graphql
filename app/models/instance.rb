@@ -16,7 +16,6 @@ class Instance < ActiveRecord::Base
              class_name: 'Instance',
              foreign_key: 'cites_id'
 
-
   belongs_to :citer_instance, class_name: 'Instance', foreign_key: 'cited_by_id'
   belongs_to :cited_instance, class_name: 'Instance', foreign_key: 'cites_id'
   has_many :cited_reference, class_name: 'Reference', through: :cited_instance
@@ -33,14 +32,14 @@ class Instance < ActiveRecord::Base
           where name = 'APC Comment')"
   end),
            class_name: 'InstanceNote', foreign_key: 'instance_id'
-  has_many :synonyms, foreign_key: "cited_by_id", class_name: 'Instance'
+  has_many :synonyms, foreign_key: 'cited_by_id', class_name: 'Instance'
   has_one :accepted_name
 
   belongs_to :cited_by_instance, foreign_key: 'cited_by_id'
   belongs_to :namespace
   has_many :instance_resources
-  has_many :resources,  through: :instance_resources
-  has_many :sites,  through: :resources
+  has_many :resources, through: :instance_resources
+  has_many :sites, through: :resources
 
   belongs_to :parent, class_name: 'Instance', foreign_key: 'parent_id'
   has_many :children, class_name: 'Instance', foreign_key: 'parent_id'
@@ -100,12 +99,12 @@ class Instance < ActiveRecord::Base
   end
 
   def has_protologue?
-    sites.where(name: "Protologues").size > 0
+    !sites.where(name: 'Protologues').empty?
   end
 
   def protologue_link
-    record = sites.where(site: {name: 'Protologues'}).select('site.url, resource.path').first
-    "#{record["url"]}#{record["path"]}"
+    record = sites.where(site: { name: 'Protologues' }).select('site.url, resource.path').first
+    "#{record['url']}#{record['path']}"
   end
 
   def synonyms_for_display_just_commons

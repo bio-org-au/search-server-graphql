@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class FilteredSearch
   def initialize(args)
     @args = args
-    @filter = args["filter"]
+    @filter = args['filter']
   end
 
   def answer
@@ -12,8 +14,8 @@ class FilteredSearch
   end
 
   def args_and_values
-    array = Array.new
-    @filter.each do | key, value |
+    array = []
+    @filter.each do |key, value|
       array.push("#{key}: #{value}")
     end
     array

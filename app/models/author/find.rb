@@ -16,7 +16,7 @@ class Author::Find
 
   private
 
-  def method_missing(name, *args, &block)
+  def method_missing(name, *_args)
     @author.send(name)
   end
 

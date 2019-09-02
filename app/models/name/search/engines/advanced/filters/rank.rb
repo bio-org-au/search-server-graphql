@@ -15,16 +15,18 @@ class Name::Search::Engines::Advanced::Filters::Rank
 
   def sql
     return @incoming_sql if parameter.blank?
+
     @incoming_sql = if @parser.args['includeRanksBelow'] == true
-            @incoming_sql.where([RANK_AND_BELOW_CLAUSE, parameter])
-          else
-            @incoming_sql.where([CLAUSE, parameter])
+                      @incoming_sql.where([RANK_AND_BELOW_CLAUSE, parameter])
+                    else
+                      @incoming_sql.where([CLAUSE, parameter])
           end
     @incoming_sql
   end
 
   def parameter
     return nil unless @parser.text_arg?(PARAMETER)
+
     @parser.args[PARAMETER].strip.tr('*', '%').gsub(/×/, 'x')
   end
 end

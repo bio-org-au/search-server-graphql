@@ -57,6 +57,7 @@ class Reference::Search::SqlGenerator
   def cleaned(term, fuzzy = true)
     return nil if term.nil?
     return nil if term.strip.blank?
+
     if fuzzy
       term.strip.tr('*', '%').sub(/$/, '%')
     else

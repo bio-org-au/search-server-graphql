@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -53,7 +55,6 @@ Rails.application.configure do
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end
 
-
 # We need the SHARD set BEFORE config on the dev machine
 # so we can run plants, mosses, lichen, etc.
 #
@@ -66,8 +67,9 @@ puts %(Configuring shard: #{ENV['SHARD']})
 
 begin
   raise 'no_shard_set' if (ENV['SHARD']).nil?
+
   puts %(Configuring shard: #{ENV['SHARD']})
-rescue
+rescue StandardError
   puts '=' * 100
   puts 'Expected the SHARD environmental variable to be set.'
   puts 'Application start up will now fail.'
@@ -92,5 +94,3 @@ rescue LoadError
   puts '=' * 100
   raise
 end
-
-

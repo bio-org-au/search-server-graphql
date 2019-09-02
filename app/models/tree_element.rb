@@ -10,7 +10,7 @@ class TreeElement < ApplicationRecord
   has_many :tree_version_elements
 
   def distribution_value
-    profile[distribution_key]["value"]
+    profile[distribution_key]['value']
   end
 
   def distribution?
@@ -30,15 +30,15 @@ class TreeElement < ApplicationRecord
   end
 
   def comment_value
-    profile[comment_key]["value"]
+    profile[comment_key]['value']
   end
 
   def profile_value(key_string)
     key = profile_key(key_string)
     if key
-      profile[key]["value"]
+      profile[key]['value']
     else
-      ""
+      ''
     end
   end
 

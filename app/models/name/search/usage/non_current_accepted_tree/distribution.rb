@@ -14,7 +14,7 @@ class Name::Search::Usage::NonCurrentAcceptedTree::Distribution
   end
 
   def content
-    #return nil unless accepted_tree_distribution?
+    # return nil unless accepted_tree_distribution?
     struct = OpenStruct.new
     struct.key = accepted_tree_distribution_label
     struct.value = accepted_tree_distribution
@@ -24,15 +24,17 @@ class Name::Search::Usage::NonCurrentAcceptedTree::Distribution
   def accepted_tree_distribution
     return nil if @parsed_components.profile.blank?
     return nil if @parsed_components.profile['APC Dist.'].blank?
+
     @parsed_components.profile['APC Dist.']['value']
   end
 
   def accepted_tree_distribution_label
-    '' #@parsed_components.tree_config['distribution_key']
+    '' # @parsed_components.tree_config['distribution_key']
   end
 
   def accepted_tree_distribution?
     return true if accepted_tree_distribution.present?
+
     true
   end
 

@@ -12,11 +12,13 @@ class Name::Search::Engines::Advanced::Filters::NameElement
 
   def sql
     return @incoming_sql if parameter.blank?
+
     @incoming_sql.where([CLAUSE, parameter])
   end
 
   def parameter
     return nil unless @parser.text_arg?(PARAMETER)
+
     @parser.args[PARAMETER].strip.tr('*', '%').gsub(/×/, 'x')
   end
 end

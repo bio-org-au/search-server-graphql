@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Class that finds a Reference record matching a URI (id).
-# The instance object must respond to attribute methdods 
+# The instance object must respond to attribute methdods
 # on the retrieved object/record.
 class Reference::Find
   def initialize(args)
@@ -10,7 +10,7 @@ class Reference::Find
     raise 'no matching reference' if @reference.nil?
   end
 
-  def method_missing(name, *args, &block)
+  def method_missing(name, *_args)
     @reference.send(name)
   end
 

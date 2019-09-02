@@ -11,4 +11,3 @@ Types::PaginatorInfoType = GraphQL::ObjectType.define do
   field :perPage, types.Int
   field :total, types.Int
 end
-

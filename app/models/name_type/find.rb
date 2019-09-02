@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Class that finds a Name Type matching a URI (id)
-# The instance object must respond to attribute methods of 
+# The instance object must respond to attribute methods of
 # the retrieved record.
 class NameType::Find
   def initialize(args)

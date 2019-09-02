@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class FilteredNames
   def initialize(args)
     @args = args
-    @filter = args["filter"]
-    @per_page =  args["count"] || 10
+    @filter = args['filter']
+    @per_page = args['count'] || 10
     @page = args['page'] || 1
     @offset = (@page - 1) * @per_page
     @limit = @per_page
@@ -19,8 +21,8 @@ class FilteredNames
   end
 
   def args_and_values
-    array = Array.new
-    @filter.each do | key, value |
+    array = []
+    @filter.each do |key, value|
       array.push("#{key}: #{value}")
     end
     array
@@ -30,4 +32,3 @@ class FilteredNames
     PaginatorInfo.new(@per_page, @page, @total, @offset).build
   end
 end
-

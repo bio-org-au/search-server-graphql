@@ -5,20 +5,20 @@ Types::NameType = GraphQL::ObjectType.define do
   field :id, types.ID
   field :simple_name do
     type types.String
-    resolve -> (obj, args, ctx) {
-      obj.simple_name.gsub(/ x /,' × ')
+    resolve lambda { |obj, _args, _ctx|
+      obj.simple_name.gsub(/ x /, ' × ')
     }
   end
   field :full_name do
     type types.String
-    resolve -> (obj, args, ctx) {
-      obj.full_name.gsub(/ x /,' × ')
+    resolve lambda { |obj, _args, _ctx|
+      obj.full_name.gsub(/ x /, ' × ')
     }
   end
   field :full_name_html do
     type types.String
-    resolve -> (obj, args, ctx) {
-      obj.full_name_html.gsub(/ x /,' × ')
+    resolve lambda { |obj, _args, _ctx|
+      obj.full_name_html.gsub(/ x /, ' × ')
     }
   end
   field :name_status_name, types.String

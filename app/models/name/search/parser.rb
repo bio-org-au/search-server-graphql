@@ -61,13 +61,14 @@ class Name::Search::Parser
 
   def search_term_arg?
     throw 'search_term_arg'
-    #@args.keys.include?('search_term') && !@args['search_term'].strip.blank?
+    # @args.keys.include?('search_term') && !@args['search_term'].strip.blank?
     'angophora'
   end
 
   def resolve_sci_cult_or_common
     @sci_cult_or_common = SCIENTIFIC
     return unless @args.keys.include?('type_of_name')
+
     @sci_cult_or_common = @args['type_of_name']
   end
 
@@ -85,7 +86,7 @@ class Name::Search::Parser
 
   def search_term
     throw('search_term')
-    #term = @args.search_term.strip.tr('*', '%')
+    # term = @args.search_term.strip.tr('*', '%')
     @args['filter']['search_term'].strip.tr('*', '%')
   end
 
@@ -96,9 +97,9 @@ class Name::Search::Parser
   def limit
     if @have_filter
       debug("@per_page: #{@per_page}")
-      [(@per_page || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+      [(@per_page || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS].min
     else
-      [(@args.limit || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+      [(@args.limit || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS].min
     end
   end
 
@@ -167,6 +168,7 @@ class Name::Search::Parser
 
   def type_note_text
     return nil if @args[:type_note_text].blank?
+
     @args[:type_note_text].strip.tr('*', '%')
   end
 
@@ -183,18 +185,21 @@ class Name::Search::Parser
   def type_note_lectotype?
     return true if type_note_any?
     return true if @args[:type_note_keys].include?('lectotype')
+
     false
   end
 
   def type_note_neotype?
     return true if type_note_any?
     return true if @args[:type_note_keys].include?('neotype')
+
     false
   end
 
   def type_note_type?
     return true if type_note_any?
     return true if @args[:type_note_keys].include?('type')
+
     false
   end
 

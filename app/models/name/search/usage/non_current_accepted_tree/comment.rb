@@ -15,6 +15,7 @@ class Name::Search::Usage::NonCurrentAcceptedTree::Comment
 
   def content
     return nil unless accepted_tree_comment?
+
     cstruct = OpenStruct.new
     cstruct.key = accepted_tree_comment_label
     cstruct.value = accepted_tree_comment
@@ -24,6 +25,7 @@ class Name::Search::Usage::NonCurrentAcceptedTree::Comment
   def accepted_tree_comment
     return nil if @parsed_components.profile.blank?
     return nil if @parsed_components.profile['APC Comment'].blank?
+
     @parsed_components.profile['APC Comment']['value']
   end
 

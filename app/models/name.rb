@@ -9,15 +9,15 @@ module SearchableNameStrings
     # Add top and tail anchors.
     # Treat matching inverted commas as general quoting characters
     def regexified
-      gsub("*", ".*").gsub("%", ".*").sub(/^/, "^")
-      #gsub("*", ".*").gsub("%", ".*").sub(/$/, "$").sub(/^/, "^")
-      #.gsub(/[‘’]/,%q(["‘''’])) # only works the first time after "compiling"
+      gsub('*', '.*').gsub('%', '.*').sub(/^/, '^')
+      # gsub("*", ".*").gsub("%", ".*").sub(/$/, "$").sub(/^/, "^")
+      # .gsub(/[‘’]/,%q(["‘''’])) # only works the first time after "compiling"
       # a change!
     end
 
     # Allow for hybrids even if the user doesn't
     def hybridized
-      strip.gsub(/  */, " (x )?").sub(/^ */, "(x )?").tr("×", "x")
+      strip.gsub(/  */, ' (x )?').sub(/^ */, '(x )?').tr('×', 'x')
     end
   end
 end
@@ -66,8 +66,8 @@ class Name < ApplicationRecord
   has_one :accepted_name, foreign_key: 'id'
   scope :not_a_duplicate, -> { where(duplicate_of_id: nil) }
   scope :ordered_by_sort_name_and_rank, (lambda do
-                                    order("name.sort_name, name_rank.sort_order")
-                                  end)
+                                           order('name.sort_name, name_rank.sort_order')
+                                         end)
   scope :has_an_instance, (lambda do
     where(["exists (select null
            from instance
@@ -75,9 +75,8 @@ class Name < ApplicationRecord
   end)
 
   scope :name_matches, (lambda do |string|
-    where("#{FULL_NAME_REGEX}",
-          string.hybridized.regexified.gsub(/[‘’]/,%q(["‘''’]))
-         )
+    where(FULL_NAME_REGEX.to_s,
+          string.hybridized.regexified.gsub(/[‘’]/, %q(["‘''’])))
   end)
 
   def self.scientific_search
@@ -130,6 +129,7 @@ class Name < ApplicationRecord
 
   def family_name
     return nil if family.nil?
+
     family.full_name
   end
 
@@ -165,41 +165,45 @@ class Name < ApplicationRecord
   end
 
   def accepted?
-    current_accepted_tree_element = Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
-    current_accepted_tree_element.present? &&  current_accepted_tree_element.excluded == false
+    current_accepted_tree_element = Tree.accepted.first.current_tree_version.tree_elements.where(name_id: id).first
+    current_accepted_tree_element.present? && current_accepted_tree_element.excluded == false
   end
 
   def excluded?
-    current_accepted_tree_element = Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
+    current_accepted_tree_element = Tree.accepted.first.current_tree_version.tree_elements.where(name_id: id).first
     current_accepted_tree_element.present? && current_accepted_tree_element.excluded == true
   end
 
   def accepted_instance
     return nil unless accepted?
-    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first.instance
+
+    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: id).first.instance
   end
 
   def accepted_tree_element
     return nil unless accepted?
-    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
+
+    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: id).first
   end
 
   def excluded_instance
     return nil unless excluded?
-    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first.instance
+
+    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: id).first.instance
   end
 
   def excluded_tree_element
     return nil unless excluded?
-    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: self.id).first
+
+    Tree.accepted.first.current_tree_version.tree_elements.where(name_id: id).first
   end
 
   def author_component_of_full_name
-    full_name.sub(/#{Regexp.escape(simple_name)}/, "")
+    full_name.sub(/#{Regexp.escape(simple_name)}/, '')
   end
 
   def check_name(name)
-    Name.where(["lower(simple_name) like ? or lower(full_name) like ?", name, name])
+    Name.where(['lower(simple_name) like ? or lower(full_name) like ?', name, name])
   end
 
   def self.run_union_search(union_condition, order_string = '1', limit = 500, offset = 0)
@@ -239,15 +243,15 @@ class Name < ApplicationRecord
   # but what about varieties, sub-species?
   def specific_epithet
     return unless name_rank.species_or_below?
-    
+
     return name_element if name_rank.species?
 
-    return parent.try('name_element')
+    parent.try('name_element')
   end
 
   def cultivar_epithet
     return unless name_type.cultivar?
- 
+
     name_element
   end
 
@@ -262,7 +266,7 @@ class Name < ApplicationRecord
   end
 
   def primary_reference
-    instances.where(" instance_type_id in (select id from instance_type where primary_instance)").try('first').try('reference')
+    instances.where(' instance_type_id in (select id from instance_type where primary_instance)').try('first').try('reference')
   end
 
   private

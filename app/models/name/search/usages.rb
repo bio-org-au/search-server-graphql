@@ -21,16 +21,8 @@ class Name::Search::Usages
     accepted_name = @name.accepted?
     excluded_name = @name.excluded?
 
-    if accepted_name
-      accepted_instance = @name.accepted_instance
-    else
-      accepted_instance = nil
-    end 
-    if excluded_name
-      excluded_instance = @name.excluded_instance
-    else
-      excluded_instance = nil
-    end
+    accepted_instance = (@name.accepted_instance if accepted_name)
+    excluded_instance = (@name.excluded_instance if excluded_name)
     debug("accepted_instance: #{accepted_instance.try('id')}")
     debug("excluded_instance: #{excluded_instance.try('id')}")
 
@@ -43,36 +35,33 @@ class Name::Search::Usages
     debug('query all the synonyms for all of those instances')
     synonym_bunch = Name::Search::Synonym::BunchQuery.new(instance_ids)
 
-
     debug('loop through the ref citations (instances for the name)')
     @name_usages = usage_query_results.collect do |ref_citation|
-
       debug("top of loop ===========                                              ref_citation.instance_id: #{ref_citation.instance_id}")
 
-      debug("                                                                             --")
+      debug('                                                                             --')
       if accepted_name && accepted_instance.id == ref_citation.instance_id
 
-
         # find the current accepted tree
-        #ctv = Tree.accepted.first.current_tree_version
+        # ctv = Tree.accepted.first.current_tree_version
 
-        tree_info = {accepted: true,
-                     excluded: false,
-                     tree_element_id: @name.accepted_tree_element.id,
-                     tree_element_instance_id:@name.accepted_tree_element.instance_id,
-                     tree_element_profile:@name.accepted_tree_element.profile,
-                     tree_element_config:Tree.accepted.first.config}
+        tree_info = { accepted: true,
+                      excluded: false,
+                      tree_element_id: @name.accepted_tree_element.id,
+                      tree_element_instance_id: @name.accepted_tree_element.instance_id,
+                      tree_element_profile: @name.accepted_tree_element.profile,
+                      tree_element_config: Tree.accepted.first.config }
       elsif excluded_name && excluded_instance.try('id') == ref_citation.instance_id
         debug("Name ##{@name.id} is excluded and this is the instance: #{excluded_instance.try('id')}")
-        tree_info = {accepted: false,
-                     excluded: true,
-                     tree_element_id: @name.excluded_tree_element.id,
-                     tree_element_instance_id:nil,
-                     tree_element_profile:nil,
-                     tree_element_config:nil}
+        tree_info = { accepted: false,
+                      excluded: true,
+                      tree_element_id: @name.excluded_tree_element.id,
+                      tree_element_instance_id: nil,
+                      tree_element_profile: nil,
+                      tree_element_config: nil }
       else
-        tree_info = {accepted: false,
-                     excluded: false}
+        tree_info = { accepted: false,
+                      excluded: false }
       end
       debug('tree info')
       debug(tree_info.inspect)
@@ -80,11 +69,11 @@ class Name::Search::Usages
 
       append_misapp = false
       debug("ref_citation.misapplied: #{ref_citation.misapplied}")
-      #review_flag(ref_citation.misapplied)
+      # review_flag(ref_citation.misapplied)
       if ref_citation.misapplied == true || ref_citation.misapplied == 't'
-        debug("                        [Misapplied!]                                                 --")
-        debug("New ref citation")
-        debug("misapplied!")
+        debug('                        [Misapplied!]                                                 --')
+        debug('New ref citation')
+        debug('misapplied!')
         debug("ref_citation.instance_type_name: #{ref_citation.instance_type_name}")
         debug("ref_citation.name_id: #{ref_citation.name_id}")
         debug("ref_citation.reference_id: #{ref_citation.reference_id}")
@@ -100,14 +89,14 @@ class Name::Search::Usages
         prev_type = ref_citation.instance_type_name
         prev_page = ref_citation.instance_page
       end
- 
+
       merged_usage = nil
       if append_misapp
-        debug("APPEND!!!")
+        debug('APPEND!!!')
         debug("We need: latest_usage.class: #{latest_usage}")
         # Assumes no synonyms
         latest_usage.append(ref_citation) unless ref_citation.nil? || latest_usage.nil?
-        #latest_usage = OpenStruct.new
+        # latest_usage = OpenStruct.new
         merged = true
         merged_usage = Name::Search::Usage.new(ref_citation, synonym_bunch, merged, tree_info) unless ref_citation.nil?
       else
@@ -118,7 +107,7 @@ class Name::Search::Usages
       debug('bottom of loop')
       merged_usage.nil? ? latest_usage : merged_usage
     end
-    @name_usages.reject! {|e| e.merged}
+    @name_usages.reject!(&:merged)
   end
 
   def review_flag(misapplied)
@@ -145,5 +134,3 @@ class Name::Search::Usages
     Rails.logger.debug("Name::Search::Usages: #{msg}")
   end
 end
-
-

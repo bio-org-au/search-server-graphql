@@ -9,7 +9,7 @@ class Taxonomy::Search::Synonyms < Array
 
   def build
     @instance.synonyms.sort do |x, y|
-      [x.instance_type.misapplied.to_s, x.name.full_name, x.try("this_cites").try("reference").try("year") || 9999] <=> [y.instance_type.misapplied.to_s, y.name.full_name, y.try("this_cites").try("reference").try("year") || 9999]
+      [x.instance_type.misapplied.to_s, x.name.full_name, x.try('this_cites').try('reference').try('year') || 9999] <=> [y.instance_type.misapplied.to_s, y.name.full_name, y.try('this_cites').try('reference').try('year') || 9999]
     end.collect do |synonym|
       record = OpenStruct.new
       record.id = synonym.id
@@ -27,10 +27,10 @@ class Taxonomy::Search::Synonyms < Array
         record.misapplication_details.name_author_string = synonym.this_cites.name.author_component_of_full_name.strip
         record.misapplication_details.cites_simple_name = synonym.this_is_cited_by.name.simple_name
         record.misapplication_details.page = synonym.this_cites.page
-        record.misapplication_details.cites_reference_citation = synonym.this_cites.reference.citation 
-        record.misapplication_details.cites_reference_citation_html = synonym.this_cites.reference.citation_html 
+        record.misapplication_details.cites_reference_citation = synonym.this_cites.reference.citation
+        record.misapplication_details.cites_reference_citation_html = synonym.this_cites.reference.citation_html
       end
-      self.push(record)
+      push(record)
     end
   end
 end

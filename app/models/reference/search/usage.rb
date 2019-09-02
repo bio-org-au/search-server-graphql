@@ -20,6 +20,7 @@ class Reference::Search::Usage
     @misapplied_on_page = ''
     return unless @name_usage.misapplied == true ||
                   @name_usage.misapplied == 't'
+
     prepare_misapplied
   end
 
@@ -31,6 +32,7 @@ class Reference::Search::Usage
   def cited_by_for_misapplied
     inst1 = Instance.find(@name_usage.instance_id)
     return if inst1.cited_by_id.blank?
+
     cited_by = Instance.find(Instance.find(@name_usage.instance_id).cited_by_id)
     @misapplied_to_id = cited_by.name_id
     @misapplied_to_name = cited_by.name.full_name
@@ -40,6 +42,7 @@ class Reference::Search::Usage
     instance = Instance.find(@name_usage.instance_id)
     inst2 = Instance.find(instance.id)
     return if inst2.cites_id.blank?
+
     cites = Instance.find(Instance.find(instance.id).cites_id)
     @misapplied_by_id = cites.reference_id
     @misapplied_by_citation = cites.reference.citation

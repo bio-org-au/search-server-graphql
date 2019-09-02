@@ -5,7 +5,6 @@
 # - paginator_info
 # - data
 class References::Find
-
   def initialize(args)
     @per_page = args['count'] || 10
     @page = args['page'] || 1

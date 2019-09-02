@@ -35,7 +35,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :limit, types.Int
     argument :offset, types.Int
     argument :id, types.ID
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Name::Search::Factory.build(args)
     }
   end
@@ -43,7 +43,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     type types.String
     argument :searchTerm, types.String
     argument :authorAbbrev, types.String
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Hello.new(args).answer
     }
   end
@@ -53,7 +53,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :page, types.Int
     type types.String
     type Types::FilteredSearchPaginatorType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       FilteredSearch.new(args).answer
     }
   end
@@ -62,7 +62,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :count, types.Int
     argument :page, types.Int
     type Types::FilteredNamesPaginatorType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       FilteredNames.new(args).answer
     }
   end
@@ -71,14 +71,14 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :count, types.Int
     argument :page, types.Int
     type Types::FilteredTaxonomyPaginatorType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       FilteredTaxonomy.new(args).answer
     }
   end
   field :name do
     type Types::NameType
     argument :id, !types.ID
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Name.search_for_id(args['id'])
     }
   end
@@ -87,14 +87,14 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :names, types[types.String]
     argument :limit, types.Int
     argument :offset, types.Int
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       NameCheck::Search::Base.new(args)
     }
   end
   field :reference do
     type Types::ReferenceType
     argument :id, !types.ID
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Reference.find(args['id'])
     }
   end
@@ -109,7 +109,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :limit, types.Int
     argument :offset, types.Int
     argument :id, types.ID
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Taxonomy::Search::Base.new(args)
     }
   end
@@ -117,7 +117,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     type Types::Publication::SearchType
     argument :publication, types.String
     argument :limit, types.Int
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Reference::Search::Factory.build(args)
     }
   end
@@ -126,19 +126,19 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :setting do
     type types.String
     argument :search_term, types.String
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Settings::Search.new(args).value
     }
   end
   field :ranks do
     type Types::NameRank::OptionType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       NameRank::Search::Factory.build(args)
     }
   end
   field :runtime_environment do
     type Types::Runtime::EnvironmentType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Runtime::Environment.new(args).value
     }
   end
@@ -148,7 +148,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :author do
     type Types::AuthorType
     argument :id, types.String
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Author::Find.new(args)
     }
   end
@@ -157,70 +157,70 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :page, types.Int
     argument :size, types.Int
     type Types::AuthorPaginatorType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Authors::Find.new(args)
     }
   end
   field :taxonomicName do
     type Types::TaxonomicNameType
     argument :id, types.String
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       TaxonomicName::Find.new(args)
     }
   end
   field :nameRank do
     type Types::NameRankType
     argument :id, types.Int
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       NameRank::Find.new(args)
     }
   end
   field :nameGroup do
     type Types::NameGroupType
     argument :id, types.Int
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       NameGroup::Find.new(args)
     }
   end
   field :nameStatus do
     type Types::NameStatusType
     argument :id, types.Int
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       NameStatus::Find.new(args)
     }
   end
   field :nameType do
     type Types::NameTypeType
     argument :id, types.Int
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       NameType::Find.new(args)
     }
   end
   field :nameCategory do
     type Types::NameCategoryType
     argument :id, !types.Int
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       NameCategory::Find.new(args)
     }
   end
   field :reference do
     type Types::ReferenceTypeForNewSchema
     argument :id, !types.Int
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       Reference::Find.new(args)
     }
   end
   field :refType do
     type Types::RefTypeType
     argument :id, !types.Int
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       RefType::Find.new(args)
     }
   end
   field :refAuthorRole do
     type Types::RefAuthorRoleType
     argument :id, !types.Int
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       RefAuthorRole::Find.new(args)
     }
   end
@@ -229,21 +229,21 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :page, types.Int
     argument :size, types.Int
     type Types::ReferencePaginatorType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       References::Find.new(args)
     }
   end
   field :taxonomicNameUsage do
     argument :id, types.ID
     type Types::TaxonomicNameUsageType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       TaxonomicNameUsage::Find.new(args)
     }
   end
   field :taxonomicNameUsageNote do
     argument :id, types.ID
     type Types::TaxonomicNameUsageNoteType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       TaxonomicNameUsageNote::Find.new(args)
     }
   end
@@ -252,7 +252,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :count, types.Int
     argument :page, types.Int
     type Types::TaxonomicNameUsagePaginatorType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       TaxonomicNameUsages::Find.new(args)
     }
   end
@@ -261,7 +261,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :count, types.Int
     argument :page, types.Int
     type Types::TaxonomicNamePaginatorType
-    resolve ->(_obj, args, _ctx) {
+    resolve lambda { |_obj, args, _ctx|
       TaxonomicNames::Find.new(args)
     }
   end

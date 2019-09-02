@@ -17,7 +17,7 @@ class GraphqlController < ApplicationController
 
     record_metadata
     render json: @result
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error("Error rescue at GraphqlController#execute: #{e}")
     Rails.logger.error('Backtrace below')
     e.backtrace.each { |b| Rails.logger.error(b) }

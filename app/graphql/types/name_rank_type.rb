@@ -8,4 +8,3 @@ Types::NameRankType = GraphQL::ObjectType.define do
   field :parentRank, Types::NameRankType, property: :parent_rank
   field :nameGroup, !Types::NameGroupType, property: :name_group
 end
-

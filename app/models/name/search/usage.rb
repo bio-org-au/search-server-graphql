@@ -32,7 +32,7 @@ class Name::Search::Usage
       mir.page = cites.page
       mir.page_qualifier = cites.page_qualifier
       mir.display_entry = 'display entry'
-      misapplication_details.misapplied_in_references.push mir unless misapplication_details.nil?
+      misapplication_details&.misapplied_in_references&.push mir
     end
   end
 
@@ -42,20 +42,20 @@ class Name::Search::Usage
       record.id = @name_usage_query_record.reference_id
       record.citation = @name_usage_query_record.reference_citation
       record.citation_html = @name_usage_query_record.reference_citation_html
-      if @name_usage_query_record.instance_page.blank?
-        record.page = '-'
-      else
-        record.page = @name_usage_query_record.instance_page.gsub(/<NR>/,'–')
-      end
+      record.page = if @name_usage_query_record.instance_page.blank?
+                      '-'
+                    else
+                      @name_usage_query_record.instance_page.gsub(/<NR>/, '–')
+                    end
     else
       record.id = @name_usage_query_record.reference_id
       record.citation = @name_usage_query_record.reference_citation
       record.citation_html = @name_usage_query_record.reference_citation_html
       if @name_usage_query_record.instance_page.blank?
         citer = Instance.find(@name_usage_query_record.cited_by_id)
-        record.page = "~ #{citer.page.gsub(/<NR>/,'–')}" unless citer.page.blank?
+        record.page = "~ #{citer.page.gsub(/<NR>/, '–')}" unless citer.page.blank?
       else
-        record.page = @name_usage_query_record.instance_page.gsub(/<NR>/,'–')
+        record.page = @name_usage_query_record.instance_page.gsub(/<NR>/, '–')
       end
       record.year = @name_usage_query_record.reference_year
     end
@@ -100,7 +100,7 @@ class Name::Search::Usage
     if @name_usage_query_record.instance_page.blank?
       @name_usage_query_record.instance_page
     else
-      @name_usage_query_record.instance_page.gsub(/<NR>/,'–')
+      @name_usage_query_record.instance_page.gsub(/<NR>/, '–')
     end
   end
 
@@ -127,6 +127,7 @@ class Name::Search::Usage
 
   def misapplication_details
     return nil unless misapplication?
+
     MisapplicationDetails.new(@name_usage_query_record).content
   end
 
@@ -157,11 +158,10 @@ class Name::Search::Usage
   end
 
   def non_current_tree_element_for_instance?
-    TreeElement.where(instance_id: @name_usage_query_record.instance_id)
-               .joins(tree_version_elements: {tree_version: :tree})
-               .where('tree.accepted_tree = true')
-               .where('tree_version.id != tree.current_tree_version_id')
-               .size > 0
+    !TreeElement.where(instance_id: @name_usage_query_record.instance_id)
+                .joins(tree_version_elements: { tree_version: :tree })
+                .where('tree.accepted_tree = true')
+                .where('tree_version.id != tree.current_tree_version_id').empty?
   end
 
   def notes

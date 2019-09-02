@@ -15,6 +15,7 @@ class Name::Search::Engines::Advanced::Filters::Genus
 
   def sql
     return @incoming_sql if parameter.blank?
+
     @incoming_sql.where([CLAUSE, parameter])
   end
 
@@ -22,6 +23,7 @@ class Name::Search::Engines::Advanced::Filters::Genus
   # e.g. user supplies 'poa' and we want it to match 'poa blah'
   def parameter
     return nil unless @parser.text_arg?(PARAMETER)
+
     "#{@parser.args[PARAMETER].strip.tr('*', '%').gsub(/×/, 'x')}%"
   end
 end

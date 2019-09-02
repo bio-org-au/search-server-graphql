@@ -27,4 +27,3 @@ class Types::SearchFilterType < Types::BaseInputObject
   argument :typeNoteKeys, [String], required: false
   argument :orderByName, Boolean, required: false
 end
-

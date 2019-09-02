@@ -6,4 +6,3 @@ Types::TaxonomicNameUsageNoteType = GraphQL::ObjectType.define do
   field :kindOfNote, types.String, property: :key
   field :value, types.String
 end
-

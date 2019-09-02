@@ -13,7 +13,7 @@ end
 
 platform :ruby do
   # https://github.com/rails/rails/issues/31673
-  # fix: Lock 'pg' gem to 0.21.0 until pg 1.0.0 is officially supported 
+  # fix: Lock 'pg' gem to 0.21.0 until pg 1.0.0 is officially supported
   gem 'pg', '0.21.0'
 end
 # Use SCSS for stylesheets
@@ -75,4 +75,4 @@ group :development, :test do
   # gem "schema_plus"
 end
 
-gem "rest-client"
+gem 'rest-client'

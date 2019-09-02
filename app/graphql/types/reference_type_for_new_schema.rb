@@ -5,15 +5,15 @@ Types::ReferenceTypeForNewSchema = GraphQL::ObjectType.define do
   field :id, !types.ID, property: :uri
   field :author, !Types::AuthorType, property: :author
   field :citation, types.String
-  #field :shortRef: String
-  #field :displayTitle: String
+  # field :shortRef: String
+  # field :displayTitle: String
   field :doi, types.String
   field :edition, types.String
-  #"""
-  #Instances for a reference. For references only standalone instances are 
-  #provided.
-  #"""
-  #field :instances: [TaxonomicNameUsage!]! @paginate(type: "paginator")
+  # """
+  # Instances for a reference. For references only standalone instances are
+  # provided.
+  # """
+  # field :instances: [TaxonomicNameUsage!]! @paginate(type: "paginator")
   field :isbn, types.String
   field :issn, types.String
   field :pages, types.String
@@ -32,7 +32,7 @@ Types::ReferenceTypeForNewSchema = GraphQL::ObjectType.define do
   field :year, types.Int
 end
 
-# 
+#
 #        Column        |           Type           |                      Modifiers
 # ----------------------+--------------------------+------------------------------------------------------
 #  id                   | bigint                   | not null default nextval('nsl_global_seq'::regclass)

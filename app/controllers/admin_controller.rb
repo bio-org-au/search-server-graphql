@@ -2,12 +2,9 @@
 
 # Controller
 class AdminController < ApplicationController
-  def home
-  end
+  def home; end
 
-  def settings
-  end
+  def settings; end
 
-  def changes
-  end
+  def changes; end
 end

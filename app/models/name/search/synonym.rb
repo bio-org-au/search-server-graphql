@@ -35,14 +35,14 @@ class Name::Search::Synonym
     # if instance[:cites_id].blank?
     #   @year = nil
     # else
-    #   cited_instance = Instance.find(instance[:cites_id]) 
+    #   cited_instance = Instance.find(instance[:cites_id])
     #   @year = cited_instance.reference.year
     # end
     @has_type_synonym = has_or_of_label == 'has'
     @of_type_synonym = !@has_type_synonym
     @misapplied = instance[:misapplied] == true
     unless instance[:cites_id].blank?
-      cited_instance = Instance.find(instance[:cites_id]) 
+      cited_instance = Instance.find(instance[:cites_id])
       if @misapplied
         mrec = OpenStruct.new
         mrec.misapplied_in_reference_citation = cited_instance.reference.citation_html

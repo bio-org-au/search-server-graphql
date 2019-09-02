@@ -15,8 +15,8 @@ class Name::Search::Usage::NonCurrentAcceptedTree::ParsedComponents
 
   def profile
     nil
-    #return nil if @tree_element_profile.blank?
-    #@tree_element_profile
+    # return nil if @tree_element_profile.blank?
+    # @tree_element_profile
   end
 
   def tree_config

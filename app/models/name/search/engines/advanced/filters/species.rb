@@ -22,6 +22,7 @@ class Name::Search::Engines::Advanced::Filters::Species
 
   def sql
     return @incoming_sql if parameter.blank?
+
     @incoming_sql.where([CLAUSE,
                          "% #{parameter} %",
                          "% #{parameter}"])
@@ -29,6 +30,7 @@ class Name::Search::Engines::Advanced::Filters::Species
 
   def parameter
     return nil unless @parser.text_arg?(PARAMETER)
+
     @parser.args[PARAMETER].strip.tr('*', '%').gsub(/×/, 'x')
   end
 end

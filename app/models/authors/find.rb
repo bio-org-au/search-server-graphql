@@ -8,7 +8,6 @@
 # - ipniId: String
 # - name: String
 class Authors::Find
-
   def initialize(args)
     @per_page = args['count'] || 1
     @page = args['page'] || 1

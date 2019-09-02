@@ -9,4 +9,3 @@ Types::AuthorType = GraphQL::ObjectType.define do
   field :name, types.String, property: :name
   field :extraInformation, types.String, property: :full_name
 end
-

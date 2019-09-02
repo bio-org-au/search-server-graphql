@@ -12,11 +12,11 @@ class NameCheck::Search::Parser
     @args = args
     Rails.logger.debug("@args: #{@args.inspect}")
     Rails.logger.debug("@args: #{@args.inspect}")
-    Rails.logger.debug(%(@args["names"].size: #{@args["names"].size}))
+    Rails.logger.debug(%(@args["names"].size: #{@args['names'].size}))
   end
 
   def names
-    @args["names"]
+    @args['names']
   end
 
   def run_search?
@@ -26,6 +26,7 @@ class NameCheck::Search::Parser
 
   def add_trailing_wildcard
     return 'true' unless @args.key?(:add_trailing_wildcard)
+
     @args[:add_trailing_wildcard]
   end
 

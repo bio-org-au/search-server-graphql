@@ -6,15 +6,16 @@
 class TaxonomicName::Find
   def initialize(args)
     uri = args['id']
-    @taxonomic_name = Name.find_by(uri: uri.sub(/https:\/\/id.biodiversity.org.au\//,''))
+    @taxonomic_name = Name.find_by(uri: uri.sub(%r{https://id.biodiversity.org.au/}, ''))
     raise 'no matching taxonomic name' if @taxonomic_name.nil?
   end
 
   private
 
-  def method_missing(name, *args, &block)
+  def method_missing(name, *_args)
     @taxonomic_name.send(name)
   end
+
   private
 
   def debug(msg)
@@ -23,4 +24,3 @@ class TaxonomicName::Find
     Rails.logger.debug('==============================================')
   end
 end
-

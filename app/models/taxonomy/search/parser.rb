@@ -51,17 +51,20 @@ class Taxonomy::Search::Parser
   def resolve_sci_cult_or_common
     @sci_cult_or_common = SCIENTIFIC
     return unless @args.keys.include?('type_of_name')
+
     @sci_cult_or_common = @args['type_of_name']
   end
 
   def resolve_fuzzy_or_exact
     @fuzzy_or_exact = ''
     return unless @args.keys.include?('fuzzy_or_exact')
+
     @fuzzy_or_exact = @args['fuzzy_or_exact']
   end
 
   def add_trailing_wildcard
     return 'true' unless @args.key?(:add_trailing_wildcard)
+
     @args[:add_trailing_wildcard]
   end
 
@@ -80,9 +83,9 @@ class Taxonomy::Search::Parser
   def limit
     if @have_filter
       debug("@per_page: #{@per_page}")
-      [(@per_page || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+      [(@per_page || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS].min
     else
-      [(@args.limit || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS ].min
+      [(@args.limit || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS].min
     end
   end
 

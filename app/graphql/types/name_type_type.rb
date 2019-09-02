@@ -12,4 +12,3 @@ Types::NameTypeType = GraphQL::ObjectType.define do
   field :scientific, !types.Boolean, property: :scientific?
   field :nameGroup, !Types::NameGroupType, property: :name_group
 end
-

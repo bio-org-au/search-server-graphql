@@ -11,7 +11,7 @@ class NameCheck::Search::Engine
     search
   end
 
-  #ToDo: refactor!
+  # TODO: refactor!
   def search
     @results_array = []
     @results_count = 0
@@ -22,22 +22,24 @@ class NameCheck::Search::Engine
     @parser.names.each do |search_term|
       @results_limited = true if @results_count >= @parser.limit
       break if @results_count >= @parser.limit
+
       @names_checked_count += 1
       @per_search_term_index = 0
       sql_query = Name.name_matches(search_term)
                       .has_an_instance
                       .joins(:name_status)
                       .joins(:name_rank)
-                      .where(name_status: {nom_illeg: false})
-                      .where(name_status: {nom_inval: false})
+                      .where(name_status: { nom_illeg: false })
+                      .where(name_status: { nom_inval: false })
                       .where("name_status.name != 'isonym'")
-                      .where.not(name_status: {name: 'orth. var.'})
+                      .where.not(name_status: { name: 'orth. var.' })
                       .ordered_by_sort_name_and_rank
-      if sql_query.size > 0
+      if !sql_query.empty?
         @names_with_match_count += 1
         sql_query.each do |record|
           @results_limited = true if @results_count >= @parser.limit
           break if @results_count >= @parser.limit
+
           @results_count += 1
           @names_found_count += 1
           @per_search_term_index += 1
@@ -77,35 +79,34 @@ class NameCheck::Search::Engine
     data.search_term = search_term
     data.found = true
     if data.found
-      debug("data found")
+      debug('data found')
       data.index = @per_search_term_index
-      debug("one")
+      debug('one')
       data.matched_name_id = name_record.id
-      debug("two")
+      debug('two')
       data.matched_name_full_name = name_record.full_name
-      debug("three")
+      debug('three')
       data.matched_name_family_name = name_record.family_name
 
       # 1 query
-      # Name Load (1.2ms) 
+      # Name Load (1.2ms)
       # SELECT  "name".* FROM "name" WHERE "name"."id" = ? LIMIT ?
       # [["id", 54484], ["LIMIT", 1]] (pid:10248)
-      
-      debug("four")
+
+      debug('four')
       data.matched_name_family_name_id = name_record.family_id
-      debug("five")
+      debug('five')
       # 3 queries
       data.matched_name_accepted_taxonomy_accepted = name_record.accepted?
 
-
-      # CACHE (0.3ms)  
+      # CACHE (0.3ms)
       # SELECT  "tree".* FROM "tree" WHERE "tree"."accepted_tree" = ? ORDER BY "tree"."id" ASC LIMIT ?  [["accepted_tree", "t"], ["LIMIT", 1]] (pid:10248)
       #
-      # search-server CACHE (0.0ms)  
+      # search-server CACHE (0.0ms)
       # SELECT  "tree_version".* FROM "tree_version" WHERE "tree_version"."id" = ? LIMIT ?  [["id", 51316275], ["LIMIT", 1]] (pid:10248)
       #
       # TreeElement Load (5.8ms)
-      # SELECT  "tree_element".* 
+      # SELECT  "tree_element".*
       # FROM "tree_element" INNER JOIN
       #      "tree_version_element"
       #       ON "tree_element"."id" = "tree_version_element"."tree_element_id"
@@ -114,13 +115,12 @@ class NameCheck::Search::Engine
       # ORDER BY "tree_element"."id" ASC LIMIT ?
       # [["tree_version_id", 51316275], ["name_id", 173919], ["LIMIT", 1]] (pid:10248)
 
-      debug("six")
+      debug('six')
 
       # 3 queries
       data.matched_name_accepted_taxonomy_excluded = name_record.excluded?
 
-
-      # CACHE (0.1ms)  
+      # CACHE (0.1ms)
       # SELECT  "tree".*
       # FROM "tree"
       # WHERE "tree"."accepted_tree" = ?
@@ -143,10 +143,9 @@ class NameCheck::Search::Engine
       #  ["name_id", 173919], ["LIMIT", 1]]
       #
 
-
-      debug("seven")
+      debug('seven')
     end
-    debug("one_record end")
+    debug('one_record end')
     data
   end
 

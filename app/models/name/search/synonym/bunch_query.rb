@@ -20,7 +20,7 @@ class Name::Search::Synonym::BunchQuery
   end
 
   # Ordering is important because this ordering of the whole set is retained
-  # for each subset allocated to a reference usage.  And we want the 
+  # for each subset allocated to a reference usage.  And we want the
   # synonymns for any single ref. usage to appear in this order:
   # 1. non-misapps first, followed by misapps
   # 2. name-sort order within
@@ -32,7 +32,7 @@ class Name::Search::Synonym::BunchQuery
             .joins(:reference)
             .left_outer_joins(:cited_reference)
             .select(select_list)
-      .order('reference.year, instance_type.misapplied, name.sort_name')
+            .order('reference.year, instance_type.misapplied, name.sort_name')
   end
 
   def bunch_query
@@ -79,8 +79,8 @@ class Name::Search::Synonym::BunchQuery
   end
 
   def debug(s)
-    Rails.logger.debug("==============================================")
+    Rails.logger.debug('==============================================')
     Rails.logger.debug("Name::Search::Synonym::BunchQuery: #{s}")
-    Rails.logger.debug("==============================================")
+    Rails.logger.debug('==============================================')
   end
 end

@@ -11,7 +11,7 @@ class Name::Search::Usage::NonCurrentAcceptedTree
     tree_element = TreeElement.find_by(instance_id: @name_usage_query_record.instance_id)
     debug("tree_element.profile: #{tree_element.profile}")
     debug("tree_element.profile.class: #{tree_element.profile.class}")
-    #@parsed_components = ParsedComponents.new(name_usage_query_record, '')
+    # @parsed_components = ParsedComponents.new(name_usage_query_record, '')
     @parsed_components = ParsedComponents.new(name_usage_query_record, tree_element.profile)
   end
 

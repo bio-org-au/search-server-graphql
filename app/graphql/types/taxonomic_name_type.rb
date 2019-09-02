@@ -17,13 +17,13 @@ Types::TaxonomicNameType = GraphQL::ObjectType.define do
   field :basionymAuthor, Types::AuthorType, property: :base_author
   field :basionymExAuthor, Types::AuthorType, property: :ex_base_author
   field :namePublishedIn, Types::ReferenceTypeForNewSchema, property: :primary_reference
-  field :publishedYear, types.Int, property: :published_year  # name.published_year values are all null
+  field :publishedYear, types.Int, property: :published_year # name.published_year values are all null
   field :rank, !Types::NameRankType, property: :name_rank
   field :verbatimRank, types.String, property: :verbatim_rank
   field :nomenclaturalCode, types.String, property: :name_type_name_group_name
   ## Status under the nomenclatural code that applies to the group of organisms
   ## being named.
-  #field :nomenclaturalStatus, NameStatus!
+  # field :nomenclaturalStatus, NameStatus!
   field :nomenclaturalStatus, Types::NameStatusType, property: :name_status
   ## List of all Taxonomic Name Usages with this Taxonomic Name
   # field :taxonomicNameUsages, [TaxonomicNameUsage!]

@@ -11,15 +11,16 @@ class Name::Search::Usage::AcceptedTree::ParsedComponents
 
   def debug(message)
     Rails.logger.debug("Name::Search::Usage::AcceptedTree::ParsedComponents: #{message}")
-    #prefix = 'Name::Search::Usage::AcceptedTree::ParsedComponents'
-    #for_instance = "for instance id #{@tree_info[:tree_element_instance_id]}"
-    #Rails.logger.debug("#{prefix} #{for_instance}: #{message}")
+    # prefix = 'Name::Search::Usage::AcceptedTree::ParsedComponents'
+    # for_instance = "for instance id #{@tree_info[:tree_element_instance_id]}"
+    # Rails.logger.debug("#{prefix} #{for_instance}: #{message}")
   end
 
   def profile
     debug('profile start')
     debug("profile: #{@tree_info[:tree_element_profile]}")
     return nil if @tree_info[:tree_element_profile].blank?
+
     debug('non-blank profile, so continuing')
     debug(@tree_info[:tree_element_profile].inspect)
     debug("class: #{@tree_info[:tree_element_profile].class}")

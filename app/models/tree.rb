@@ -7,5 +7,5 @@ class Tree < ActiveRecord::Base
   has_many :tree_versions, foreign_key: :tree_id
   scope :accepted, -> { where(accepted_tree: true) }
 
-  belongs_to :current_tree_version, class_name: "TreeVersion",  foreign_key: :current_tree_version_id
+  belongs_to :current_tree_version, class_name: 'TreeVersion', foreign_key: :current_tree_version_id
 end

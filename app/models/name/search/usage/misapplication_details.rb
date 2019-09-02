@@ -26,6 +26,7 @@ class Name::Search::Usage::MisapplicationDetails
   def prepare_misapplied
     @misapplication_details = nil
     return if @instance.standalone? || @instance.cites_id.blank?
+
     @cited_by = Instance.find(@instance.cited_by_id)
     @cites = Instance.find(@instance.cites_id)
     if @instance.reference_id == @cited_by.reference_id
@@ -38,6 +39,7 @@ class Name::Search::Usage::MisapplicationDetails
 
   def cited_by_for_misapplied
     return if @instance.cited_by_id.blank?
+
     @misapplied_to_id = @cited_by.name_id
     @misapplied_to_name = @cited_by.name.full_name
     @misapplication_label = @name_usage_query_record.of_label
@@ -45,6 +47,7 @@ class Name::Search::Usage::MisapplicationDetails
 
   def cites_and_cited_by_for_misapplied_in_forward_direction
     return if @instance.cited_by_id.blank?
+
     rec = build_forward_struct
     @misapplication_details = rec
   end
@@ -76,6 +79,7 @@ class Name::Search::Usage::MisapplicationDetails
   def cites_and_cited_by_for_misapplied_in_backward_direction
     throw 'backwards'
     return if @instance.cited_by_id.blank?
+
     rec = OpenStruct.new
     rec.direction = 'backward'
     rec.name_id = @cited_by.name_id

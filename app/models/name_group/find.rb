@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Class that find a Name Group matching a URI (id)
-# The instance object must respond to attribute methods of 
+# The instance object must respond to attribute methods of
 # the name group record.
 class NameGroup::Find
   def initialize(args)

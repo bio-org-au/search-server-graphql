@@ -13,11 +13,13 @@ class Name::Search::Engines::Advanced::Filters::InstanceTypeNote
 
   def sql
     return @incoming_sql if parameter.blank?
+
     @incoming_sql = @incoming_sql.where(["exists ( select null from instance where instance.name_id =  name.id and exists (select null from instance_note inote where lower(value) like lower(?) and inote.instance_id = instance.id and inote.instance_note_key_id in (select id from instance_note_key ink where ink.name in (#{list_of_type_notes_allowed}))))", '%' + parameter + '%'])
   end
 
   def parameter
     return nil unless @parser.text_arg?(PARAMETER)
+
     @parser.args[PARAMETER].strip.tr('*', '%').gsub(/×/, 'x')
   end
 

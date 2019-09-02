@@ -12,6 +12,7 @@ class Name::Search::Engines::Advanced::Filters::PublicationYear
 
   def sql
     return @incoming_sql if parameter.blank?
+
     @incoming_sql = @incoming_sql.joins(:instances).joins(instances: :reference).merge(Reference.where(year: parameter.to_i))
     @incoming_sql = @incoming_sql.where(PROTOLOGUE_CLAUSE) if @parser.args['protologue'] == '1'
     @incoming_sql
@@ -19,6 +20,7 @@ class Name::Search::Engines::Advanced::Filters::PublicationYear
 
   def parameter
     return nil unless @parser.text_arg?(PARAMETER)
+
     @parser.args[PARAMETER].strip.tr('*', '%').gsub(/×/, 'x')
   end
 end

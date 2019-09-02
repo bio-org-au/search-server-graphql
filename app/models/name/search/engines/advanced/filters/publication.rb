@@ -18,6 +18,7 @@ class Name::Search::Engines::Advanced::Filters::Publication
   # Search also seemed much faster after removing the merge.
   def sql
     return @incoming_sql if parameter.blank?
+
     @incoming_sql = @incoming_sql.joins(:instances)
                                  .joins(instances: :reference)
                                  .where([text_search_version,
@@ -28,6 +29,7 @@ class Name::Search::Engines::Advanced::Filters::Publication
 
   def parameter
     return nil unless @parser.text_arg?(PARAMETER)
+
     @parser.args[PARAMETER].strip.tr('*', '%').gsub(/×/, 'x')
   end
 
@@ -36,12 +38,12 @@ class Name::Search::Engines::Advanced::Filters::Publication
   end
 
   def text_search_param(parameter)
-    parameter.gsub(/[%*]/,'')
+    parameter.gsub(/[%*]/, '')
   end
 
   # For possible alternative use
   def wildcard_search_version
-    "lower(reference.citation) like ?"
+    'lower(reference.citation) like ?'
   end
 
   # For possible alternative use

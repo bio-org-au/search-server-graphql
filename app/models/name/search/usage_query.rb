@@ -34,8 +34,8 @@ class Name::Search::UsageQuery
   end
 
   def protologue_count_sql
-    str = +"select count(*) from instance_resources ir join resource r on "
-    str << " ir.resource_id = r.id join site s on r.site_id = s.id "
+    str = +'select count(*) from instance_resources ir join resource r on '
+    str << ' ir.resource_id = r.id join site s on r.site_id = s.id '
     str << " where s.name = 'Protologue' and ir.instance_id = instance.id"
   end
 
@@ -50,7 +50,7 @@ class Name::Search::UsageQuery
   end
 
   # if published in the same year, put primary instances first,
-  # so sort by year, primary instance, date, author name 
+  # so sort by year, primary instance, date, author name
   def ordering
     "coalesce(substr(reference.iso_publication_date,1,4),'9999'), \
     primary_instance desc, \
@@ -59,8 +59,8 @@ class Name::Search::UsageQuery
   end
 
   def debug(s)
-    Rails.logger.debug("==============================================")
+    Rails.logger.debug('==============================================')
     Rails.logger.debug("Name::Search::UsageQuery: #{s}")
-    Rails.logger.debug("==============================================")
+    Rails.logger.debug('==============================================')
   end
 end

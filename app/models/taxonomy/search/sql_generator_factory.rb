@@ -7,8 +7,8 @@ class Taxonomy::Search::SqlGeneratorFactory
   end
 
   def build
-    debug("build")
-    name = ""
+    debug('build')
+    name = ''
     name += 'Accepted' if @parser.accepted?
     name += 'Excluded' if @parser.excluded?
     name += 'CrossReference' if @parser.cross_reference?

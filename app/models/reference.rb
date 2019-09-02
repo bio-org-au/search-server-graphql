@@ -14,7 +14,7 @@ class Reference < ActiveRecord::Base
   belongs_to :parent, class_name: Reference, foreign_key: 'parent_id'
   has_many :children,
            class_name: 'Reference',
-           foreign_key:  'parent_id',
+           foreign_key: 'parent_id',
            dependent: :restrict_with_exception
 
   # acts_as_tree foreign_key: :duplicate_of_id, order: "title"
@@ -47,7 +47,7 @@ class Reference < ActiveRecord::Base
                     }
                   }
   def author_string_and_year
-    citation.sub(/\),.*/,')')
+    citation.sub(/\),.*/, ')')
   end
 
   def uri

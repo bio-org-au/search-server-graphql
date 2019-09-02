@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Hello
   def initialize(args)
     @args = args
@@ -6,10 +8,10 @@ class Hello
   def answer
     "answer. args: #{@args.inspect}"
     @args.keys.join(',')
-    Hash.new.methods.sort.join
-    Hash.new.methods.sort.join
+    {}.methods.sort.join
+    {}.methods.sort.join
     @args.inspect
-    summary = ""
+    summary = ''
     @args.keys.each do |key|
       summary += "#{key}: #{@args[key]}; "
     end

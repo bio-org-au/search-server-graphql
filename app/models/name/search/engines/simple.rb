@@ -12,9 +12,9 @@ class Name::Search::Engines::Simple
   end
 
   def debug(s)
-    Rails.logger.debug("==============================================")
+    Rails.logger.debug('==============================================')
     Rails.logger.debug("Name::Search::Engines::Simple: #{s}")
-    Rails.logger.debug("==============================================")
+    Rails.logger.debug('==============================================')
   end
 
   def names
@@ -31,10 +31,11 @@ class Name::Search::Engines::Simple
   def count
     base_query.size
   end
-private
+
+  private
+
   def base_query
     Name.name_matches(@parser.search_term)
         .has_an_instance
   end
 end
-

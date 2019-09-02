@@ -31,6 +31,7 @@ class Name::Search::Engines::Advanced::Filters::SearchTerm
   def parameter_value
     debug('parameter_value')
     return nil unless @parser.text_arg?(parameter_key)
+
     debug('parameter_value did not return nil')
     val = @parser.args[parameter_key].strip.tr('*', '%').gsub(/×/, 'x')
     debug("val: #{val}")
