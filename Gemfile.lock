@@ -101,9 +101,9 @@ GEM
     netrc (0.11.0)
     nio4r (2.4.0)
     nio4r (2.4.0-java)
-    nokogiri (1.10.3)
+    nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
-    nokogiri (1.10.3-java)
+    nokogiri (1.10.4-java)
     pg (0.21.0)
     pg_search (2.1.2)
       activerecord (>= 4.2)
@@ -228,6 +228,7 @@ DEPENDENCIES
   jquery-rails
   jruby-jars (= 9.1.16.0)
   minitest (= 5.10.3)
+  nokogiri (>= 1.10.4)
   pg (= 0.21.0)
   pg_search
   pry-rails

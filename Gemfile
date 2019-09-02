@@ -76,3 +76,4 @@ group :development, :test do
 end
 
 gem 'rest-client'
+gem "nokogiri", ">= 1.10.4"
