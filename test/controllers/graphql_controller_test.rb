@@ -19,6 +19,9 @@ require 'test_helper'
 # Graphql controller tests
 class GraphqlControllerTest < ActionController::TestCase
   setup do
+    filter = 'searchTerm:"angophora"'
+    data = +'{id,full_name,name_status_name}'
+    @query = "{taxonomy_search(#{filter}){data#{data}}}"
   end
 
   test 'should be a minimal test' do
@@ -26,10 +29,11 @@ class GraphqlControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  # unknown OID 705: failed to recognize type of 'cross_referenced_full_name'. It will be treated as String.
+  # unknown OID 705: failed to recognize type of 'cross_referenced_full_name'.
+  # It will be treated as String.
   test 'simple taxonomy query' do
     post 'execute',
-         params: { query: '{taxonomy_search(search_term:"angophora"){taxa{id,full_name,name_status_name}}}' }
+         params: { query: @query }
     assert_response :success
   end
 end

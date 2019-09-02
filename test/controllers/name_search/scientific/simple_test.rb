@@ -20,11 +20,16 @@ require 'test_helper'
 class NameSearchScientificSimpleTest < ActionController::TestCase
   tests GraphqlController
   setup do
+    filter = +'{searchTerm:"angophora*", scientificName: true, '
+    filter << 'scientificAutonymName: true, scientificNamedHybridName: true}'
+    name_usages = '{reference_details{citation,page,page_qualifier,year}}'
+    data = "{id,full_name,name_usages#{name_usages}}"
+    @query = "{filteredNames(count:100, filter: #{filter}){data #{data}}}"
   end
 
   test 'simple scientific name search test' do
     post 'execute',
-         params: { query: '{filteredNames(page:1, count:100, filter: {searchTerm:"angophora*", scientificName: true, scientificAutonymName: true, scientificNamedHybridName: true}){data{id,full_name,name_usages{reference_details{citation,page,page_qualifier,year}}}}}' }
+         params: { query: @query }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert_match 'Angophora',

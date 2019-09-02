@@ -55,6 +55,6 @@ class NameSeachNameTypeClauseSciNoNamedHybridTest < ActionController::TestCase
   test 'name search name type clause scientific' do
     actual = Name::Search::NameTypeClause.new(@parser).clause
     assert_match @expected, actual,
-                 "Clause: #{actual} not as expected: #{expected}"
+                 "Clause: #{actual} not as expected: #{@expected}"
   end
 end

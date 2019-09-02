@@ -20,9 +20,10 @@ require 'test_helper'
 class AdvNameSearchArgsScNamedHybridTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @query = '{filteredNames(filter: {searchTerm:"*", scientificNamedHybridName: true})'
-    @query += '{data{id,full_name,name_usages'
-    @query += '{reference_details{citation,page,page_qualifier,year}}}}}'
+    filter = 'filter: {searchTerm:"*", scientificNamedHybridName: true}'
+    ref_details = 'reference_details{citation,page,page_qualifier,year}'
+    data = "{data{id,full_name,name_usages{#{ref_details}}}}"
+    @query = "{filteredNames(#{filter}) #{data}}"
   end
 
   test 'adv name search args sc named hybrid test' do

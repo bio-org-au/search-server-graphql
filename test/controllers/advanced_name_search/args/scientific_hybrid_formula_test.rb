@@ -20,9 +20,10 @@ require 'test_helper'
 class AdvNameSearchArgsScHybridFormulaTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @query = '{filteredNames(filter: {searchTerm:"*",scientificHybridFormulaName:true})'
-    @query += '{data{id,full_name,name_usages'
-    @query += '{reference_details{citation,page,page_qualifier,year}}}}}'
+    filter = '{searchTerm:"*",scientificHybridFormulaName:true}'
+    ref_details = '{citation,page,page_qualifier,year}'
+    data = "{id,full_name,name_usages{reference_details#{ref_details}}}"
+    @query = "{filteredNames(filter: #{filter}){data #{data}}}"
   end
 
   test 'adv name search args sc hybrid formula test' do
@@ -34,4 +35,3 @@ class AdvNameSearchArgsScHybridFormulaTest < ActionController::TestCase
            'Should find at least 1 record'
   end
 end
-

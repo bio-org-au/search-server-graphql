@@ -27,7 +27,6 @@ class NameSearchScientificWrongPubYear4ProtoTest < ActionController::TestCase
     fields = +'{data{id,full_name,name_usages{reference_details'
     fields << '{citation,page,page_qualifier,year}}}}'
     @query_str = "{ #{query_call}#{filter}#{fields} }"
-    puts @query_str
   end
 
   test 'scientific name search on wrong iso publication date 4 protologue' do

@@ -35,4 +35,3 @@ class TaxonomySearchCrossReferenceNameSimpleTest < ActionController::TestCase
     #        "Error: #{obj.errors.try('first').try('message')}"
   end
 end
-

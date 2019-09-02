@@ -20,20 +20,18 @@ require 'test_helper'
 class NameSearchScientificFamilyTest < ActionController::TestCase
   tests GraphqlController
   setup do
-    @args = '{filteredNames(page:1, count:100, filter: {searchTerm:"myrtaceae", typeOfName: "scientific")'
-    @fields = '{count,names{id,fullName,nameUsages'
-    @fields += '{referenceDetails{citation,page,pageQualifier,year}}}}}}'
+    filter = 'filter: {family:"a_family", typeOfName: "scientific"}'
+    call = "filteredNames(page:1, count:100, #{filter})"
+    ref_details = 'reference_details{citation,page,page_qualifier,year}'
+    @fields = "{data{id,full_name,name_usages{#{ref_details}}}}"
+    @query = "{#{call}#{@fields}}"
   end
 
   test 'scientific name search on family' do
-    post 'execute', params: { query: "#{@args}#{@fields}" }
+    post 'execute', params: { query: @query }
     assert_response :success
-    # We have no name_tree_path fixtures,so the query returns no records.
-    # obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
-    # assert obj.errors.nil?, "Not expecting any errors but got: #{obj.errors}."
-    # expected = /\AAngophora lanceolata Cav.\z/
-    # actual = obj.data.filteredNames.data.first.full_name
-    # assert_match expected, actual,
-    #              "Actual name #{actual} should match #{expected}"
+    obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
+    assert obj.errors.nil?, "Not expecting any errors but got: #{obj.errors}."
+    assert obj.data.filteredNames.data.size > 50, 'Expected plenty of names'
   end
 end

@@ -20,11 +20,19 @@ require 'test_helper'
 class NameSearchScientificRightPublicationYearTest < ActionController::TestCase
   tests GraphqlController
   setup do
+    filter = +'filter: {searchTerm:"angophora costata", '
+    filter << 'isoPublicationDate: "1916", typeOfName:"scientific"}'
+    args = "(page:1, count:100, #{filter})"
+    ref_detail_fields = 'citation,page,page_qualifier,iso_publication_date'
+    ref_details = "reference_details{#{ref_detail_fields}}"
+    name_usages = "name_usages {#{ref_details}}"
+    data = "data {id,full_name,#{name_usages}}"
+    @query = "{filteredNames#{args}{#{data}}}"
   end
 
   test 'scientific name search on right iso publication date' do
     post 'execute',
-         params: { query: '{filteredNames(page:1, count:100, filter: {searchTerm:"angophora costata", isoPublicationDate: "1916", typeOfName:"scientific"}){data{id,full_name,name_usages{reference_details{citation,page,page_qualifier,iso_publication_date}}}}}' }
+         params: { query: @query }
     assert_response :success
     obj = JSON.parse(response.body.to_s, object_class: OpenStruct)
     assert obj.errors.nil?, "Not expecting any errors but got: #{obj.errors}."

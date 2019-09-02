@@ -16,6 +16,7 @@
 #
 require 'test_helper'
 
+# A mock class for the test.
 class NoTypeParserDummy
   def scientific?
     false
