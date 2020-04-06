@@ -14,7 +14,7 @@ class Name::Search::Engines::Advanced::Filters::PublicationYear
     return @incoming_sql if parameter.blank?
 
     @incoming_sql = @incoming_sql.joins(:instances).joins(instances: :reference).merge(Reference.where(year: parameter.to_i))
-    @incoming_sql = @incoming_sql.where(PROTOLOGUE_CLAUSE) if @parser.args['protologue'] == '1'
+    @incoming_sql = @incoming_sql.where(PROTOLOGUE_CLAUSE) if @parser.protologue?
     @incoming_sql
   end
 

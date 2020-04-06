@@ -27,7 +27,7 @@ class Name::Search::Parser
   SIMPLE_SEARCH = 'Search'
 
   def initialize(args)
-    Rails.logger.debug('Search::Parser.initialize')
+    debug('Search::Parser.initialize')
     if args.key?('filter')
       @have_filter = true
       @args = args['filter']
@@ -37,12 +37,10 @@ class Name::Search::Parser
       @have_filter = false
       @args = args
     end
-    debug("Keys:  #{@args.keys.join(',')}")
     resolve_sci_cult_or_common
   end
 
   def use_sym?
-    debug('use_sym?')
     @have_filter
   end
 
@@ -54,7 +52,6 @@ class Name::Search::Parser
   # The @args object keys method returns the underscore versions of the keys,
   # but @args itself provides a value for the camel_case version of the key.
   def text_arg?(camel_case_arg_name_sym)
-    debug("text_arg? arg_name: #{camel_case_arg_name_sym}")
     underscore_arg_name = camel_case_arg_name_sym.to_s.underscore.to_sym
     @args.keys.include?(underscore_arg_name.to_sym) && !@args[camel_case_arg_name_sym].blank?
   end
@@ -96,7 +93,6 @@ class Name::Search::Parser
 
   def limit
     if @have_filter
-      debug("@per_page: #{@per_page}")
       [(@per_page || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS].min
     else
       [(@args.limit || MAX_DETAILS).try('to_i'), list? ? MAX_LIST : MAX_DETAILS].min
@@ -104,14 +100,8 @@ class Name::Search::Parser
   end
 
   def offset
-    debug('offset')
     if @have_filter
-      debug('have filter')
-      debug("@per_page: #{@per_page}")
-      debug("@page: #{@page}")
       @offset = (@page - 1) * @per_page
-      debug("@offset: #{@offset}")
-      debug("[@offset.to_i, 0].max: #{[@offset.to_i, 0].max}")
       [@offset.to_i, 0].max
     else
       [@args[:offset].to_i, 0].max
@@ -218,10 +208,14 @@ class Name::Search::Parser
   def order_scientifically?
     !order_by_name?
   end
+  
+  def protologue?
+    @args[:protologue]
+  end
 
   private
 
   def debug(msg)
-    Rails.logger.debug("Name::Search::Parser: #{msg}")
+    # Rails.logger.debug("Name::Search::Parser: #{msg}")
   end
 end
